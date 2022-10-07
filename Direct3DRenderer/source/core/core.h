@@ -1,6 +1,9 @@
 #pragma once
 #include <memory>
 #include <filesystem>
+#include <wrl.h>
+
+namespace wrl = Microsoft::WRL;
 
 template<typename T>
 using Ref = std::shared_ptr<T>;
