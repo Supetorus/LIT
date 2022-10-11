@@ -32,3 +32,5 @@
 *.app
 
 .vs
+x64
+Direct3DRenderer/x64
