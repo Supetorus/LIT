@@ -14,12 +14,14 @@ namespace wl
 
 		RegisterClass(&wc);
 
-		//int screenWidth = GetSystemMetrics(SM_CXSCREEN);
-		int windowWidth = 800;
-		int windowHeight = 600;
+		RECT windowRect{0, 0, m_clientSize.first, m_clientSize.second};
+		DWORD style = WS_OVERLAPPEDWINDOW;
+		AdjustWindowRect(&windowRect, style, FALSE);
+		m_windowSize.first = windowRect.right - windowRect.left;
+		m_windowSize.second = windowRect.bottom - windowRect.top;
 
 		m_hwnd = CreateWindowEx(
-			0, m_className, L"Learn Direct3D11", WS_OVERLAPPEDWINDOW, 0, 0, windowWidth, windowHeight, 0, 0, GetModuleHandle(NULL), this
+			0, m_className, L"Learn Direct3D11", WS_OVERLAPPEDWINDOW, 0, 0, m_windowSize.first, m_windowSize.second, 0, 0, GetModuleHandle(NULL), this
 		);
 
 		ShowWindow(m_hwnd, 1);

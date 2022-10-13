@@ -20,4 +20,6 @@ namespace wl
 }
 
 #define LOG(...) wl::Log::coreLogger->trace(__VA_ARGS__);
+#define LOG_W(...) wl::Log::coreLogger->warn(__VA_ARGS__);
+#define LOG_E(...) wl::Log::coreLogger->error(__VA_ARGS__);
 

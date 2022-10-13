@@ -1,20 +1,19 @@
 #include "Renderer.h"
 #include "windows/Window.h"
 #include "core/Log.h"
-#include <WinUser.h>
-#include <wrl.h>
 
 namespace wl
 {
-	Renderer::Renderer(const Window &window)
+	Renderer::Renderer(const Window &window) : m_window(window)
 	{
 		createDevice();
-		createSwapChain(window);
+		createSwapChain();
 		createRenderTarget();
 		createDepthStencilBuffer();
+		bindRenderTargets();
 		createViewport();
 
-LOG("Renderer created");
+		LOG("Renderer created");
 	}
 
 	void Renderer::createDevice()
@@ -42,8 +41,8 @@ LOG("Renderer created");
 			D3D_DRIVER_TYPE_HARDWARE, // Create a device using the hardware graphics driver.
 			0, // Should be 0 unless the driver is D3D_DRIVER_TYPE_SOFTWARE.
 			deviceFlags, // Set debug and Direct2D compatibility flags.
-			levels, // List of feature levels this app can support.
-			ARRAYSIZE(levels), // Size of the list above.
+			nullptr, // nullptr means it will target the latest available. should be 11.
+			0, // Size of the list above.
 			D3D11_SDK_VERSION, // Always set this to D3D11_SDK_VERSION for Windows Store apps.
 			&device, // Returns the Direct3D device created.
 			&m_featureLevel, // Returns feature level of device created.
@@ -51,66 +50,73 @@ LOG("Renderer created");
 		);
 		if (FAILED(hr))
 		{
-			// Handle device interface creation failure if it occurs.
-			// For example, reduce the feature level requirement, or fail over
-			// to WARP rendering.
 			LOG("Failed to create device.");
 		}
 		// Store pointers to the Direct3D 11.1 API device and immediate context.
 		device.As(&m_device);
 		context.As(&m_deviceContext);
-		LOG("Renderer started");
+		LOG("Device Created.");
 	}
 
-	void Renderer::createSwapChain(const Window &window)
+	void Renderer::createSwapChain()
 	{
-		DXGI_SWAP_CHAIN_DESC desc;
-		ZeroMemory(&desc, sizeof(DXGI_SWAP_CHAIN_DESC));
-		desc.Windowed = TRUE; // Sets the initial state of full-screen mode.
-		desc.BufferCount = 2;
-		desc.BufferDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
-		// DXGI_USAGE_RENDER_TARGET_OUTPUT enables the underlying Direct3D resource to be used as a drawing surface
-		desc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
-		desc.SampleDesc.Count = 1; //multisampling setting
-		desc.SampleDesc.Quality = 0; //vendor-specific flag
-		desc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_SEQUENTIAL;
-		desc.OutputWindow = window.GetHWND();
-		// Create the DXGI device object to use in other factories, such as Direct2D.
-		//wrl::ComPtr<IDXGIDevice3> dxgiDevice;
-		//m_pd3dDevice.As(&dxgiDevice);
-		// Create swap chain.
-		wrl::ComPtr<IDXGIAdapter> adapter;
-		wrl::ComPtr<IDXGIFactory> factory;
+		DXGI_SWAP_CHAIN_DESC desc;								// A struct which describes the swap chain.
+		ZeroMemory(&desc, sizeof(DXGI_SWAP_CHAIN_DESC));		// Clears the memory to zero out all the values.
+		desc.BufferDesc.Width = m_window.GetClientSize().first;
+		desc.BufferDesc.Height = m_window.GetClientSize().second;
+		desc.BufferDesc.RefreshRate.Numerator = 60;				// These were not explained in the book.
+		desc.BufferDesc.RefreshRate.Denominator = 1;			// These were not explained in the book.
+		desc.BufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
+		desc.BufferDesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;// These were not explained in the book.
+		desc.Windowed = TRUE;									// Sets the initial state of full-screen mode.
+		desc.BufferCount = 1;									// 1 Back buffer.
+		desc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;	// The pixel format of the back buffer.
+		desc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;		// I will be rendering to the back buffer.
+		desc.SampleDesc.Count = 1;								// multisampling setting
+		desc.SampleDesc.Quality = 0;							// vendor-specific flag
+		desc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;				// Specify DXGI_SWAP_EFFECT_DISCARD in order to
+		//	let the display driver select the most efficient
+		//	presentation method.
+		desc.OutputWindow = m_window.GetHandle();
+
+		// Get the Factory used to create the ID3D11Device
 		wrl::ComPtr<IDXGIDevice> dxgiDevice;
-		m_device->QueryInterface(IID_PPV_ARGS(&dxgiDevice));
-		HRESULT hr = dxgiDevice->GetAdapter(&adapter);
-		if (SUCCEEDED(hr))
-		{
-			adapter->GetParent(IID_PPV_ARGS(&factory));
-			hr = factory->CreateSwapChain(
+		ASSERT_HR(m_device->QueryInterface(IID_PPV_ARGS(&dxgiDevice)), "Failed to get IDXGIDevice.");
+
+		wrl::ComPtr<IDXGIAdapter> adapter;
+		ASSERT_HR(dxgiDevice->GetParent(IID_PPV_ARGS(&adapter)), "Failed to get IDXGIAdapter.");
+
+		wrl::ComPtr<IDXGIFactory> factory;
+		ASSERT_HR(adapter->GetParent(IID_PPV_ARGS(&factory)), "Failed to get IDXGIFactory.");
+
+		ASSERT_HR(
+			factory->CreateSwapChain(
 				m_device.Get(),
 				&desc,
 				&m_pDXGISwapChain
-			);
-			LOG("Swap chain created");
-		}
+			), "Failed to create swap chain.");
+		LOG("Swap chain created");
 	}
 
 	void Renderer::createRenderTarget()
 	{
 		// Get the back buffer from the swap chain
-		HRESULT hr = m_pDXGISwapChain->GetBuffer(
-			0,
-			__uuidof(ID3D11Texture2D),
-			(void **)&m_pBackBuffer);
+		ASSERT_HR(
+			m_pDXGISwapChain->GetBuffer(
+				0,
+				IID_PPV_ARGS(&m_pBackBuffer)),
+			"Unable to get back buffer.");
+
 		// Create the render target view bound to the back buffer resource.
-		hr = m_device->CreateRenderTargetView(
-			m_pBackBuffer.Get(),
-			nullptr,
-			m_pRenderTarget.GetAddressOf()
-		);
+		ASSERT_HR(
+			m_device->CreateRenderTargetView(
+				m_pBackBuffer.Get(),
+				nullptr,
+				m_pRenderTargetView.GetAddressOf()),
+			"Unable to create RenderTargetView.");
+
 		m_pBackBuffer->GetDesc(&m_bbDesc);
-		LOG("Render target created");
+		LOG("Render target view created");
 	}
 
 	void Renderer::createDepthStencilBuffer()
@@ -120,38 +126,44 @@ LOG("Renderer created");
 		//	distance of the objects in the scene from the camera.
 		CD3D11_TEXTURE2D_DESC depthStencilDesc(
 			DXGI_FORMAT_D24_UNORM_S8_UINT,
-			static_cast<UINT> (m_bbDesc.Width),
-			static_cast<UINT> (m_bbDesc.Height),
+			m_window.GetClientSize().first,
+			m_window.GetClientSize().second,
 			1, // This depth stencil view has only one texture.
 			1, // Use a single mipmap level.
 			D3D11_BIND_DEPTH_STENCIL
 		);
-		m_device->CreateTexture2D(
-			&depthStencilDesc,
-			nullptr,
-			&m_pDepthStencil
-		);
+		ASSERT_HR(
+			m_device->CreateTexture2D(
+				&depthStencilDesc,
+				nullptr,
+				&m_pDepthStencil),
+			"Failed to create depth/stencil buffer.");
 		CD3D11_DEPTH_STENCIL_VIEW_DESC depthStencilViewDesc(D3D11_DSV_DIMENSION_TEXTURE2D);
-		m_device->CreateDepthStencilView(
-			m_pDepthStencil.Get(),
-			&depthStencilViewDesc,
-			&m_pDepthStencilView
-		);
-		LOG("Depth stencil buffer created");
+		ASSERT_HR(
+			m_device->CreateDepthStencilView(
+				m_pDepthStencil.Get(),
+				0, //"Because we specified the type of our depth/stencil buffer, we specify null for this parameter."
+				&m_pDepthStencilView),
+			"Failed to create depth/stencil view");
+		LOG("Depth/stencil buffer created");
 	}
-	
+
+	void Renderer::bindRenderTargets()
+	{
+		m_deviceContext->OMSetRenderTargets(
+			1, &m_pRenderTargetView, m_pDepthStencilView.Get());
+	}
+
 	void Renderer::createViewport()
 	{
 		ZeroMemory(&m_viewport, sizeof(D3D11_VIEWPORT));
-		m_viewport.Height = (float)m_bbDesc.Height;
-		m_viewport.Width = (float)m_bbDesc.Width;
+		m_viewport.Width = static_cast<float>(m_window.GetClientSize().first);
+		m_viewport.Height = static_cast<float>(m_window.GetClientSize().second);
 		m_viewport.MinDepth = 0;
 		m_viewport.MaxDepth = 1;
 		m_deviceContext->RSSetViewports(
-			1,
+			1, // More than 1 can be used for advanced effects.
 			&m_viewport
 		);
 	}
-
-
 }

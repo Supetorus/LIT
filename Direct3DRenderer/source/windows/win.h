@@ -48,5 +48,24 @@
 #define STRICT
 #endif // !STRICT
 
-
 #include <Windows.h>
+#include <string>
+std::wstring TranslateError(HRESULT hr);
+
+#define ASSERT_HR(x, msg) {\
+	HRESULT hr = x;\
+	if (FAILED(hr))\
+	{\
+		LOG_W(std::string{"Assertion failed: "}.append(msg));\
+		__debugbreak();\
+	}\
+}\
+//#define ASSERT_HR(x, msg) {\
+//	HRESULT hr__LINE__ = (x);\
+//	if (FAILED(hr__LINE__))\
+//	{\
+//		std::wstring err__LINE__ = TranslateError(hr__LINE__);\
+//		LOG("HR assertion failed: " + msg, err__LINE__.data());\
+//		__debugbreak();\
+//	}\
+//}

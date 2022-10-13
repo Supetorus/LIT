@@ -1,4 +1,5 @@
 #pragma once
+#include "Log.h"
 #include <memory>
 #include <filesystem>
 #include <wrl.h>
@@ -13,3 +14,5 @@ constexpr Ref<T> CreateRef(Args&& ... args)
 {
 	return std::make_shared<T>(std::forward<Args>(args)...);
 }
+
+#define ASSERT(x, msg, ... ) {if (!(x)) { LOG_W(std::string{ "Assertion Failed: " }.append(msg)); __debugbreak(); }}

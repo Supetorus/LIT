@@ -1,5 +1,6 @@
 #pragma once
 #include "win.h"
+#include <utility>
 
 namespace wl
 {
@@ -12,10 +13,14 @@ namespace wl
 		void DoMessagePump();
 		bool IsQuit() const { return m_quit; }
 		void Close();
-		const HWND GetHWND() const { return m_hwnd; }
+		HWND GetHandle() const { return m_hwnd; }
+		std::pair<int, int> GetClientSize() const { return m_clientSize; }
+		std::pair<int, int> GetWindowSize() const { return m_windowSize; }
 	private:
 		HWND m_hwnd;
 		PCWSTR m_className = L"MyWindow";
-		bool m_quit{0};
+		bool m_quit{ 0 };
+		std::pair<int, int> m_clientSize{ 800, 600 };
+		std::pair<int, int> m_windowSize{ };
 	};
 }
