@@ -1,5 +1,6 @@
 #include "core/Log.h"
 #include "windows/Window.h"
+#include "utilities/GameTimer.h"
 #include <Renderer.h>
 
 int main(int argc, char** argv)
@@ -9,10 +10,15 @@ int main(int argc, char** argv)
 
 	wl::Window window;
 	wl::Renderer renderer(window);
+	wl::GameTimer timer;
+
+	timer.Reset();
 
 	while (!window.IsQuit())
 	{
 		window.DoMessagePump();
+		timer.Tick();
+		//UpdateScene(timer.DeltaTime());
 	}
 
 	window.Close();
