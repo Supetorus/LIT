@@ -14,6 +14,7 @@ namespace wl
 	public:
 		Renderer() = delete;
 		Renderer(const Window &window);
+		void RenderFrame();
 		void bindRenderTargets();
 	private:
 		void createDevice();

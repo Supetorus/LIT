@@ -19,6 +19,7 @@ int main(int argc, char** argv)
 		window.DoMessagePump();
 		timer.Tick();
 		//UpdateScene(timer.DeltaTime());
+		renderer.RenderFrame();
 	}
 
 	window.Close();

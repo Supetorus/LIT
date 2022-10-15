@@ -16,6 +16,20 @@ namespace wl
 		LOG("Renderer created");
 	}
 
+	void Renderer::RenderFrame()
+	{
+		bindRenderTargets();
+		float redColor = (float) 0b1111'0000'0000'1111;
+		m_deviceContext->ClearRenderTargetView(m_pRenderTargetView.Get(), &redColor);
+
+		m_deviceContext->ClearDepthStencilView(m_pDepthStencilView.Get(),
+			D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL,
+			1.0f, 0);
+
+		ASSERT_HR(m_pDXGISwapChain->Present(0, 0),
+			"Error presenting frame.");
+	}
+
 	void Renderer::createDevice()
 	{
 		D3D_FEATURE_LEVEL levels[] = {
@@ -151,7 +165,7 @@ namespace wl
 	void Renderer::bindRenderTargets()
 	{
 		m_deviceContext->OMSetRenderTargets(
-			1, &m_pRenderTargetView, m_pDepthStencilView.Get());
+			1, m_pRenderTargetView.GetAddressOf(), m_pDepthStencilView.Get());
 	}
 
 	void Renderer::createViewport()
