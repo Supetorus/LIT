@@ -15,4 +15,8 @@ constexpr Ref<T> CreateRef(Args&& ... args)
 	return std::make_shared<T>(std::forward<Args>(args)...);
 }
 
-#define ASSERT(x, msg, ... ) {if (!(x)) { LOG_W(std::string{ "Assertion Failed: " }.append(msg) __VA_OPT__(,) __VA_ARGS__); __debugbreak(); }}
+#if defined(DEBUG) | defined(_DEBUG)
+	#define ASSERT(x, msg, ... ) {if (!(x)) { LOG_W(std::string{ "Assertion Failed: " }.append(msg) __VA_OPT__(,) __VA_ARGS__); __debugbreak(); }}
+#else
+	#define ASSERT(x, msg, ...)
+#endif

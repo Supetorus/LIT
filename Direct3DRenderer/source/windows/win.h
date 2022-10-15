@@ -52,12 +52,16 @@
 #include <Windows.h>
 std::wstring TranslateError(HRESULT hr);
 
-#define ASSERT_HR(x, msg) {\
-	HRESULT hr__LINE__ = (x);\
-	if (FAILED(hr__LINE__))\
-	{\
-		std::wstring err__LINE__ = TranslateError(hr__LINE__);\
-		LOG("HR assertion failed: {0}\n{1}", msg, ::wl::wstrToStr(err__LINE__));\
-		__debugbreak();\
-	}\
-}
+#if defined(DEBUG) | defined(_DEBUG)
+	#define ASSERT_HR(x, msg) {\
+		HRESULT hr__LINE__ = (x);\
+		if (FAILED(hr__LINE__))\
+		{\
+			std::wstring err__LINE__ = TranslateError(hr__LINE__);\
+			LOG("HR assertion failed: {0}\n{1}", msg, ::wl::wstrToStr(err__LINE__));\
+			__debugbreak();\
+		}\
+	}
+#else
+	#define ASSERT_HR(x, msg)
+#endif
