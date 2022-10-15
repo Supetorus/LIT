@@ -16,7 +16,11 @@ constexpr Ref<T> CreateRef(Args&& ... args)
 }
 
 #if defined(DEBUG) | defined(_DEBUG)
-	#define ASSERT(x, msg, ... ) {if (!(x)) { LOG_W(std::string{ "Assertion Failed: " }.append(msg) __VA_OPT__(,) __VA_ARGS__); __debugbreak(); }}
+	#define ASSERT(x, msg, ... )										\
+		{if (!(x)) {													\
+			LOG_W("Assertion failed: {0}\nFile: {1}\nLine: {2}\n{3}",	\
+				 msg, __FILE__, __LINE__,__VA_ARGS__);					\
+		__debugbreak(); }}
 #else
 	#define ASSERT(x, msg, ...)
 #endif

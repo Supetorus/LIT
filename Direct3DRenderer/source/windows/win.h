@@ -53,14 +53,14 @@
 std::wstring TranslateError(HRESULT hr);
 
 #if defined(DEBUG) | defined(_DEBUG)
-	#define ASSERT_HR(x, msg) {\
-		HRESULT hr__LINE__ = (x);\
-		if (FAILED(hr__LINE__))\
-		{\
-			std::wstring err__LINE__ = TranslateError(hr__LINE__);\
-			LOG("HR assertion failed: {0}\n{1}", msg, ::wl::wstrToStr(err__LINE__));\
-			__debugbreak();\
-		}\
+	#define ASSERT_HR(x, msg) {																					\
+		HRESULT hr__LINE__ = (x);																				\
+		if (FAILED(hr__LINE__))																					\
+		{																										\
+			std::string err__LINE__ = ::wl::wstrToStr(TranslateError(hr__LINE__));							\
+			LOG("HR assertion failed: {0}\nFile: {1}\nLine: {2}\n{3}", msg, __FILE__, __LINE__, err__LINE__);	\
+			__debugbreak();																						\
+		}																										\
 	}
 #else
 	#define ASSERT_HR(x, msg)
