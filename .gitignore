@@ -31,6 +31,9 @@
 *.out
 *.app
 
+# Compiled shader files
+*.cso
+
 .vs
 x64
 Direct3DRenderer/x64

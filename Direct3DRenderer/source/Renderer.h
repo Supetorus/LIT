@@ -15,8 +15,8 @@ namespace wl
 		Renderer() = delete;
 		Renderer(const Window &window);
 		void RenderFrame();
-		void bindRenderTargets();
 	private:
+		void bindRenderTargets();
 		void createDevice();
 		void createSwapChain();
 		void createRenderTarget();
