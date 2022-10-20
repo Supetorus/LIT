@@ -26,7 +26,7 @@ namespace wl
 		const Window &m_window;
 		D3D_FEATURE_LEVEL m_featureLevel{}; // The feature level supported by the renderer.
 		wrl::ComPtr<ID3D11Device> m_device;
-		wrl::ComPtr<ID3D11DeviceContext> m_deviceContext; // immediate context
+		wrl::ComPtr<ID3D11DeviceContext> m_context; // immediate context
 		wrl::ComPtr<IDXGISwapChain> m_pDXGISwapChain;
 		wrl::ComPtr<ID3D11Texture2D> m_pBackBuffer;
 		wrl::ComPtr<ID3D11RenderTargetView> m_pRenderTargetView;

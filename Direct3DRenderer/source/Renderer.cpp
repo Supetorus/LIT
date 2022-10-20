@@ -25,9 +25,9 @@ namespace wl
 
 		// Clear color.
 		float color[] = {1.0f, 1.0f, 1.0f, 1.0f};
-		m_deviceContext->ClearRenderTargetView(m_pRenderTargetView.Get(), color);
+		m_context->ClearRenderTargetView(m_pRenderTargetView.Get(), color);
 		// Clear depth
-		m_deviceContext->ClearDepthStencilView(m_pDepthStencilView.Get(),
+		m_context->ClearDepthStencilView(m_pDepthStencilView.Get(),
 			D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL,
 			1.0f, 0);
 
@@ -43,46 +43,69 @@ namespace wl
 			uint8_t r;
 			uint8_t g;
 			uint8_t b;
+			uint8_t a;
 		};
 
 		const Vertex vertices[]
 		{
-			{ 0.0f,  0.5f, 255,   0,   0},
-			{ 0.5f, -0.5f,   0, 255,   0},
-			{-0.5f, -0.5f,   0,   0, 255},
+			{  0.0f, 0.5f,255,  0,  0,  0 },
+			{  0.5f,-0.5f,  0,255,  0,  0 },
+			{ -0.5f,-0.5f,  0,  0,255,  0 },
+			{ -0.3f, 0.3f,  0,255,  0,  0 },
+			{  0.3f, 0.3f,  0,  0,255,  0 },
+			{  0.0f,-0.8f,255,  0,  0,  0 },
 		};
 
 		wrl::ComPtr<ID3D11Buffer> pVertexBuffer;
-		D3D11_BUFFER_DESC bd{};
-		bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-		bd.Usage = D3D11_USAGE_DEFAULT;
-		bd.CPUAccessFlags = 0u;
-		bd.MiscFlags = 0u;
-		bd.ByteWidth = sizeof(vertices);
-		bd.StructureByteStride = sizeof(Vertex);
+		D3D11_BUFFER_DESC vbd{};
+		vbd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+		vbd.Usage = D3D11_USAGE_DEFAULT;
+		vbd.CPUAccessFlags = 0u;
+		vbd.MiscFlags = 0u;
+		vbd.ByteWidth = sizeof(vertices);
+		vbd.StructureByteStride = sizeof(Vertex);
 		D3D11_SUBRESOURCE_DATA sd{};
 		sd.pSysMem = vertices;
-		ASSERT_HR(m_device->CreateBuffer(&bd, &sd, pVertexBuffer.GetAddressOf()), "Failed to create vertex buffer.");
+		ASSERT_HR(m_device->CreateBuffer(&vbd, &sd, pVertexBuffer.GetAddressOf()), "Failed to create vertex buffer.");
 
 		const UINT stride = sizeof(Vertex);
 		const UINT offset = 0u;
-		m_deviceContext->IASetVertexBuffers(0u, 1u, pVertexBuffer.GetAddressOf(), &stride, &offset);
+		m_context->IASetVertexBuffers(0u, 1u, pVertexBuffer.GetAddressOf(), &stride, &offset);
+
+		uint16_t indices[]{
+			0, 1, 2,
+			0, 2, 3,
+			0, 4, 1,
+			2, 1, 5,
+		};
+		wrl::ComPtr<ID3D11Buffer> pIndexBuffer;
+		D3D11_BUFFER_DESC ibd{};
+		ibd.BindFlags = D3D11_BIND_INDEX_BUFFER;
+		ibd.Usage = D3D11_USAGE_DEFAULT;
+		ibd.ByteWidth = sizeof(indices);
+		ibd.StructureByteStride = sizeof(uint16_t);
+		D3D11_SUBRESOURCE_DATA isd{};
+		isd.pSysMem = indices;
+		ASSERT_HR(m_device->CreateBuffer(&ibd, &isd, pIndexBuffer.GetAddressOf()),
+			"Failed to create index buffer.");
+
+		m_context->IASetIndexBuffer(pIndexBuffer.Get(), DXGI_FORMAT_R16_UINT, 0u);
 
 		wrl::ComPtr<ID3DBlob> pBlob;
 		//Pixel Shader
 		wrl::ComPtr<ID3D11PixelShader> pPixelShader;
 		ASSERT_HR(D3DReadFileToBlob( L"../Assets\\Shaders\\PixelShader.cso", &pBlob), "Unable to read in pixel shader.");
 		ASSERT_HR(m_device->CreatePixelShader(pBlob->GetBufferPointer(), pBlob->GetBufferSize(), nullptr, pPixelShader.GetAddressOf()), "Unable to create Pixel Shader.");
-		m_deviceContext->PSSetShader(pPixelShader.Get(), nullptr, 0u);
+		m_context->PSSetShader(pPixelShader.Get(), nullptr, 0u);
 
 		//Vertex Shader
 		wrl::ComPtr<ID3D11VertexShader> pVertexShader;
 		ASSERT_HR(D3DReadFileToBlob(L"../Assets/Shaders/VertexShader.cso", &pBlob), "Unable to read Vertex Shader.");
 		ASSERT_HR(m_device->CreateVertexShader(pBlob->GetBufferPointer(), pBlob->GetBufferSize(), nullptr, pVertexShader.GetAddressOf()), "Unable to create vertex shader.");
 		//Bind vertex shader
-		m_deviceContext->VSSetShader(pVertexShader.Get(), nullptr, 0u);
+		m_context->VSSetShader(pVertexShader.Get(), nullptr, 0u);
 
-		m_deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+		m_context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 		//Vertex input layout
 		wrl::ComPtr<ID3D11InputLayout> pInputLayout;
@@ -94,11 +117,11 @@ namespace wl
 		ASSERT_HR(m_device->CreateInputLayout(elemDescs, static_cast<UINT>(std::size(elemDescs)), pBlob->GetBufferPointer(), pBlob->GetBufferSize(), &pInputLayout),
 			"Failed to create input layout.");
 
-		m_deviceContext->IASetInputLayout(pInputLayout.Get());
+		m_context->IASetInputLayout(pInputLayout.Get());
 
 		//Draw
-		m_deviceContext->Draw(std::size(vertices), 0u);
-
+		m_context->DrawIndexed(static_cast<UINT>(std::size(indices)), 0u, 0);
+		
 //End Test Triangle
 		bindRenderTargets();
 
@@ -145,7 +168,7 @@ namespace wl
 		}
 		// Store pointers to the Direct3D 11.1 API device and immediate context.
 		device.As(&m_device);
-		context.As(&m_deviceContext);
+		context.As(&m_context);
 		LOG("Device Created.");
 	}
 
@@ -241,7 +264,7 @@ namespace wl
 
 	void Renderer::bindRenderTargets()
 	{
-		m_deviceContext->OMSetRenderTargets(
+		m_context->OMSetRenderTargets(
 			1, m_pRenderTargetView.GetAddressOf(), m_pDepthStencilView.Get());
 	}
 
@@ -252,7 +275,7 @@ namespace wl
 		m_viewport.Height = static_cast<float>(m_window.GetClientSize().second);
 		m_viewport.MinDepth = 0;
 		m_viewport.MaxDepth = 1;
-		m_deviceContext->RSSetViewports(
+		m_context->RSSetViewports(
 			1, // More than 1 can be used for advanced effects.
 			&m_viewport
 		);
