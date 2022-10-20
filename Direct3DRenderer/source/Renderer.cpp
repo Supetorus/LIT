@@ -24,7 +24,7 @@ namespace wl
 	{
 
 		// Clear color.
-		float color[] = {0.0f, 1.0f, 1.0f, 1.0f};
+		float color[] = {1.0f, 1.0f, 1.0f, 1.0f};
 		m_deviceContext->ClearRenderTargetView(m_pRenderTargetView.Get(), color);
 		// Clear depth
 		m_deviceContext->ClearDepthStencilView(m_pDepthStencilView.Get(),
@@ -37,13 +37,19 @@ namespace wl
 		{
 			float x;
 			float y;
+			//float r;
+			//float g;
+			//float b;
+			uint8_t r;
+			uint8_t g;
+			uint8_t b;
 		};
 
 		const Vertex vertices[]
 		{
-			{ 0.0f,  0.5f},
-			{ 0.5f, -0.5f},
-			{-0.5f, -0.5f}
+			{ 0.0f,  0.5f, 255,   0,   0},
+			{ 0.5f, -0.5f,   0, 255,   0},
+			{-0.5f, -0.5f,   0,   0, 255},
 		};
 
 		wrl::ComPtr<ID3D11Buffer> pVertexBuffer;
@@ -82,7 +88,8 @@ namespace wl
 		wrl::ComPtr<ID3D11InputLayout> pInputLayout;
 		D3D11_INPUT_ELEMENT_DESC elemDescs[]
 		{
-			{"Position", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
+			{"Position", 0, DXGI_FORMAT_R32G32_FLOAT,    0, 0,  D3D11_INPUT_PER_VERTEX_DATA, 0},
+			{"Color",    0, DXGI_FORMAT_R8G8B8A8_UNORM, 0, 8u, D3D11_INPUT_PER_VERTEX_DATA, 0},
 		};
 		ASSERT_HR(m_device->CreateInputLayout(elemDescs, static_cast<UINT>(std::size(elemDescs)), pBlob->GetBufferPointer(), pBlob->GetBufferSize(), &pInputLayout),
 			"Failed to create input layout.");
