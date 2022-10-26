@@ -3,6 +3,7 @@
 #include <memory>
 #include <filesystem>
 #include <wrl.h>
+#include <cstdint>
 
 namespace wrl = Microsoft::WRL;
 

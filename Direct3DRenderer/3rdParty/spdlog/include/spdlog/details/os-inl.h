@@ -523,29 +523,29 @@ SPDLOG_INLINE void utf8_to_wstrbuf(string_view_t str, wmemory_buf_t &target)
 #endif // (defined(SPDLOG_WCHAR_TO_UTF8_SUPPORT) || defined(SPDLOG_WCHAR_FILENAMES)) && defined(_WIN32)
 
 // return true on success
-static SPDLOG_INLINE bool mkdir_(const filename_t &path)
+static SPDLOG_INLINE bool mkdir_(const filename_t &m_vPath)
 {
 #ifdef _WIN32
 #    ifdef SPDLOG_WCHAR_FILENAMES
-    return ::_wmkdir(path.c_str()) == 0;
+    return ::_wmkdir(m_vPath.c_str()) == 0;
 #    else
-    return ::_mkdir(path.c_str()) == 0;
+    return ::_mkdir(m_vPath.c_str()) == 0;
 #    endif
 #else
-    return ::mkdir(path.c_str(), mode_t(0755)) == 0;
+    return ::mkdir(m_vPath.c_str(), mode_t(0755)) == 0;
 #endif
 }
 
 // create the given directory - and all directories leading to it
 // return true on success or if the directory already exists
-SPDLOG_INLINE bool create_dir(const filename_t &path)
+SPDLOG_INLINE bool create_dir(const filename_t &m_vPath)
 {
-    if (path_exists(path))
+    if (path_exists(m_vPath))
     {
         return true;
     }
 
-    if (path.empty())
+    if (m_vPath.empty())
     {
         return false;
     }
@@ -553,21 +553,21 @@ SPDLOG_INLINE bool create_dir(const filename_t &path)
     size_t search_offset = 0;
     do
     {
-        auto token_pos = path.find_first_of(folder_seps_filename, search_offset);
+        auto token_pos = m_vPath.find_first_of(folder_seps_filename, search_offset);
         // treat the entire path as a folder if no folder separator not found
         if (token_pos == filename_t::npos)
         {
-            token_pos = path.size();
+            token_pos = m_vPath.size();
         }
 
-        auto subdir = path.substr(0, token_pos);
+        auto subdir = m_vPath.substr(0, token_pos);
 
         if (!subdir.empty() && !path_exists(subdir) && !mkdir_(subdir))
         {
             return false; // return error if failed creating dir
         }
         search_offset = token_pos + 1;
-    } while (search_offset < path.size());
+    } while (search_offset < m_vPath.size());
 
     return true;
 }
@@ -577,10 +577,10 @@ SPDLOG_INLINE bool create_dir(const filename_t &path)
 // "abc/" => "abc"
 // "abc" => ""
 // "abc///" => "abc//"
-SPDLOG_INLINE filename_t dir_name(const filename_t &path)
+SPDLOG_INLINE filename_t dir_name(const filename_t &m_vPath)
 {
-    auto pos = path.find_last_of(folder_seps_filename);
-    return pos != filename_t::npos ? path.substr(0, pos) : filename_t{};
+    auto pos = m_vPath.find_last_of(folder_seps_filename);
+    return pos != filename_t::npos ? m_vPath.substr(0, pos) : filename_t{};
 }
 
 std::string SPDLOG_INLINE getenv(const char *field)

@@ -16,6 +16,8 @@ namespace wl
 		HWND GetHandle() const { return m_hwnd; }
 		std::pair<int, int> GetClientSize() const { return m_clientSize; }
 		std::pair<int, int> GetWindowSize() const { return m_windowSize; }
+		float AspectRatio() const { return static_cast<float>(m_clientSize.first) / m_clientSize.second; }
+		float InverseAspectRatio() const { return static_cast<float>(m_clientSize.second) / m_clientSize.first; }
 	private:
 		HWND m_hwnd;
 		PCWSTR m_className = L"MyWindow";

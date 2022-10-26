@@ -161,24 +161,36 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="source\VertexLayout.cpp" />
+    <ClCompile Include="source\App.cpp" />
+    <ClCompile Include="source\renderer\Shader.cpp" />
+    <ClCompile Include="source\renderer\ConstantBuffer.cpp" />
+    <ClCompile Include="source\renderer\IndexBuffer.cpp" />
+    <ClCompile Include="source\renderer\DXContext.cpp" />
+    <ClCompile Include="source\Mesh.cpp" />
     <ClCompile Include="source\core\util.cpp" />
-    <ClCompile Include="source\Renderer.cpp" />
+    <ClCompile Include="source\renderer\Renderer.cpp" />
     <ClCompile Include="source\core\Log.cpp" />
     <ClCompile Include="source\Main.cpp" />
     <ClCompile Include="source\utilities\GameTimer.cpp" />
     <ClCompile Include="source\windows\win.cpp" />
     <ClCompile Include="source\windows\Window.cpp" />
+    <ClCompile Include="source\renderer\VertexBuffer.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="source\VertexLayout.h" />
+    <ClInclude Include="source\App.h" />
+    <ClInclude Include="source\renderer\Shader.h" />
+    <ClInclude Include="source\renderer\ConstantBuffer.h" />
+    <ClInclude Include="source\renderer\IndexBuffer.h" />
+    <ClInclude Include="source\renderer\DXContext.h" />
+    <ClInclude Include="source\Mesh.h" />
     <ClInclude Include="source\core\util.h" />
-    <ClInclude Include="source\Renderer.h" />
+    <ClInclude Include="source\renderer\Renderer.h" />
     <ClInclude Include="source\core\core.h" />
     <ClInclude Include="source\core\Log.h" />
     <ClInclude Include="source\utilities\GameTimer.h" />
     <ClInclude Include="source\windows\win.h" />
     <ClInclude Include="source\windows\Window.h" />
+    <ClInclude Include="source\renderer\VertexBuffer.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="shader\PixelShader.hlsl">
@@ -190,6 +202,10 @@
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)Assets\Shaders\%(Filename).cso</ObjectFileOutput>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)Assets\Shaders\%(Filename).cso</ObjectFileOutput>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)Assets\Shaders\%(Filename).cso</ObjectFileOutput>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">4.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">4.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">4.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">4.0</ShaderModel>
     </FxCompile>
     <FxCompile Include="shader\VertexShader.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
