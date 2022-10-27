@@ -1,7 +1,8 @@
 #pragma once
 
 #include "core/core.h"
-#include <d3d11.h>
+#include "d3d11.h"
+#include "directxmath.h"
 
 namespace wl
 {
@@ -13,13 +14,27 @@ namespace wl
 		Renderer() = delete;
 		Renderer(const Window &window);
 		void BeginFrame();
-		void Draw();
+		void Draw(uint32_t size);
 		void EndFrame();
 		struct Vertex
 		{
 			float x;
 			float y;
 			float z;
+		};
+		struct TransformMatrix
+		{
+			DirectX::XMMATRIX transform;
+		};
+		struct ColorList
+		{
+			struct
+			{
+				float r;
+				float g;
+				float b;
+				float a;
+			}face_colors[6];
 		};
 	private:
 		void bindRenderTargets();

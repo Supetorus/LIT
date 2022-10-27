@@ -161,6 +161,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="source\Model.cpp" />
     <ClCompile Include="source\App.cpp" />
     <ClCompile Include="source\renderer\Shader.cpp" />
     <ClCompile Include="source\renderer\ConstantBuffer.cpp" />
@@ -177,6 +178,7 @@
     <ClCompile Include="source\renderer\VertexBuffer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="source\Model.h" />
     <ClInclude Include="source\App.h" />
     <ClInclude Include="source\renderer\Shader.h" />
     <ClInclude Include="source\renderer\ConstantBuffer.h" />

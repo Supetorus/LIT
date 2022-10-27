@@ -14,7 +14,9 @@ namespace wl
 	class Shader
 	{
 	public:
+		Shader() = default;
 		Shader(const wchar_t *pPath, const wchar_t *vPath);
+		void Init(const wchar_t *pPath, const wchar_t *vPath);
 		void Bind();
 		void SetLayout(D3D11_INPUT_ELEMENT_DESC layoutElements[], uint32_t size);// or do vector
 	private:

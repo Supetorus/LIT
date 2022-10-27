@@ -14,7 +14,6 @@ wl::IndexBuffer::IndexBuffer(uint32_t count, const void *buffer)
 	ASSERT_HR(DXContext::Instance->m_device->CreateBuffer(&ibd, &isd, m_IndexBuffer.GetAddressOf()),
 		"Failed to create index buffer.");
 }
-
 void wl::IndexBuffer::Bind() const
 {
 	DXContext::Instance->m_context->IASetIndexBuffer(m_IndexBuffer.Get(), DXGI_FORMAT_R16_UINT, 0u);

@@ -12,6 +12,13 @@ namespace wl
 		LoadShader(vPath, ShaderStage::Vertex);
 	}
 
+	void Shader::Init(const wchar_t *pPath, const wchar_t *vPath)
+	{
+		m_vPath = vPath;
+		LoadShader(pPath, ShaderStage::Pixel);
+		LoadShader(vPath, ShaderStage::Vertex);
+	}
+
 	void Shader::Bind()
 	{
 		DXContext::Instance->m_context->VSSetShader(m_vertexShader.Get(), nullptr, 0u);

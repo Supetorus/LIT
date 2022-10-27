@@ -88,49 +88,14 @@ namespace wl
 			1.0f, 0);
 	}
 
-	void Renderer::Draw()
+	void Renderer::Draw(uint32_t size)
 	{
-		const Vertex vertices[]
-		{
-			{-1.0f, -1.0f, -1.0f},
-			{ 1.0f, -1.0f, -1.0f},
-			{-1.0f,  1.0f, -1.0f},
-			{ 1.0f,  1.0f, -1.0f},
-			{-1.0f, -1.0f,  1.0f},
-			{ 1.0f, -1.05,  1.0f},
-			{-1.0f,  1.0f,  1.0f},
-			{ 1.0f,  1.0f,  1.0f},
-		};
-
-		//VertexBuffer vBuffer(sizeof(Vertex), std::size(vertices), vertices);
-
-		uint16_t indices[]{
-			0, 2, 1, 2, 3, 1,
-			1, 3, 5, 3, 7, 5,
-			2, 6, 3, 3, 6, 7,
-			4, 5, 7, 4, 7, 6,
-			0, 4, 2, 2, 4, 6,
-			0, 1, 4, 1, 5, 4,
-		};
-
-		//IndexBuffer iBuffer(std::size(indices), indices);
-
-		Mesh cube;
-		cube.SetVertices(vertices, sizeof(Vertex), std::size(vertices));
-		cube.SetIndices(indices, std::size(indices));
-
-
 		static GameTimer gt;
 		gt.Tick();
 		float angle = gt.TotalTime();
 
 		// Create constant buffer for transform matrix
-		struct TransformMatrix
-		{
-			dx::XMMATRIX transform;
-		};
-
-		const TransformMatrix tm =
+		const Renderer::TransformMatrix tm =
 		{
 			{
 				dx::XMMatrixTranspose
@@ -147,50 +112,11 @@ namespace wl
 
 		transformBuffer.SetData(&tm);
 
-		struct ColorList
-		{
-			struct
-			{
-				float r;
-				float g;
-				float b;
-				float a;
-			}face_colors[6];
-		};
-
-		ColorList faceColors
-		{
-			{
-				{1.0f, 0.0f, 1.0f},
-				{1.0f, 0.0f, 0.0f},
-				{0.0f, 1.0f, 0.0f},
-				{0.0f, 0.0f, 1.0f},
-				{1.0f, 1.0f, 0.0f},
-				{0.0f, 1.0f, 1.0f},
-			}
-		};
-
-		ConstantBuffer colorBuffer(sizeof(ColorList), ShaderStage::Pixel);
-		colorBuffer.SetData(&faceColors);
-
 		DXContext::Instance->m_context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-
-		//Vertex input layout
-		wrl::ComPtr<ID3D11InputLayout> pInputLayout;
-		D3D11_INPUT_ELEMENT_DESC elemDescs[]
-		{
-			{"Position", 0, DXGI_FORMAT_R32G32B32_FLOAT,    0, 0,  D3D11_INPUT_PER_VERTEX_DATA, 0},
-		};
-
-		Shader shader(L"../Assets/Shaders/PixelShader.cso", L"../Assets/Shaders/VertexShader.cso");
-		shader.SetLayout(elemDescs, std::size(elemDescs));
-
-		shader.Bind();
-		cube.Bind();
 		transformBuffer.Bind(0);
-		colorBuffer.Bind(0);
+
 		//Draw
-		DXContext::Instance->m_context->DrawIndexed(static_cast<UINT>(std::size(indices)), 0u, 0);
+		DXContext::Instance->m_context->DrawIndexed(static_cast<UINT>(size), 0u, 0);
 		bindRenderTargets();
 	}
 
