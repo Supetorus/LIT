@@ -70,6 +70,18 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IncludePath>$(SolutionDir)3rdParty\stb;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <IncludePath>$(SolutionDir)3rdParty\stb;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IncludePath>$(SolutionDir)3rdParty\stb;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IncludePath>$(SolutionDir)3rdParty\stb;$(IncludePath)</IncludePath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level4</WarningLevel>
@@ -161,8 +173,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="source\Camera.cpp" />
+    <ClCompile Include="source\Component.cpp" />
     <ClCompile Include="source\Model.cpp" />
     <ClCompile Include="source\App.cpp" />
+    <ClCompile Include="source\Object.cpp" />
     <ClCompile Include="source\renderer\Shader.cpp" />
     <ClCompile Include="source\renderer\ConstantBuffer.cpp" />
     <ClCompile Include="source\renderer\IndexBuffer.cpp" />
@@ -176,8 +191,13 @@
     <ClCompile Include="source\windows\win.cpp" />
     <ClCompile Include="source\windows\Window.cpp" />
     <ClCompile Include="source\renderer\VertexBuffer.cpp" />
+    <ClCompile Include="source\Transform.cpp" />
+    <ClCompile Include="source\ImageBuffer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="source\Component.h" />
+    <ClInclude Include="source\Object.h" />
+    <ClInclude Include="source\Camera.h" />
     <ClInclude Include="source\Model.h" />
     <ClInclude Include="source\App.h" />
     <ClInclude Include="source\renderer\Shader.h" />
@@ -193,6 +213,8 @@
     <ClInclude Include="source\windows\win.h" />
     <ClInclude Include="source\windows\Window.h" />
     <ClInclude Include="source\renderer\VertexBuffer.h" />
+    <ClInclude Include="source\Transform.h" />
+    <ClInclude Include="source\ImageBuffer.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="shader\PixelShader.hlsl">
