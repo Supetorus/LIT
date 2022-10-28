@@ -2,6 +2,7 @@
 #include "Mesh.h"
 #include "renderer/Shader.h"
 #include "renderer/ConstantBuffer.h"
+#include "Transform.h"
 
 namespace wl
 {
@@ -10,15 +11,15 @@ namespace wl
 	class Model
 	{
 	public:
-		Model(Mesh mesh, Shader shader, ConstantBuffer colorbuffer);
-		void Draw(Renderer renderer);
+		Model(Mesh mesh, Shader *shader, ConstantBuffer colorbuffer);
+		void Bind();
+		const Shader* GetShader() const;
+		const Mesh GetMesh() const;
+		const ConstantBuffer GetColorBuffer() const;
 	private:
-		//std::shared_ptr<Mesh> m_mesh;
-		//std::shared_ptr<Shader> m_shader;
-		//std::shared_ptr<ConstantBuffer> m_cBuffer;
-		std::optional<Mesh> m_mesh;
-		std::optional<Shader> m_shader;
-		std::optional<ConstantBuffer> m_cBuffer;
+		Shader *m_shader; // pointer because it is shared.
+		Mesh m_mesh;
+		ConstantBuffer m_buffer;
 	};
 
 }

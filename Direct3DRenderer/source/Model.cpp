@@ -3,22 +3,29 @@
 #include "renderer/Renderer.h"
 namespace wl
 {
-	Model::Model(Mesh mesh, Shader shader, ConstantBuffer colorbuffer):
+	Model::Model(Mesh mesh, Shader *shader, ConstantBuffer colorbuffer):
 		m_mesh(mesh),
 		m_shader(shader),
-		m_cBuffer(colorbuffer)
-	{
-		//m_mesh = mesh;
-		//m_shader = shader;
-		//m_cBuffer = colorbuffer;
-	}
+		m_buffer(colorbuffer)
+	{}
 
-	void Model::Draw(Renderer renderer)
+	void Model::Bind()
 	{
 		m_shader->Bind();
-		m_mesh->Bind();
-		m_cBuffer->Bind(0);
+		m_mesh.Bind();
+		m_buffer.Bind();
+	}
 
-		renderer.Draw(m_mesh->GetIndexCount());
+	const Mesh Model::GetMesh() const
+	{
+		return m_mesh;
+	}
+	const Shader* Model::GetShader() const
+	{
+		return m_shader;
+	}
+	const ConstantBuffer Model::GetColorBuffer() const
+	{
+		return m_buffer;
 	}
 }

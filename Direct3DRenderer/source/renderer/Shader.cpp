@@ -25,6 +25,7 @@ namespace wl
 		DXContext::Instance->m_context->PSSetShader(m_pixelShader.Get(), nullptr, 0u);
 		DXContext::Instance->m_context->IASetInputLayout(m_inputLayout.Get());
 	}
+
 	void Shader::SetLayout(D3D11_INPUT_ELEMENT_DESC layoutElements[], uint32_t size)
 	{
 		wrl::ComPtr<ID3DBlob> pBlob;
@@ -37,6 +38,12 @@ namespace wl
 			DXContext::Instance->m_device->CreateInputLayout(layoutElements, size, pBlob->GetBufferPointer(), pBlob->GetBufferSize(), &m_inputLayout),
 			"Failed to create input layout."
 		);
+	}
+	void Shader::SetLayout()
+	{
+		D3D11_INPUT_ELEMENT_DESC elemDescs[]
+		{{"Position", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0}};
+		SetLayout(elemDescs, 1);
 	}
 	void Shader::LoadShader(const wchar_t *path, ShaderStage stage)
 	{

@@ -8,17 +8,18 @@
 #include "renderer/ConstantBuffer.h"
 #include "renderer/Shader.h"
 #include "windows/win.h"
+#include "Model.h"
 #include "Mesh.h"
-#include "directxmath.h"
+#include "dxgidebug.h"
 
-
+#pragma comment(lib, "dxguid.lib")
 #pragma comment(lib, "D3DCompiler.lib")
 
 namespace dx = DirectX;
 
 namespace wl
 {
-	Renderer::Renderer(const Window &window) : m_window(window)
+	Renderer::Renderer(const Window &m_window) : m_window(m_window)
 	{
 		DXContext::Init();
 		createSwapChain();
@@ -26,54 +27,7 @@ namespace wl
 		createDepthStencilBuffer();
 		bindRenderTargets();
 		createViewport();
-
-//Create Z Buffer
-		//Create depth stencil state
-		//D3D11_DEPTH_STENCIL_DESC dsDesc{};
-		//dsDesc.DepthEnable = TRUE;
-		//dsDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
-		//dsDesc.DepthFunc = D3D11_COMPARISON_LESS;
-		//wrl::ComPtr<ID3D11DepthStencilState> pDSState;
-		//ASSERT_HR(
-		//	m_device->CreateDepthStencilState(
-		//		&dsDesc, &pDSState
-		//	),
-		//	"Unable to create depth stencil state."
-		//);
-
-		////bind depth state
-		//m_context->OMSetDepthStencilState(pDSState.Get(), 1u);
-
-		////create depth stencil texture
-		//wrl::ComPtr<ID3D11Texture2D> pDepthStencil;
-		//D3D11_TEXTURE2D_DESC descDepth{};
-		//// Should match swap chain size.
-		//descDepth.Width = m_window.GetWindowSize().first;
-		//descDepth.Height = m_window.GetWindowSize().second;
-		//descDepth.MipLevels = 1u;
-		//descDepth.ArraySize = 1u;
-		//descDepth.Format = DXGI_FORMAT_D32_FLOAT;
-		//descDepth.SampleDesc.Count = 1u;
-		//descDepth.SampleDesc.Quality = 0u;
-		//descDepth.Usage = D3D11_USAGE_DEFAULT;
-		//descDepth.BindFlags = D3D11_BIND_DEPTH_STENCIL;
-		//ASSERT_HR(
-		//	m_device->CreateTexture2D(&descDepth, nullptr, &pDepthStencil),
-		//	"Unable to create texture for depth stencil."
-		//);
-
-		////Create view of depth stencil texture
-		//D3D11_DEPTH_STENCIL_VIEW_DESC descDSV{};
-		//descDSV.Format = DXGI_FORMAT_D32_FLOAT;
-		//descDSV.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
-		//descDSV.Texture2D.MipSlice = 0u;
-		//ASSERT_HR(
-		//	m_device->CreateDepthStencilView(pDepthStencil.Get(), &descDSV, &pDSV),
-		//	"Unable to create depth stencil view."
-		//);
-		//m_context->OMSetRenderTargets(1u, m_pRenderTargetView.GetAddressOf(), pDSV.Get());
-//End Z Buffer
-
+		DXContext::Instance->m_context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 		LOG("Renderer created");
 	}
 
@@ -88,35 +42,37 @@ namespace wl
 			1.0f, 0);
 	}
 
-	void Renderer::Draw(uint32_t size)
+	void Renderer::Draw(const Model &model, const Transform &transform) const
 	{
-		static GameTimer gt;
-		gt.Tick();
-		float angle = gt.TotalTime();
-
 		// Create constant buffer for transform matrix
-		const Renderer::TransformMatrix tm =
+		const Renderer::TransformMatrix mvp =
 		{
 			{
 				dx::XMMatrixTranspose
 				(
-					dx::XMMatrixRotationZ(angle) *
-					dx::XMMatrixRotationX(angle) *
-					dx::XMMatrixTranslation(0, 0, 4) *
+					dx::XMMatrixRotationZ(transform.angleZ) *
+					dx::XMMatrixRotationX(transform.angleX) *
+					dx::XMMatrixRotationY(transform.angleY) *
+					dx::XMMatrixTranslation(transform.posX, transform.posY, transform.posZ) *
 					dx::XMMatrixPerspectiveLH(1.0f, m_window.InverseAspectRatio(), 0.5f, 10.0f)
 				)
 			}
 		};
 
-		ConstantBuffer transformBuffer(sizeof(TransformMatrix), ShaderStage::Vertex);
-
-		transformBuffer.SetData(&tm);
-
-		DXContext::Instance->m_context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-		transformBuffer.Bind(0);
+		ConstantBuffer mvpBuffer(sizeof(TransformMatrix), ShaderStage::Vertex);
+		mvpBuffer.SetData(&mvp);
+		mvpBuffer.Bind(0);
 
 		//Draw
-		DXContext::Instance->m_context->DrawIndexed(static_cast<UINT>(size), 0u, 0);
+		//Todo: use chilli's error checker here to get info_only
+		//const auto DxgiGetDebugInterface = reinterpret_cast<DXGIGetDebugInterface>(
+		//	reinterpret_cast<void *>(GetProcAddress(hModDxgiDebug, "DXGIGetDebugInterface"))
+		//	);
+		//DxgiGetDebugInterface(__uuidof(IDXGIInfoQueue), &pDxgiInfoQueue)
+		//Microsoft::WRL::ComPtr<IDXGIInfoQueue> pDxgiInfoQueue;
+		//auto next = pDxgiInfoQueue->GetNumStoredMessages(DXGI_DEBUG_ALL);
+		DXContext::Instance->m_context->DrawIndexed(static_cast<UINT>(model.GetMesh().GetIndexCount()),
+			0u, 0);
 		bindRenderTargets();
 	}
 
@@ -144,8 +100,8 @@ namespace wl
 		desc.SampleDesc.Count = 1;								// multisampling setting
 		desc.SampleDesc.Quality = 0;							// vendor-specific flag
 		desc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;				// Specify DXGI_SWAP_EFFECT_DISCARD in order to
-		//	let the display driver select the most efficient
-		//	presentation method.
+																//	let the display driver select the most efficient
+																//	presentation method.
 		desc.OutputWindow = m_window.GetHandle();
 
 		// Get the Factory used to create the ID3D11Device
@@ -220,7 +176,7 @@ namespace wl
 		LOG("Depth/stencil buffer created");
 	}
 
-	void Renderer::bindRenderTargets()
+	void Renderer::bindRenderTargets() const
 	{
 		DXContext::Instance->m_context->OMSetRenderTargets(
 			1, m_renderTargetView.GetAddressOf(), m_depthStencilView.Get());

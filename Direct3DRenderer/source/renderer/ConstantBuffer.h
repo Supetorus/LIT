@@ -9,9 +9,9 @@ namespace wl
 	public:
 		ConstantBuffer(uint32_t size, ShaderStage shaderStage);
 		void SetData(const void *data);
-		void Bind(uint32_t slot);
+		void Bind(uint32_t slot = 0);
 	private:
-		wrl::ComPtr<ID3D11Buffer> m_cBuffer;
+		wrl::ComPtr<ID3D11Buffer> m_buffer;
 		ShaderStage stage;
 		uint32_t size;
 	};

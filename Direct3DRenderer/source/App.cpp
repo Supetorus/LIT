@@ -2,19 +2,20 @@
 #include "core/Log.h"
 #include "renderer/ConstantBuffer.h"
 #include "renderer/Shader.h"
+#include "Object.h"
 #include "Mesh.h"
 #include "Model.h"
+#include <Camera.h>
+
+constexpr float pi = 3.14159265359;
+constexpr float halfPi = pi / 2;
+constexpr float radToDeg = halfPi / 3.14159f;
+constexpr float degToRad = pi / 180;
 
 namespace wl
 {
 
-	void App::Init()
-	{
-		timer.Reset();
-		renderer = std::make_unique<Renderer>(window);
-	}
-
-	Model ImportModel()
+	Model* MakeCube(Shader *shader)
 	{
 		const Renderer::Vertex vertices[]
 		{
@@ -54,38 +55,50 @@ namespace wl
 		ConstantBuffer colorBuffer(sizeof(Renderer::ColorList), ShaderStage::Pixel);
 		colorBuffer.SetData(&faceColors);
 
-		//Vertex input layout
-		wrl::ComPtr<ID3D11InputLayout> pInputLayout;
-		D3D11_INPUT_ELEMENT_DESC elemDescs[]
-		{
-			{"Position", 0, DXGI_FORMAT_R32G32B32_FLOAT,    0, 0,  D3D11_INPUT_PER_VERTEX_DATA, 0},
-		};
+		return new Model(cube, shader, colorBuffer);
+	}
 
-		Shader shader(L"../Assets/Shaders/PixelShader.cso", L"../Assets/Shaders/VertexShader.cso");
-		shader.SetLayout(elemDescs, std::size(elemDescs));
+	void App::Init()
+	{
+		m_gTimer.Reset();
+		m_renderer.emplace(Renderer(m_window));
 
-		return Model(cube, shader, colorBuffer);
+		// Initialize shader to be used by models.
+		Shader* shader = new Shader();
+		shader->SetLayout();
+
+		// Create camera
+		Object cameraObject;
+		cameraObject.components.push_back(new Camera(cameraObject, 1, 1.3333333f));
+		m_objects.push_back(cameraObject);
+
+		// "import" model(s)
+		Model *cube1 = MakeCube(shader);
+		Object o1({ -2, 0, 6, 45.f * degToRad, 45.f * degToRad, 45.f * degToRad }, cube1);
+		Object o2({  2, 0, 6, 45.f * degToRad, 0, 45.f * degToRad }, cube1);
+		m_objects.push_back(o1);
+		m_objects.push_back(o2);
 	}
 
 	void App::Run()
 	{
-		while (!window.IsQuit())
+		while (!m_window.IsQuit())
 		{
-			window.DoMessagePump();
-			timer.Tick();
-			
-			renderer->BeginFrame();
+			m_window.DoMessagePump();
+			m_gTimer.Tick();
 
-			// "import" model(s)
-			Model cube = ImportModel();
-			
-			// Draw all objects
-			cube.Draw(*renderer);
+			m_renderer->BeginFrame();
+			for (int i = 0; i < m_objects.size(); i++)
+			{
+				//m_objects[i].m_transform.angleZ += m_gTimer.DeltaTime();
+				m_objects[i].m_transform.angleY += m_gTimer.DeltaTime();
+				m_objects[i].Draw(*m_renderer);
+			}
 
-			renderer->EndFrame();
+			m_renderer->EndFrame();
 		}
 
-		window.Close();
+		m_window.Close();
 	}
 
 }

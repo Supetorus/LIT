@@ -1,5 +1,6 @@
 #include "App.h"
 #include "core/Log.h"
+#include "ImageBuffer.h"
 
 int main(int argc, char** argv)
 {
