@@ -5,6 +5,7 @@
 
 namespace wl
 {
+	
 	Shader::Shader(const wchar_t *pPath, const wchar_t *vPath) :
 		m_vPath(vPath)
 	{
@@ -76,4 +77,5 @@ namespace wl
 			break;
 		}
 	}
+
 }

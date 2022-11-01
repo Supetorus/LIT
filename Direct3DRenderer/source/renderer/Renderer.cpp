@@ -13,6 +13,7 @@
 
 namespace wl
 {
+
 	Renderer::Renderer(const Window &window):
 		m_window(window)
 	{
@@ -184,4 +185,5 @@ namespace wl
 			&m_viewport
 		);
 	}
+
 }

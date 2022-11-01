@@ -111,7 +111,7 @@ namespace wl
 		mesh.SetIndices(faceIndices, static_cast<uint32_t>(std::size(faceIndices)));
 
 		// Make Texture
-		ImageBuffer image("test.png");
+		ImageBuffer image("test.jpg");
 		Texture texture(image);
 		Sampler sampler;
 

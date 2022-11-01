@@ -4,6 +4,7 @@
 
 namespace wl
 {
+
 	Sampler::Sampler()
 	{
 		D3D11_SAMPLER_DESC sd{};
