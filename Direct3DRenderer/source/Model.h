@@ -11,13 +11,13 @@ namespace wl
 	class Model
 	{
 	public:
-		Model(Mesh mesh, Shader *shader, ConstantBuffer colorbuffer);
+		Model(Mesh mesh, std::shared_ptr<Shader> shader, ConstantBuffer colorbuffer);
 		void Bind();
-		const Shader* GetShader() const;
+		const std::shared_ptr<Shader> GetShader() const;
 		const Mesh GetMesh() const;
 		const ConstantBuffer GetColorBuffer() const;
 	private:
-		Shader *m_shader; // pointer because it is shared.
+		std::shared_ptr<Shader> m_shader; // pointer because it is shared.
 		Mesh m_mesh;
 		ConstantBuffer m_buffer;
 	};

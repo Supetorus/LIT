@@ -163,6 +163,7 @@
       <DisableLanguageExtensions />
       <CallingConvention>Cdecl</CallingConvention>
       <AdditionalIncludeDirectories>3rdParty\spdlog\include;source;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -173,6 +174,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="source\Sampler.cpp" />
     <ClCompile Include="source\Camera.cpp" />
     <ClCompile Include="source\Component.cpp" />
     <ClCompile Include="source\Model.cpp" />
@@ -193,8 +195,11 @@
     <ClCompile Include="source\renderer\VertexBuffer.cpp" />
     <ClCompile Include="source\Transform.cpp" />
     <ClCompile Include="source\ImageBuffer.cpp" />
+    <ClCompile Include="source\Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="source\renderer\DX.h" />
+    <ClInclude Include="source\Sampler.h" />
     <ClInclude Include="source\Component.h" />
     <ClInclude Include="source\Object.h" />
     <ClInclude Include="source\Camera.h" />
@@ -215,6 +220,7 @@
     <ClInclude Include="source\renderer\VertexBuffer.h" />
     <ClInclude Include="source\Transform.h" />
     <ClInclude Include="source\ImageBuffer.h" />
+    <ClInclude Include="source\Texture.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="shader\PixelShader.hlsl">

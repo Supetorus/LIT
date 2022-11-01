@@ -1,9 +1,17 @@
-cbuffer CBuf
+Texture2D tex;
+
+SamplerState splr;
+
+struct PSInput
 {
-	float4 face_colors[6];
+	float4 pos : SV_Position;
+	float2 tex : TEXCOORD;
 };
 
-float4 main(uint tid:SV_PrimitiveID) : SV_TARGET
+float4 main(PSInput input) : SV_TARGET
 {
-	return face_colors[tid / 2];
+	//return float4(.5, .5, 1, 1);
+	//return float4(input.tex, 0, 1);
+	return tex.Sample(splr, input.tex);
+
 }

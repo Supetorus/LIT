@@ -1,6 +1,7 @@
 #include "App.h"
 #include "core/Log.h"
 #include "ImageBuffer.h"
+#include <iostream>
 
 int main(int argc, char** argv)
 {

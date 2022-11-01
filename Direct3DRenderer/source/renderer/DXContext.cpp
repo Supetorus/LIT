@@ -1,9 +1,11 @@
+#include "renderer/DX.h"
 #include "DXContext.h"
 #include "windows/win.h"
 
 namespace wl
 {
-	DXContext *DXContext::Instance;
+	DXContext *DXContext::Instance{};
+
 	void DXContext::Init()
 	{
 		if (!Instance)

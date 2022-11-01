@@ -3,6 +3,7 @@
 
 namespace wl
 {
+
 	Object::Object(Transform transform, Model *model) :
 		m_transform(transform),
 		m_model(model)
@@ -10,9 +11,9 @@ namespace wl
 
 	void wl::Object::Draw(const Renderer &renderer) const
 	{
-		if (!m_model) return;
-		m_model->Bind();
-		renderer.Draw(*m_model, m_transform);
+		//if (!m_model) return;
+		//m_model->Bind();
+		//renderer.Draw(*m_model, m_transform);
 	}
 
 }

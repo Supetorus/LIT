@@ -1,8 +1,7 @@
 #pragma once
 
+#include "renderer/DX.h"
 #include "core/core.h"
-#include "d3d11.h"
-#include "directxmath.h"
 
 namespace wl
 {
@@ -15,15 +14,16 @@ namespace wl
 	{
 	public:
 		Renderer() = delete;
-		Renderer(const Window &m_window);
+		Renderer(const Window &window);
 		void BeginFrame();
-		void Draw(const Model &model, const Transform &transform) const;
+		void SetupPerspective(const Transform &transform) const;
+		void Draw(uint32_t indexCount) const;
 		void EndFrame();
-		struct Vertex
+		struct Vertex // Basic 32-byte vertex structure.
 		{
-			float x;
-			float y;
-			float z;
+			dx::XMFLOAT3 Pos;
+			dx::XMFLOAT2 Tex;
+			//dx::XMFLOAT3 Normal;
 		};
 		struct TransformMatrix
 		{

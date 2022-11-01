@@ -2,6 +2,8 @@
 #include "core/core.h"
 #include "d3d11.h"
 #include <filesystem>
+#include "renderer/DX.h"
+#include "DirectXMath.h"
 
 namespace wl
 {
@@ -19,7 +21,7 @@ namespace wl
 				const wchar_t *vPath = L"../Assets/Shaders/VertexShader.cso");
 		void Init(const wchar_t *pPath, const wchar_t *vPath);
 		void Bind();
-		void SetLayout(D3D11_INPUT_ELEMENT_DESC layoutElements[], uint32_t size);// or do vector
+		void SetLayout(D3D11_INPUT_ELEMENT_DESC layoutElements[], uint32_t numElements);// or do vector
 		void SetLayout();
 	private:
 		void LoadShader(const wchar_t *path, ShaderStage stage);

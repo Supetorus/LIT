@@ -2,7 +2,6 @@
 #include "Renderer.h"
 #include "windows/Window.h"
 #include "core/Log.h"
-#include "DXContext.h"
 #include "renderer/VertexBuffer.h"
 #include "renderer/IndexBuffer.h"
 #include "renderer/ConstantBuffer.h"
@@ -10,16 +9,12 @@
 #include "windows/win.h"
 #include "Model.h"
 #include "Mesh.h"
-#include "dxgidebug.h"
-
-#pragma comment(lib, "dxguid.lib")
-#pragma comment(lib, "D3DCompiler.lib")
-
-namespace dx = DirectX;
+#include "renderer/DXContext.h"
 
 namespace wl
 {
-	Renderer::Renderer(const Window &m_window) : m_window(m_window)
+	Renderer::Renderer(const Window &window):
+		m_window(window)
 	{
 		DXContext::Init();
 		createSwapChain();
@@ -42,7 +37,7 @@ namespace wl
 			1.0f, 0);
 	}
 
-	void Renderer::Draw(const Model &model, const Transform &transform) const
+	void Renderer::SetupPerspective(const Transform &transform) const
 	{
 		// Create constant buffer for transform matrix
 		const Renderer::TransformMatrix mvp =
@@ -62,18 +57,13 @@ namespace wl
 		ConstantBuffer mvpBuffer(sizeof(TransformMatrix), ShaderStage::Vertex);
 		mvpBuffer.SetData(&mvp);
 		mvpBuffer.Bind(0);
+	}
 
-		//Draw
-		//Todo: use chilli's error checker here to get info_only
-		//const auto DxgiGetDebugInterface = reinterpret_cast<DXGIGetDebugInterface>(
-		//	reinterpret_cast<void *>(GetProcAddress(hModDxgiDebug, "DXGIGetDebugInterface"))
-		//	);
-		//DxgiGetDebugInterface(__uuidof(IDXGIInfoQueue), &pDxgiInfoQueue)
-		//Microsoft::WRL::ComPtr<IDXGIInfoQueue> pDxgiInfoQueue;
-		//auto next = pDxgiInfoQueue->GetNumStoredMessages(DXGI_DEBUG_ALL);
-		DXContext::Instance->m_context->DrawIndexed(static_cast<UINT>(model.GetMesh().GetIndexCount()),
-			0u, 0);
+	void Renderer::Draw(uint32_t indexCount) const
+	{
 		bindRenderTargets();
+		DXContext::Instance->m_context->DrawIndexed(indexCount,
+			0u, 0);
 	}
 
 	void Renderer::EndFrame()

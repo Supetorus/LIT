@@ -23,7 +23,7 @@ namespace wl
 	private:
 		Window m_window;
 		GameTimer m_gTimer;
-		std::optional<Renderer> m_renderer;
+		std::unique_ptr<Renderer> m_renderer;
 		std::vector<Object> m_objects;
 	};
 

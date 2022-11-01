@@ -1,9 +1,10 @@
 #include "Model.h"
 
 #include "renderer/Renderer.h"
+
 namespace wl
 {
-	Model::Model(Mesh mesh, Shader *shader, ConstantBuffer colorbuffer):
+	Model::Model(Mesh mesh, std::shared_ptr<Shader> shader, ConstantBuffer colorbuffer):
 		m_mesh(mesh),
 		m_shader(shader),
 		m_buffer(colorbuffer)
@@ -20,12 +21,15 @@ namespace wl
 	{
 		return m_mesh;
 	}
-	const Shader* Model::GetShader() const
+
+	const std::shared_ptr<Shader> Model::GetShader() const
 	{
 		return m_shader;
 	}
+
 	const ConstantBuffer Model::GetColorBuffer() const
 	{
 		return m_buffer;
 	}
+
 }
