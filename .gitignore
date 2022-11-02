@@ -6,6 +6,8 @@
 *.lo
 *.o
 *.obj
+# Reinclude asset obj files
+!Direct3DRenderer/assets/*.obj
 
 # Precompiled Headers
 *.gch
