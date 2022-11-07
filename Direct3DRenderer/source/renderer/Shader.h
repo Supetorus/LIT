@@ -17,14 +17,15 @@ namespace wl
 	{
 	public:
 		//Shader() = default;
-		Shader(	const wchar_t *pPath = L"../Assets/Shaders/PixelShader.cso",
-				const wchar_t *vPath = L"../Assets/Shaders/VertexShader.cso");
+		Shader(	const wchar_t *pPath = L"shaders/PixelShader.cso",
+				const wchar_t *vPath = L"shaders/VertexShader.cso");
 		void Init(const wchar_t *pPath, const wchar_t *vPath);
 		void Bind();
-		void SetLayout(D3D11_INPUT_ELEMENT_DESC layoutElements[], uint32_t numElements);// or do vector
-		void SetLayout();
+		//void SetLayout(D3D11_INPUT_ELEMENT_DESC layoutElements[], uint32_t numElements);// or do vector
+		//void SetLayout();
 	private:
-		void LoadShader(const wchar_t *path, ShaderStage stage);
+		void generateInputLayout();
+		void loadShader(const wchar_t *path, ShaderStage stage);
 		wrl::ComPtr<ID3D11PixelShader> m_pixelShader;
 		wrl::ComPtr<ID3D11VertexShader> m_vertexShader;
 		wrl::ComPtr<ID3D11InputLayout> m_inputLayout;

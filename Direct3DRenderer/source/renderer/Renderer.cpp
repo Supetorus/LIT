@@ -74,10 +74,36 @@ namespace wl
 			"Error presenting frame.");
 	}
 
+	void Renderer::SetModeWireframe() const
+	{
+		wrl::ComPtr<ID3D11RasterizerState> state;
+		D3D11_RASTERIZER_DESC rasterDesc{};
+		rasterDesc.FillMode = D3D11_FILL_WIREFRAME;
+		rasterDesc.CullMode = D3D11_CULL_NONE;
+		ASSERT_HR(
+			DXContext::Instance->m_device->CreateRasterizerState(&rasterDesc, state.GetAddressOf()),
+			"Unable to create rasterizer state."
+		);
+		DXContext::Instance->m_context->RSSetState(state.Get());
+	}
+
+	void Renderer::SetModeFill() const
+	{
+		wrl::ComPtr<ID3D11RasterizerState> state;
+		D3D11_RASTERIZER_DESC rasterDesc{};
+		rasterDesc.FillMode = D3D11_FILL_SOLID;
+		rasterDesc.CullMode = D3D11_CULL_BACK;
+		ASSERT_HR(
+			DXContext::Instance->m_device->CreateRasterizerState(&rasterDesc, state.GetAddressOf()),
+			"Unable to create rasterizer state."
+		);
+		DXContext::Instance->m_context->RSSetState(state.Get());
+	}
+
 	void Renderer::createSwapChain()
 	{
-		DXGI_SWAP_CHAIN_DESC desc;								// A struct which describes the swap chain.
-		ZeroMemory(&desc, sizeof(DXGI_SWAP_CHAIN_DESC));		// Clears the memory to zero out all the values.
+		DXGI_SWAP_CHAIN_DESC desc{};								// A struct which describes the swap chain.
+		//ZeroMemory(&desc, sizeof(DXGI_SWAP_CHAIN_DESC));		// Clears the memory to zero out all the values.
 		desc.BufferDesc.Width = m_window.GetClientSize().first;
 		desc.BufferDesc.Height = m_window.GetClientSize().second;
 		desc.BufferDesc.RefreshRate.Numerator = 60;				// These were not explained in the book.

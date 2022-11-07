@@ -19,12 +19,8 @@ namespace wl
 		void SetupPerspective(const Transform &transform) const;
 		void Draw(uint32_t indexCount) const;
 		void EndFrame();
-		struct Vertex // Basic 32-byte vertex structure.
-		{
-			dx::XMFLOAT3 Pos;
-			dx::XMFLOAT2 Tex;
-			//dx::XMFLOAT3 Normal;
-		};
+		void SetModeWireframe() const;
+		void SetModeFill() const;
 		struct TransformMatrix
 		{
 			DirectX::XMMATRIX transform;
