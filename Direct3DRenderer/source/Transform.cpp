@@ -4,16 +4,17 @@ namespace wl
 
 	void Transform::SetPosition(float x, float y, float z)
 	{
-		posX = x;
-		posY = y;
-		posZ = z;
+		position = { x, y, z };
 	}
 
 	void Transform::SetRotation(float x, float y, float z)
 	{
-		angleX = x;
-		angleY = y;
-		angleZ = z;
+		rotation = { x, y, z };
+	}
+
+	void Transform::SetScale(float x, float y, float z)
+	{
+		scale = { x, y, z };
 	}
 
 }

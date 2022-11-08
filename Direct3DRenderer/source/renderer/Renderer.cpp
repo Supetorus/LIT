@@ -44,10 +44,10 @@ namespace wl
 		Transform &cameraTransform = m_camera->transform;
 		dx::XMMATRIX view
 		{
-			dx::XMMatrixRotationZ(cameraTransform.angleZ) *
-			dx::XMMatrixRotationX(cameraTransform.angleX) *
-			dx::XMMatrixRotationY(cameraTransform.angleY) *
-			dx::XMMatrixTranslation(cameraTransform.posX, cameraTransform.posY, cameraTransform.posZ)
+			dx::XMMatrixRotationZ(cameraTransform.rotation.z) *
+			dx::XMMatrixRotationX(cameraTransform.rotation.x) *
+			dx::XMMatrixRotationY(cameraTransform.rotation.y) *
+			dx::XMMatrixTranslation(cameraTransform.position.x, cameraTransform.position.y, cameraTransform.position.z)
 		};
 
 		view = dx::XMMatrixInverse(nullptr, view);
@@ -69,10 +69,14 @@ namespace wl
 	{
 		dx::XMMATRIX objMatrix
 		{
-			dx::XMMatrixRotationZ(objectTransform.angleZ) *
-			dx::XMMatrixRotationX(objectTransform.angleX) *
-			dx::XMMatrixRotationY(objectTransform.angleY) *
-			dx::XMMatrixTranslation(objectTransform.posX, objectTransform.posY, objectTransform.posZ)
+			// scale
+			dx::XMMatrixScaling(objectTransform.scale.x, objectTransform.scale.y, objectTransform.scale.z) *
+			// rotation
+			dx::XMMatrixRotationZ(objectTransform.rotation.z) *
+			dx::XMMatrixRotationX(objectTransform.rotation.x) *
+			dx::XMMatrixRotationY(objectTransform.rotation.y) *
+			// translation
+			dx::XMMatrixTranslation(objectTransform.position.x, objectTransform.position.y, objectTransform.position.z)
 		};
 
 		//objMatrix = dx::XMMatrixTranspose(objMatrix);

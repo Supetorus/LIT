@@ -14,15 +14,10 @@ namespace wl
 		};
 		void SetPosition(float x, float y, float z);
 		void SetRotation(float x, float y, float z);
-		//f3 position{};
-		//f3 scale{};
-		//f3 rotation{};
-		float posX{};
-		float posY{};
-		float posZ{};
-		float angleX{};
-		float angleY{};
-		float angleZ{};
+		void SetScale(float x, float y, float z);
+		f3 position{};
+		f3 scale{ 1, 1, 1 };
+		f3 rotation{};
 	};
 
 }

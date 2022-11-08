@@ -72,9 +72,10 @@ namespace wl
 	{
 		std::shared_ptr<Shader> defaultShader = std::make_shared<Shader>();
 		Model model("models/skull.obj", "skull.jpg", defaultShader);
+		model.transform.scale = { 0.1f, 0.1f, 0.1f };
 
 		std::shared_ptr<Camera> camera = std::make_shared<Camera>();
-		camera->transform.posZ = -20;
+		camera->transform.position.z = -20;
 		m_renderer->SetCamera(camera);
 
 		//m_renderer->SetModeWireframe();
@@ -87,7 +88,7 @@ namespace wl
 			m_gTimer.Tick();
 
 			camera->Update(m_gTimer.GetDeltaTime());
-			model.transform.angleY += m_gTimer.GetDeltaTime();
+			model.transform.rotation.y += m_gTimer.GetDeltaTime();
 
 			m_renderer->BeginFrame();
 
