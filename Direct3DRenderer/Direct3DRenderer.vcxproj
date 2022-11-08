@@ -178,6 +178,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="source\Input.cpp" />
     <ClCompile Include="source\Sampler.cpp" />
     <ClCompile Include="source\Camera.cpp" />
     <ClCompile Include="source\Component.cpp" />
@@ -202,6 +203,7 @@
     <ClCompile Include="source\Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="source\Input.h" />
     <ClInclude Include="source\renderer\DX.h" />
     <ClInclude Include="source\Sampler.h" />
     <ClInclude Include="source\Component.h" />

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <string>
 namespace wl
 {
 
@@ -7,8 +8,8 @@ namespace wl
 	{
 	public:
 		ImageBuffer() = default;
-		ImageBuffer(const char *filename);
-		void Load(const char *filename);
+		ImageBuffer(std::string filename);
+		void Load(std::string filename);
 		const unsigned char *GetData() const;
 		const int GetWidth() const;
 		const int GetHeight() const;

@@ -9,7 +9,7 @@ namespace wl
 		// Returns the total time the app has been running, not counting paused time.
 		float TotalTime() const;
 		// Returns time since the last frame.
-		float DeltaTime() const;
+		float GetDeltaTime() const;
 		// Starts the timer at 0.
 		void Reset();
 		// Starts the timer after it has been paused.

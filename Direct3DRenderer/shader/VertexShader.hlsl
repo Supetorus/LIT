@@ -1,6 +1,11 @@
-cbuffer CBuf
+cbuffer CameraBuf : register(b0)
 {
-	matrix transform;
+	float4x4 viewProjection;
+};
+
+cbuffer ObjBuf : register(b1)
+{
+	float4x4 objTransform;
 };
 
 struct VSOut
@@ -12,7 +17,10 @@ struct VSOut
 VSOut main(float3 pos : POSITION, float2 tex : TEXCOORD)
 {
 	VSOut vso;
-	vso.pos = mul(float4(pos, 1.0f), transform);
+	float4x4 mvp = mul(viewProjection, objTransform);
+	//vso.pos = mul(float4(pos, 1.0f), transform);
+	//vso.pos = mul(mvp, float4(pos, 1.0f));
+	vso.pos = mul(mvp, float4(pos, 1.0f));
 	vso.tex = tex;
 	return vso;
 }

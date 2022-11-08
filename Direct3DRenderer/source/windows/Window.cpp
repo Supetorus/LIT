@@ -1,5 +1,6 @@
 #include "Window.h"
 #include "core/Log.h"
+#include "Input.h"
 #include "winuser.h"
 
 namespace wl
@@ -58,14 +59,56 @@ namespace wl
 	{
 		switch (uMsg)
 		{
+		case WM_SYSKEYDOWN:
+		case WM_KEYDOWN:
+		{
+			int wasDown = 0x40000000;
+			if (!(lParam & wasDown))
+				Input::Instance.OnKeyPressed(static_cast<unsigned char>(wParam));
+			break;
+		}
+		case WM_SYSKEYUP:
+		case WM_KEYUP:
+			Input::Instance.OnKeyReleased(static_cast<unsigned char>(wParam));
+			break;
+		case WM_CHAR:
+			Input::Instance.OnChar(static_cast<unsigned char>(wParam));
+			break;
+
+			// mouse
+		case WM_MOUSEMOVE:
+			POINTS pt = MAKEPOINTS(lParam);
+			Input::Instance.OnMouseMove(pt.x, pt.y);
+			break;
+
+		case WM_LBUTTONDOWN:
+			Input::Instance.OnMousePressed(Input::LMouse);
+			break;
+		case WM_RBUTTONDOWN:
+			Input::Instance.OnMousePressed(Input::RMouse);
+			break;
+		case WM_MBUTTONDOWN:
+			Input::Instance.OnMousePressed(Input::MMouse);
+			break;
+
+		case WM_LBUTTONUP:
+			Input::Instance.OnMouseReleased(Input::LMouse);
+			break;
+		case WM_RBUTTONUP:
+			Input::Instance.OnMouseReleased(Input::RMouse);
+			break;
+		case WM_MBUTTONUP:
+			Input::Instance.OnMouseReleased(Input::MMouse);
+			break;
 		case WM_CREATE:
 			return 0;
 		case WM_DESTROY:
 			m_quit = true;
 			return 0;
 		default:
-			return DefWindowProc(m_hwnd, uMsg, wParam, lParam);
+			break;
 		}
+			return DefWindowProc(m_hwnd, uMsg, wParam, lParam);
 	}
 
 	void Window::DoMessagePump()

@@ -10,11 +10,12 @@
 #include "Model.h"
 #include "Mesh.h"
 #include "renderer/DXContext.h"
+#include "Camera.h"
 
 namespace wl
 {
 
-	Renderer::Renderer(const Window &window):
+	Renderer::Renderer(const Window &window) :
 		m_window(window)
 	{
 		DXContext::Init();
@@ -38,26 +39,53 @@ namespace wl
 			1.0f, 0);
 	}
 
-	void Renderer::SetupPerspective(const Transform &transform) const
+	void Renderer::SetViewProjectionMatrix() const
 	{
-		// Create constant buffer for transform matrix
-		const Renderer::TransformMatrix mvp =
+		Transform &cameraTransform = m_camera->transform;
+		dx::XMMATRIX view
 		{
-			{
-				dx::XMMatrixTranspose
-				(
-					dx::XMMatrixRotationZ(transform.angleZ) *
-					dx::XMMatrixRotationX(transform.angleX) *
-					dx::XMMatrixRotationY(transform.angleY) *
-					dx::XMMatrixTranslation(transform.posX, transform.posY, transform.posZ) *
-					dx::XMMatrixPerspectiveLH(1.0f, m_window.InverseAspectRatio(), 0.5f, 10.0f)
-				)
-			}
+			dx::XMMatrixRotationZ(cameraTransform.angleZ) *
+			dx::XMMatrixRotationX(cameraTransform.angleX) *
+			dx::XMMatrixRotationY(cameraTransform.angleY) *
+			dx::XMMatrixTranslation(cameraTransform.posX, cameraTransform.posY, cameraTransform.posZ)
 		};
 
-		ConstantBuffer mvpBuffer(sizeof(TransformMatrix), ShaderStage::Vertex);
-		mvpBuffer.SetData(&mvp);
-		mvpBuffer.Bind(0);
+		view = dx::XMMatrixInverse(nullptr, view);
+
+		dx::XMMATRIX projection = dx::XMMatrixPerspectiveLH(m_camera->perspectiveWidth, m_window.InverseAspectRatio(), m_camera->nearPlane, m_camera->farPlane);
+
+		// Create constant buffer for transform matrix
+		const Renderer::TransformMatrix vp =
+		{
+			view * projection
+		};
+
+		ConstantBuffer vpBuffer(sizeof(TransformMatrix), ShaderStage::Vertex);
+		vpBuffer.SetData(&vp);
+		vpBuffer.Bind(0);
+	}
+
+	void Renderer::SetObjectMatrix(const Transform &objectTransform) const
+	{
+		dx::XMMATRIX objMatrix
+		{
+			dx::XMMatrixRotationZ(objectTransform.angleZ) *
+			dx::XMMatrixRotationX(objectTransform.angleX) *
+			dx::XMMatrixRotationY(objectTransform.angleY) *
+			dx::XMMatrixTranslation(objectTransform.posX, objectTransform.posY, objectTransform.posZ)
+		};
+
+		//objMatrix = dx::XMMatrixTranspose(objMatrix);
+		//objMatrix = dx::XMMatrixInverse(nullptr, objMatrix);
+
+		const Renderer::TransformMatrix modelMatrix =
+		{
+			objMatrix
+		};
+
+		ConstantBuffer modelMatrixBuffer(sizeof(TransformMatrix), ShaderStage::Vertex);
+		modelMatrixBuffer.SetData(&modelMatrix);
+		modelMatrixBuffer.Bind(1);
 	}
 
 	void Renderer::Draw(uint32_t indexCount) const
@@ -100,6 +128,11 @@ namespace wl
 		DXContext::Instance->m_context->RSSetState(state.Get());
 	}
 
+	void Renderer::SetCamera(std::shared_ptr<Camera> newCamera)
+	{
+		m_camera = newCamera;
+	}
+
 	void Renderer::createSwapChain()
 	{
 		DXGI_SWAP_CHAIN_DESC desc{};								// A struct which describes the swap chain.
@@ -117,8 +150,8 @@ namespace wl
 		desc.SampleDesc.Count = 1;								// multisampling setting
 		desc.SampleDesc.Quality = 0;							// vendor-specific flag
 		desc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;				// Specify DXGI_SWAP_EFFECT_DISCARD in order to
-																//	let the display driver select the most efficient
-																//	presentation method.
+		//	let the display driver select the most efficient
+		//	presentation method.
 		desc.OutputWindow = m_window.GetHandle();
 
 		// Get the Factory used to create the ID3D11Device

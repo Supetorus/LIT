@@ -4,6 +4,8 @@
 
 namespace wl
 {
+	class Input;
+
 	class Window
 	{
 	public:

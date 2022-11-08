@@ -12,6 +12,7 @@ namespace wl
 	class Window;
 	class Renderer;
 	class GameTimer;
+	class Input;
 	//class Object;
 
 	class App

@@ -8,7 +8,7 @@ namespace wl
 	{
 	public:
 		Sampler();
-		void Bind(uint32_t slot);
+		void Bind(uint32_t slot) const;
 	private:
 		wrl::ComPtr<ID3D11SamplerState> m_pSampler;
 	};

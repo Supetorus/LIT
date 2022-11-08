@@ -3,6 +3,10 @@
 #include "renderer/Shader.h"
 #include "renderer/ConstantBuffer.h"
 #include "Transform.h"
+#include "Texture.h"
+#include "Sampler.h"
+#include <string>
+#include <vector>
 
 namespace wl
 {
@@ -11,15 +15,19 @@ namespace wl
 	class Model
 	{
 	public:
-		Model(Mesh mesh, std::shared_ptr<Shader> shader, ConstantBuffer colorbuffer);
+		Model(const std::string &meshPath, const std::string &texturePath, std::shared_ptr<Shader> shader);
 		void Bind();
+		void Draw(const Renderer &renderer) const;
 		const std::shared_ptr<Shader> GetShader() const;
-		const Mesh GetMesh() const;
-		const ConstantBuffer GetColorBuffer() const;
+		//const Mesh GetMesh() const;
+		Transform transform{};
 	private:
-		std::shared_ptr<Shader> m_shader; // pointer because it is shared.
-		Mesh m_mesh;
-		ConstantBuffer m_buffer;
+		void loadMeshes(std::string meshPath);
+
+		std::shared_ptr<Shader> m_shader;
+		std::vector<Mesh> m_meshes{};
+		std::shared_ptr<Texture> m_texture{};
+		Sampler m_sampler{};
 	};
 
 }

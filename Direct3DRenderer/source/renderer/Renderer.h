@@ -9,6 +9,7 @@ namespace wl
 	class Object;
 	class Model;
 	class Transform;
+	class Camera;
 
 	class Renderer
 	{
@@ -16,11 +17,14 @@ namespace wl
 		Renderer() = delete;
 		Renderer(const Window &window);
 		void BeginFrame();
-		void SetupPerspective(const Transform &transform) const;
+		//void SetViewProjectionMatrix(const Transform &cameraTransform) const;
+		void SetViewProjectionMatrix() const;
+		void SetObjectMatrix(const Transform &objectTransform) const;
 		void Draw(uint32_t indexCount) const;
 		void EndFrame();
 		void SetModeWireframe() const;
 		void SetModeFill() const;
+		void SetCamera(std::shared_ptr<Camera> newCamera);
 		struct TransformMatrix
 		{
 			DirectX::XMMATRIX transform;
@@ -51,5 +55,6 @@ namespace wl
 		wrl::ComPtr<ID3D11Texture2D> m_depthStencilTexture;
 		wrl::ComPtr<ID3D11DepthStencilView> m_depthStencilView;
 		D3D11_VIEWPORT m_viewport;
+		std::shared_ptr<Camera> m_camera;
 	};
 }

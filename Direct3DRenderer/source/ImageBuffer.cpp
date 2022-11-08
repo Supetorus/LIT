@@ -6,16 +6,16 @@
 
 namespace wl
 {
-	ImageBuffer::ImageBuffer(const char *path):
-		m_filepath(path)
+	ImageBuffer::ImageBuffer(std::string path):
+		m_filepath(path.c_str())
 	{
 		Load(path);
 	}
 
-	void ImageBuffer::Load(const char *path)
+	void ImageBuffer::Load(std::string path)
 	{
-		m_filepath = path;
-		m_data = stbi_load(path, &m_width, &m_height, &m_channels, 4);
+		m_filepath = path.c_str();
+		m_data = stbi_load(path.c_str(), &m_width, &m_height, &m_channels, 4);
 		m_channels = 4;
 		ASSERT(m_data != nullptr, std::string{ "Failed to load image: " }.append(path).c_str(), stbi_failure_reason());
 		//std::cout << "Image Loaded.\n";

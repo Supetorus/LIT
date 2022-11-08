@@ -21,6 +21,7 @@ namespace wl
 		uint32_t GetIndexCount() const;
 		void Bind();
 		void LoadFromFile(const std::string& path);
+		std::string name{};
 	private:
 		std::shared_ptr<VertexBuffer> vBuffer;
 		std::shared_ptr<IndexBuffer> iBuffer;

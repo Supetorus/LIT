@@ -16,13 +16,10 @@ namespace wl
 	class Shader
 	{
 	public:
-		//Shader() = default;
 		Shader(	const wchar_t *pPath = L"shaders/PixelShader.cso",
 				const wchar_t *vPath = L"shaders/VertexShader.cso");
 		void Init(const wchar_t *pPath, const wchar_t *vPath);
 		void Bind();
-		//void SetLayout(D3D11_INPUT_ELEMENT_DESC layoutElements[], uint32_t numElements);// or do vector
-		//void SetLayout();
 	private:
 		void generateInputLayout();
 		void loadShader(const wchar_t *path, ShaderStage stage);

@@ -19,7 +19,7 @@ namespace wl
 		);
 	}
 
-	void Sampler::Bind(uint32_t slot)
+	void Sampler::Bind(uint32_t slot) const
 	{
 		DXContext::Instance->m_context->PSSetSamplers(slot, 1, m_pSampler.GetAddressOf());
 	}

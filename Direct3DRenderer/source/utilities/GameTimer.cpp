@@ -45,7 +45,7 @@ namespace wl
 		}
 	}
 
-	float GameTimer::DeltaTime() const
+	float GameTimer::GetDeltaTime() const
 	{
 		return static_cast<float>(m_deltaTime);
 	}
