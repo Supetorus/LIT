@@ -24,9 +24,9 @@ namespace wl
 	private:
 
 		std::shared_ptr<Shader> m_shader;
-		std::vector<Mesh*> *m_meshes{};
 		std::shared_ptr<Texture> m_texture{};
 		Sampler m_sampler{};
+		std::shared_ptr<Mesh> m_mesh{};
 	};
 
 }

@@ -15,7 +15,7 @@ namespace wl
 		return { coords.x, coords.y };
 	}
 
-	std::vector<Mesh *> * MeshLoader::LoadMeshes(std::string filepath)
+	std::shared_ptr<Mesh> MeshLoader::LoadMeshes(std::string filepath)
 	{
 		Assimp::Importer importer;
 		auto scene = importer.ReadFile(filepath,
@@ -33,7 +33,7 @@ namespace wl
 			importer.GetErrorString()
 		);
 
-		std::vector<Mesh*> *meshes = new std::vector<Mesh*>();
+		std::shared_ptr<Mesh> mesh = std::make_shared<Mesh>();
 		for (unsigned int k = 0; k < scene->mNumMeshes; k++)
 		{
 			auto assimpMesh = scene->mMeshes[k];
@@ -65,13 +65,13 @@ namespace wl
 				}
 			}
 
-			Mesh *mesh = new Mesh;
-			mesh->name = assimpMesh->mName.C_Str();
-			mesh->SetVertices(vertices.data(), sizeof(Mesh::Vertex), static_cast<uint32_t>(vertices.size()));
-			mesh->SetIndices(indices.data(), static_cast<uint32_t>(indices.size()));
+			Mesh::SubMesh *submesh = new Mesh::SubMesh;
+			submesh->name = assimpMesh->mName.C_Str();
+			submesh->SetVertices(vertices.data(), sizeof(Mesh::Vertex), static_cast<uint32_t>(vertices.size()));
+			submesh->SetIndices(indices.data(), static_cast<uint32_t>(indices.size()));
 
-			meshes->push_back(mesh);
+			mesh->AddSubMesh(submesh);
 		}
-		return meshes;
+		return mesh;
 	}
 }

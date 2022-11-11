@@ -6,6 +6,8 @@
 
 namespace wl
 {
+	class Renderer;
+
 	class Mesh
 	{
 	public:
@@ -15,15 +17,24 @@ namespace wl
 			dx::XMFLOAT2 Tex;
 			dx::XMFLOAT3 Normal;
 		};
+		class SubMesh
+		{
+		public:
+			void SetVertices(const void *data, uint32_t stride, uint32_t count);
+			void SetIndices(const void *data, uint32_t count);
+			uint32_t GetIndexCount() const;
+			void Bind();
+			std::string name{};
+
+		private:
+			std::shared_ptr<VertexBuffer> vBuffer;
+			std::shared_ptr<IndexBuffer> iBuffer;
+			uint32_t m_indexCount{};
+		};
 		Mesh() = default;
-		void SetVertices(const void *data, uint32_t stride, uint32_t count);
-		void SetIndices(const void *data, uint32_t count);
-		uint32_t GetIndexCount() const;
-		void Bind();
-		std::string name{};
+		void Draw(const Renderer& renderer);
+		void AddSubMesh(SubMesh *submesh);
 	private:
-		std::shared_ptr<VertexBuffer> vBuffer;
-		std::shared_ptr<IndexBuffer> iBuffer;
-		uint32_t m_indexCount{};
+		std::vector<SubMesh*> submeshes{};
 	};
 }

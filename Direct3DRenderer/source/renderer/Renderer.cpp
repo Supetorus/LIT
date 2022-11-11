@@ -79,9 +79,6 @@ namespace wl
 			dx::XMMatrixTranslation(objectTransform.position.x, objectTransform.position.y, objectTransform.position.z)
 		};
 
-		//objMatrix = dx::XMMatrixTranspose(objMatrix);
-		//objMatrix = dx::XMMatrixInverse(nullptr, objMatrix);
-
 		const Renderer::TransformMatrix modelMatrix =
 		{
 			objMatrix

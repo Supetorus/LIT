@@ -7,14 +7,7 @@
 #include "assimp/Importer.hpp"
 #include "assimp/postprocess.h"
 #include "assimp/scene.h"
-
-	dx::XMFLOAT2 GetUVCoords(aiMesh *mesh, uint32_t index)
-	{
-		if (mesh->mTextureCoords[0] == nullptr)
-			return { 0.0f, 0.0f };
-		const auto coords = mesh->mTextureCoords[0][index];
-		return { coords.x, coords.y };
-	}
+#include <memory>
 
 namespace wl
 {
@@ -22,16 +15,13 @@ namespace wl
 		m_shader(shader),
 		name(name)
 	{
-		//loadMeshes(meshPath);
-		m_meshes = MeshLoader::LoadMeshes(meshPath);
+		m_mesh = MeshLoader::LoadMeshes(meshPath);
 		ImageBuffer image(texturePath);
 		m_texture = std::make_shared<Texture>(image);
 	}
 
 	Model::~Model()
 	{
-		for (Mesh *mesh : *m_meshes) delete mesh;
-		delete m_meshes;
 	}
 
 	void Model::Draw(const Renderer &renderer) const
@@ -40,11 +30,8 @@ namespace wl
 		m_texture->Bind(0);
 		m_sampler.Bind(0);
 		renderer.SetObjectMatrix(transform);
-		for (Mesh *mesh : *m_meshes)
-		{
-			mesh->Bind();
-			renderer.Draw(mesh->GetIndexCount());
-		}
+		//m_mesh->Bind();
+		m_mesh->Draw(renderer);
 	}
 
 	const std::shared_ptr<Shader> Model::GetShader() const
