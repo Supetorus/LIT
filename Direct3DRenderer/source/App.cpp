@@ -12,6 +12,7 @@
 #include "Input.h"
 #include "resources/CubeMap.h"
 #include <filesystem>
+#include <resources/Skybox.h>
 
 constexpr float pi = 3.14159265359;
 constexpr float halfPi = pi / 2;
@@ -45,12 +46,12 @@ namespace wl
 			.rotation = {90 * degToRad, 0, 0}
 		};
 		m_models.push_back(&skull);
-		//Model cube("models/cube.obj", "flower.jpg", defaultShader, "Cube");
-		//cube.transform.position = { -2, 0, 0 };
-		//m_models.push_back(&cube);
-		Model cube("models/invertedCube.obj", "cubemaps/test/posx.jpg", defaultShader, "Cube");
+		Model cube("models/cube.obj", "flower.jpg", defaultShader, "Cube");
 		cube.transform.position = { -2, 0, 0 };
 		m_models.push_back(&cube);
+		//Model cube("models/invertedCube.obj", "cubemaps/test/posx.jpg", defaultShader, "Cube");
+		//cube.transform.position = { -2, 0, 0 };
+		//m_models.push_back(&cube);
 		Model sphere("models/sphere.obj", "obsidian.png", defaultShader, "Sphere");
 		sphere.transform.position = { 2, 0, 0 };
 		m_models.push_back(&sphere);
@@ -63,7 +64,7 @@ namespace wl
 		m_renderer->SetCamera(camera);
 		LOG("Scene Loaded");
 #pragma endregion
-
+		Skybox skybox("Storforsen3");
 
 		//m_renderer->SetModeWireframe();
 
@@ -86,6 +87,8 @@ namespace wl
 			{
 				model->Draw(*m_renderer);
 			}
+
+			skybox.Draw(*m_renderer);
 
 			m_renderer->EndFrame();
 		}

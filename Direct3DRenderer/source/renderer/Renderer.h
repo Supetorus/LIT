@@ -54,6 +54,7 @@ namespace wl
 		wrl::ComPtr<ID3D11RenderTargetView> m_renderTargetView;
 		wrl::ComPtr<ID3D11Texture2D> m_depthStencilTexture;
 		wrl::ComPtr<ID3D11DepthStencilView> m_depthStencilView;
+		Microsoft::WRL::ComPtr<ID3D11DepthStencilState> pStencil;
 		D3D11_VIEWPORT m_viewport;
 		std::shared_ptr<Camera> m_camera;
 	};

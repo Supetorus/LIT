@@ -24,6 +24,13 @@ namespace wl
 		createDepthStencilBuffer();
 		bindRenderTargets();
 		createViewport();
+
+		D3D11_DEPTH_STENCIL_DESC dsDesc = CD3D11_DEPTH_STENCIL_DESC{ CD3D11_DEFAULT{} };
+		dsDesc.DepthFunc = D3D11_COMPARISON_LESS_EQUAL;
+		dsDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
+		DXContext::Instance->m_device->CreateDepthStencilState(&dsDesc, &pStencil);
+		DXContext::Instance->m_context->OMSetDepthStencilState(pStencil.Get(), 0xFF);
+
 		DXContext::Instance->m_context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 		LOG("Renderer created");
 	}

@@ -10,7 +10,7 @@ namespace wl
 	class MeshLoader
 	{
 	public:
-		static std::shared_ptr<Mesh> LoadMeshes(std::string filepath);
+		static std::shared_ptr<Mesh> LoadMesh(std::string filepath);
 	};
 
 }

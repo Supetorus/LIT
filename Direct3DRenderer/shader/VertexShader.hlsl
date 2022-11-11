@@ -18,8 +18,6 @@ VSOut main(float3 pos : POSITION, float2 tex : TEXCOORD)
 {
 	VSOut vso;
 	float4x4 mvp = mul(viewProjection, objTransform);
-	//vso.pos = mul(float4(pos, 1.0f), transform);
-	//vso.pos = mul(mvp, float4(pos, 1.0f));
 	vso.pos = mul(mvp, float4(pos, 1.0f));
 	vso.tex = tex;
 	return vso;

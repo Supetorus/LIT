@@ -9,12 +9,19 @@ namespace wl
 
 	CubeMap::CubeMap(std::string path)
 	{
-		faces[0] = ImageBuffer("cubemaps/" + path + "/posz.jpg"); // front
-		faces[1] = ImageBuffer("cubemaps/" + path + "/posx.jpg"); // right
-		faces[2] = ImageBuffer("cubemaps/" + path + "/negx.jpg"); // left
-		faces[3] = ImageBuffer("cubemaps/" + path + "/negz.jpg"); // back
-		faces[4] = ImageBuffer("cubemaps/" + path + "/posy.jpg"); // top
-		faces[5] = ImageBuffer("cubemaps/" + path + "/negy.jpg"); // bottom
+		//D3D11_TEXTURECUBE_FACE_POSITIVE_X = 0,
+		//D3D11_TEXTURECUBE_FACE_NEGATIVE_X = 1,
+		//D3D11_TEXTURECUBE_FACE_POSITIVE_Y = 2,
+		//D3D11_TEXTURECUBE_FACE_NEGATIVE_Y = 3,
+		//D3D11_TEXTURECUBE_FACE_POSITIVE_Z = 4,
+		//D3D11_TEXTURECUBE_FACE_NEGATIVE_Z = 5
+
+		faces[D3D11_TEXTURECUBE_FACE_POSITIVE_X] = ImageBuffer("cubemaps/" + path + "/posx.jpg"); // right
+		faces[D3D11_TEXTURECUBE_FACE_NEGATIVE_X] = ImageBuffer("cubemaps/" + path + "/negx.jpg"); // left
+		faces[D3D11_TEXTURECUBE_FACE_POSITIVE_Y] = ImageBuffer("cubemaps/" + path + "/posy.jpg"); // top
+		faces[D3D11_TEXTURECUBE_FACE_NEGATIVE_Y] = ImageBuffer("cubemaps/" + path + "/negy.jpg"); // bottom
+		faces[D3D11_TEXTURECUBE_FACE_POSITIVE_Z] = ImageBuffer("cubemaps/" + path + "/posz.jpg"); // front
+		faces[D3D11_TEXTURECUBE_FACE_NEGATIVE_Z] = ImageBuffer("cubemaps/" + path + "/negz.jpg"); // back
 
 		D3D11_TEXTURE2D_DESC desc{};
 		desc.Width = faces[0].GetWidth();

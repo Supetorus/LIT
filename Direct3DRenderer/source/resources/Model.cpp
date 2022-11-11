@@ -15,7 +15,7 @@ namespace wl
 		m_shader(shader),
 		name(name)
 	{
-		m_mesh = MeshLoader::LoadMeshes(meshPath);
+		m_mesh = MeshLoader::LoadMesh(meshPath);
 		ImageBuffer image(texturePath);
 		m_texture = std::make_shared<Texture>(image);
 	}
@@ -30,7 +30,6 @@ namespace wl
 		m_texture->Bind(0);
 		m_sampler.Bind(0);
 		renderer.SetObjectMatrix(transform);
-		//m_mesh->Bind();
 		m_mesh->Draw(renderer);
 	}
 

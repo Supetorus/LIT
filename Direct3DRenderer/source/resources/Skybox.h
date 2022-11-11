@@ -11,6 +11,7 @@ namespace wl
 
 	class Skybox
 	{
+	public:
 		Skybox(const std::string &texturePath);
 		void Draw(const Renderer &renderer);
 	private:

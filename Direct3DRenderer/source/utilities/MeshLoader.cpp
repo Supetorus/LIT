@@ -15,7 +15,7 @@ namespace wl
 		return { coords.x, coords.y };
 	}
 
-	std::shared_ptr<Mesh> MeshLoader::LoadMeshes(std::string filepath)
+	std::shared_ptr<Mesh> MeshLoader::LoadMesh(std::string filepath)
 	{
 		Assimp::Importer importer;
 		auto scene = importer.ReadFile(filepath,
