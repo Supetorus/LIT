@@ -52,6 +52,11 @@ namespace wl
 		return m_channels;
 	}
 
+	const int ImageBuffer::GetPitch() const
+	{
+		return m_width * m_channels;
+	}
+
 	const unsigned char *ImageBuffer::GetData() const
 	{
 		return m_data;

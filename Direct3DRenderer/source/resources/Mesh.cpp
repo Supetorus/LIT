@@ -25,13 +25,4 @@ namespace wl
 		iBuffer->Bind();
 	}
 
-
-
-	void Mesh::LoadFromFile(const std::string &path)
-	{
-		
-
-
-	}
-
 }

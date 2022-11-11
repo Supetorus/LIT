@@ -3,13 +3,14 @@
 #include "renderer/ConstantBuffer.h"
 #include "renderer/Shader.h"
 #include "Object.h"
-#include "Mesh.h"
-#include "Model.h"
-#include "Texture.h"
-#include "ImageBuffer.h"
+#include "resources/Mesh.h"
+#include "resources/Model.h"
+#include "resources/Texture.h"
+#include "resources/ImageBuffer.h"
 #include "Camera.h"
-#include "Sampler.h"
+#include "resources/Sampler.h"
 #include "Input.h"
+#include "resources/CubeMap.h"
 #include <filesystem>
 
 constexpr float pi = 3.14159265359;
@@ -20,46 +21,10 @@ constexpr float degToRad = pi / 180;
 namespace wl
 {
 
-	//Model *MakeCube(std::shared_ptr<Shader> shader)
-	//{
-	//	const Mesh::Vertex vertices[]
-	//	{
-	//		{dx::XMFLOAT3(-1.0f, -1.0f, -1.0f), },
-	//		{dx::XMFLOAT3(1.0f, -1.0f, -1.0f), },
-	//		{dx::XMFLOAT3(-1.0f,  1.0f, -1.0f), },
-	//		{dx::XMFLOAT3(1.0f,  1.0f, -1.0f), },
-	//		{dx::XMFLOAT3(-1.0f, -1.0f,  1.0f), },
-	//		{dx::XMFLOAT3(1.0f, -1.05,  1.0f), },
-	//		{dx::XMFLOAT3(-1.0f,  1.0f,  1.0f), },
-	//		{dx::XMFLOAT3(1.0f,  1.0f,  1.0f), },
-	//	};
-	//	uint16_t indices[]{
-	//		0, 2, 1, 2, 3, 1,
-	//		1, 3, 5, 3, 7, 5,
-	//		2, 6, 3, 3, 6, 7,
-	//		4, 5, 7, 4, 7, 6,
-	//		0, 4, 2, 2, 4, 6,
-	//		0, 1, 4, 1, 5, 4,
-	//	};
-	//	Renderer::ColorList faceColors
-	//	{
-	//		{
-	//			{1.0f, 0.0f, 1.0f},
-	//			{1.0f, 0.0f, 0.0f},
-	//			{0.0f, 1.0f, 0.0f},
-	//			{0.0f, 0.0f, 1.0f},
-	//			{1.0f, 1.0f, 0.0f},
-	//			{0.0f, 1.0f, 1.0f},
-	//		}
-	//	};
-	//	Mesh cube;
-	//	cube.SetVertices(vertices, sizeof(Mesh::Vertex), static_cast<uint32_t>(std::size(vertices)));
-	//	cube.SetIndices(indices, static_cast<uint32_t>(std::size(indices)));
-	//	// "Import" "Textures"
-	//	ConstantBuffer colorBuffer(sizeof(Renderer::ColorList), ShaderStage::Pixel);
-	//	colorBuffer.SetData(&faceColors);
-	//	return new Model(cube, shader, colorBuffer);
-	//}
+	App::~App()
+	{
+		//for (Model *model : m_models) delete model;
+	}
 
 	void App::Init()
 	{
@@ -70,13 +35,35 @@ namespace wl
 
 	void App::Run()
 	{
+#pragma region LoadModels
 		std::shared_ptr<Shader> defaultShader = std::make_shared<Shader>();
-		Model model("models/skull.obj", "skull.jpg", defaultShader);
-		model.transform.scale = { 0.1f, 0.1f, 0.1f };
+		Model skull("models/skull.obj", "skull.jpg", defaultShader, "Skull");
+		skull.transform =
+		{
+			.position = {0, -1.5, 0},
+			.scale = {0.05f, 0.05f, 0.05f},
+			.rotation = {90 * degToRad, 0, 0}
+		};
+		m_models.push_back(&skull);
+		//Model cube("models/cube.obj", "flower.jpg", defaultShader, "Cube");
+		//cube.transform.position = { -2, 0, 0 };
+		//m_models.push_back(&cube);
+		Model cube("models/invertedCube.obj", "cubemaps/test/posx.jpg", defaultShader, "Cube");
+		cube.transform.position = { -2, 0, 0 };
+		m_models.push_back(&cube);
+		Model sphere("models/sphere.obj", "obsidian.png", defaultShader, "Sphere");
+		sphere.transform.position = { 2, 0, 0 };
+		m_models.push_back(&sphere);
+		Model ogre("models/ogre.obj", "ogre_diffuse.bmp", defaultShader, "Ogre");
+		ogre.transform.position = { 0, 1, 0 };
+		m_models.push_back(&ogre);
 
 		std::shared_ptr<Camera> camera = std::make_shared<Camera>();
-		camera->transform.position.z = -20;
+		camera->transform.position.z = -5;
 		m_renderer->SetCamera(camera);
+		LOG("Scene Loaded");
+#pragma endregion
+
 
 		//m_renderer->SetModeWireframe();
 
@@ -88,12 +75,17 @@ namespace wl
 			m_gTimer.Tick();
 
 			camera->Update(m_gTimer.GetDeltaTime());
-			model.transform.rotation.y += m_gTimer.GetDeltaTime();
+
+			skull.transform.rotation.y += m_gTimer.GetDeltaTime();
+			ogre.transform.rotation.y -= m_gTimer.GetDeltaTime();
 
 			m_renderer->BeginFrame();
 
 			m_renderer->SetViewProjectionMatrix();
-			model.Draw(*m_renderer);
+			for (Model *model : m_models)
+			{
+				model->Draw(*m_renderer);
+			}
 
 			m_renderer->EndFrame();
 		}

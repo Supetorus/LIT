@@ -13,19 +13,19 @@ namespace wl
 	class Renderer;
 	class GameTimer;
 	class Input;
-	//class Object;
 
 	class App
 	{
 	public:
 		App() = default;
+		~App();
 		void Init();
 		void Run();
 	private:
 		Window m_window;
 		GameTimer m_gTimer;
 		std::unique_ptr<Renderer> m_renderer;
-		std::vector<Object> m_objects;
+		std::vector<Model*> m_models{};
 	};
 
 }

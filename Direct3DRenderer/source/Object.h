@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Transform.h"
-#include "Model.h"
+#include "resources/Model.h"
 #include <vector>
 
 namespace wl

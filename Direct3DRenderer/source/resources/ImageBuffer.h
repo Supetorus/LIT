@@ -14,6 +14,7 @@ namespace wl
 		const int GetWidth() const;
 		const int GetHeight() const;
 		const int GetChannels() const;
+		const int GetPitch() const;
 	private:
 		int m_width{};
 		int m_height{};

@@ -7,8 +7,8 @@
 #include "renderer/ConstantBuffer.h"
 #include "renderer/Shader.h"
 #include "windows/win.h"
-#include "Model.h"
-#include "Mesh.h"
+#include "resources/Model.h"
+#include "resources/Mesh.h"
 #include "renderer/DXContext.h"
 #include "Camera.h"
 

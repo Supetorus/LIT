@@ -11,6 +11,7 @@ namespace wl
 
 	void wl::Object::Draw(const Renderer &renderer) const
 	{
+		renderer;
 		//if (!m_model) return;
 		//m_model->Bind();
 		//renderer.Draw(*m_model, m_transform);

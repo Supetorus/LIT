@@ -13,14 +13,13 @@ namespace wl
 		{
 			dx::XMFLOAT3 Pos;
 			dx::XMFLOAT2 Tex;
-			//dx::XMFLOAT3 Normal;
+			dx::XMFLOAT3 Normal;
 		};
 		Mesh() = default;
 		void SetVertices(const void *data, uint32_t stride, uint32_t count);
 		void SetIndices(const void *data, uint32_t count);
 		uint32_t GetIndexCount() const;
 		void Bind();
-		void LoadFromFile(const std::string& path);
 		std::string name{};
 	private:
 		std::shared_ptr<VertexBuffer> vBuffer;
