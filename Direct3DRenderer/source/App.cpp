@@ -11,6 +11,8 @@
 #include "resources/Sampler.h"
 #include "Input.h"
 #include "resources/CubeMap.h"
+#include "Scene.h"
+#include <memory>
 #include <filesystem>
 #include <resources/Skybox.h>
 
@@ -31,33 +33,35 @@ namespace wl
 	{
 		m_gTimer.Reset();
 		m_renderer = std::make_unique<Renderer>(m_window);
+		m_scene = std::make_unique<Scene>();
 		std::filesystem::current_path("assets/");
 	}
 
 	void App::Run()
 	{
-#pragma region LoadModels
 		std::shared_ptr<Shader> defaultShader = std::make_shared<Shader>();
-		Model skull("models/skull.obj", "skull.jpg", defaultShader, "Skull");
-		skull.transform =
+#pragma region LoadModels
+		std::shared_ptr<Model> skull = std::make_shared<Model>("models/skull.obj", "skull.jpg", defaultShader, "Skull");
+		skull->transform =
 		{
 			.position = {0, -1.5, 0},
 			.scale = {0.05f, 0.05f, 0.05f},
 			.rotation = {90 * degToRad, 0, 0}
 		};
-		m_models.push_back(&skull);
-		Model cube("models/cube.obj", "flower.jpg", defaultShader, "Cube");
-		cube.transform.position = { -2, 0, 0 };
-		m_models.push_back(&cube);
-		//Model cube("models/invertedCube.obj", "cubemaps/test/posx.jpg", defaultShader, "Cube");
-		//cube.transform.position = { -2, 0, 0 };
+		m_scene->AddModel(skull);
+		//m_models.push_back(&skull);
+		std::shared_ptr <Model> cube = std::make_shared<Model>("models/cube.obj", "flower.jpg", defaultShader, "Cube");
+		cube->transform.position = { -2, 0, 0 };
+		m_scene->AddModel(cube);
 		//m_models.push_back(&cube);
-		Model sphere("models/sphere.obj", "obsidian.png", defaultShader, "Sphere");
-		sphere.transform.position = { 2, 0, 0 };
-		m_models.push_back(&sphere);
-		Model ogre("models/ogre.obj", "ogre_diffuse.bmp", defaultShader, "Ogre");
-		ogre.transform.position = { 0, 1, 0 };
-		m_models.push_back(&ogre);
+		std::shared_ptr<Model> sphere = std::make_shared<Model>("models/sphere.obj", "obsidian.png", defaultShader, "Sphere");
+		sphere->transform.position = { 2, 0, 0 };
+		m_scene->AddModel(sphere);
+		//m_models.push_back(&sphere);
+		std::shared_ptr<Model> ogre = std::make_shared<Model>("models/ogre.obj", "ogre_diffuse.bmp", defaultShader, "Ogre");
+		ogre->transform.position = { 0, 1, 0 };
+		m_scene->AddModel(ogre);
+		//m_models.push_back(&ogre);
 
 		std::shared_ptr<Camera> camera = std::make_shared<Camera>();
 		camera->transform.position.z = -5;
@@ -77,16 +81,13 @@ namespace wl
 
 			camera->Update(m_gTimer.GetDeltaTime());
 
-			skull.transform.rotation.y += m_gTimer.GetDeltaTime();
-			ogre.transform.rotation.y -= m_gTimer.GetDeltaTime();
+			skull->transform.rotation.y += m_gTimer.GetDeltaTime();
+			ogre->transform.rotation.y -= m_gTimer.GetDeltaTime();
 
 			m_renderer->BeginFrame();
 
 			m_renderer->SetViewProjectionMatrix();
-			for (Model *model : m_models)
-			{
-				model->Draw(*m_renderer);
-			}
+			m_scene->Draw(*m_renderer);
 
 			skybox.Draw(*m_renderer);
 

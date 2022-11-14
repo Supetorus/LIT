@@ -11,6 +11,7 @@ namespace wl
 {
 	class Window;
 	class Renderer;
+	class Scene;
 	class GameTimer;
 	class Input;
 
@@ -25,7 +26,8 @@ namespace wl
 		Window m_window;
 		GameTimer m_gTimer;
 		std::unique_ptr<Renderer> m_renderer;
-		std::vector<Model*> m_models{};
+		std::unique_ptr<Scene> m_scene;
+		//std::vector<Model*> m_models{};
 	};
 
 }
