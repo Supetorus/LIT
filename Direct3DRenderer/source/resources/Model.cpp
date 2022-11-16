@@ -11,17 +11,15 @@
 
 namespace wl
 {
-	Model::Model(const std::string &meshPath, const std::string &texturePath, std::shared_ptr<Shader> shader, std::string name):
+	Model::Model(const std::string &meshPath, const std::string &texturePath, std::shared_ptr<Shader> shader, std::string name) :
 		m_shader(shader),
-		name(name)
+		name(name),
+		m_meshPath(meshPath),
+		m_texturePath(texturePath)
 	{
 		m_mesh = MeshLoader::LoadMesh(meshPath);
 		ImageBuffer image(texturePath);
 		m_texture = std::make_shared<Texture>(image);
-	}
-
-	Model::~Model()
-	{
 	}
 
 	void Model::Draw(const Renderer &renderer) const
