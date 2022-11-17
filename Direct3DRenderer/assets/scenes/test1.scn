@@ -1,0 +1,32 @@
+# Scene
+Path: scenes/test.scn
+Models:
+  - Model: Skull
+    Transform:
+      Position: [0.604084909, 0.457082421, -2.86757565]
+      Rotation: [1.57079637, 0, 0]
+      Scale: [0.0500000007, 0.0500000007, 0.0500000007]
+    Mesh: models/skull.obj
+    Texture: skull.jpg
+  - Model: Sphere
+    Transform:
+      Position: [1.11506617, 0, 0.166856244]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    Mesh: models/sphere.obj
+    Texture: obsidian.png
+  - Model: Ogre
+    Transform:
+      Position: [-0.494673401, 0.109149516, -0.195455238]
+      Rotation: [0, 0.863315225, 0]
+      Scale: [1, 1, 1]
+    Mesh: models/ogre.obj
+    Texture: ogre_diffuse.bmp
+  - Model: Cube
+    Transform:
+      Position: [-0.393006921, -1.49633217, -0.286830872]
+      Rotation: [-0.596094966, -1.12751317, 0]
+      Scale: [1, 1, 1]
+    Mesh: models/cube.obj
+    Texture: flower.jpg
+Skybox: Storforsen3
