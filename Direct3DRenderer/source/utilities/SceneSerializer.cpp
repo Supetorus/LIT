@@ -114,6 +114,9 @@ namespace wl
 
 		out << YAML::BeginMap;
 
+		out << YAML::Key << "Path";
+		out << YAML::Value << filepath;
+
 		out << YAML::Key << "Models";
 		out << YAML::Value;
 		out << YAML::BeginSeq;
@@ -123,6 +126,8 @@ namespace wl
 		}
 		out << YAML::EndSeq;
 
+		out << YAML::Key << "Skybox";
+		out << YAML::Value << scene.m_skybox->GetCubeMap().GetTexturePath();
 		out << YAML::EndMap;
 
 		std::ofstream fout(filepath);
@@ -139,7 +144,7 @@ namespace wl
 
 		std::shared_ptr<Shader> shader = std::make_shared<Shader>();
 		std::shared_ptr<Scene> scene = std::make_shared<Scene>();
-		
+
 		for (auto model : data["Models"])
 		{
 			std::string name = model["Model"].as<std::string>();
@@ -153,6 +158,8 @@ namespace wl
 
 		std::shared_ptr<Skybox> skybox = std::make_shared<Skybox>(data["Skybox"].as<std::string>());
 		scene->SetSkybox(skybox);
+
+		scene->m_filepath = data["Path"].as<std::string>();
 
 		return scene;
 	}

@@ -5,10 +5,6 @@
 
 namespace wl
 {
-	Scene::Scene()
-	{
-		//m_skybox = std::make_shared<Skybox>("Storforsen3");
-	}
 
 	void Scene::Draw(const Renderer& renderer) const
 	{

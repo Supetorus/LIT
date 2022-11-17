@@ -89,6 +89,12 @@ namespace wl
 		//renderer.SetObjectMatrix({});
 		m_cubeMesh->Draw(renderer);
 	}
+
+	const CubeMap &Skybox::GetCubeMap() const
+	{
+		return *m_cubemap;
+	}
+
 }
 
 // progammatically load cube mesh so that the vertex structure matches

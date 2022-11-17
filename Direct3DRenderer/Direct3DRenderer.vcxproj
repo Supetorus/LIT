@@ -178,8 +178,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="source\Controller.cpp" />
     <ClCompile Include="source\Scene.cpp" />
-    <ClCompile Include="source\SceneSerializer.cpp" />
+    <ClCompile Include="source\utilities\SceneSerializer.cpp" />
     <ClCompile Include="source\utilities\MeshLoader.cpp" />
     <ClCompile Include="source\resources\Skybox.cpp" />
     <ClCompile Include="source\resources\CubeMap.cpp" />
@@ -208,8 +209,9 @@
     <ClCompile Include="source\resources\Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="source\Controller.h" />
     <ClInclude Include="source\Scene.h" />
-    <ClInclude Include="source\SceneSerializer.h" />
+    <ClInclude Include="source\utilities\SceneSerializer.h" />
     <ClInclude Include="source\utilities\MeshLoader.h" />
     <ClInclude Include="source\resources\Skybox.h" />
     <ClInclude Include="source\resources\CubeMap.h" />

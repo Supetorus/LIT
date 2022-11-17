@@ -7,7 +7,8 @@
 namespace wl
 {
 
-	CubeMap::CubeMap(std::string path)
+	CubeMap::CubeMap(std::string path):
+		m_texturePath(path)
 	{
 		//D3D11_TEXTURECUBE_FACE_POSITIVE_X = 0,
 		//D3D11_TEXTURECUBE_FACE_NEGATIVE_X = 1,
@@ -58,8 +59,15 @@ namespace wl
 		);
 
 	}
+	
 	void CubeMap::Bind(int slot)
 	{
 		DXContext::Instance->m_context->PSSetShaderResources(slot, 1, m_pTextureView.GetAddressOf());
 	}
+
+	const std::string &CubeMap::GetTexturePath() const
+	{
+		return m_texturePath;
+	}
+
 }

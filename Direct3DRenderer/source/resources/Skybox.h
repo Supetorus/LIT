@@ -14,6 +14,7 @@ namespace wl
 	public:
 		Skybox(const std::string &texturePath);
 		void Draw(const Renderer &renderer);
+		const CubeMap &GetCubeMap() const;
 	private:
 		std::shared_ptr<CubeMap> m_cubemap;
 		std::shared_ptr<Shader> m_shader;
