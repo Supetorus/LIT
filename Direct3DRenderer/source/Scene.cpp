@@ -25,4 +25,9 @@ namespace wl
 		m_skybox = skybox;
 	}
 
+	//void Scene::SetCamera(std::shared_ptr<Camera> camera)
+	//{
+	//	m_camera = camera;
+	//}
+
 }

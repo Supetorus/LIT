@@ -27,19 +27,19 @@ namespace wl
 
 	void App::Run()
 	{
-		std::shared_ptr<Camera> camera = std::make_shared<Camera>();
-		camera->transform.position.z = -5;
-		m_renderer->SetCamera(camera);
+		//std::shared_ptr<Camera> camera = std::make_shared<Camera>();
+		//camera->transform.position.z = -5;
 		LOG("Scene Loaded");
 
 		{
 			SceneSerializer serializer;
 			//serializer.Serialize("scenes/test.scn", *m_scene);
-			m_scene = serializer.Deserialize("scenes/test.scn");
+			m_scene = serializer.Deserialize("scenes/test1.scn");
 		}
+		m_renderer->SetCamera(m_scene->m_camera);
 
 		//m_renderer->SetModeWireframe();
-		Controller controller(*camera, m_scene);
+		Controller controller(m_scene, *m_renderer);
 		// Main loop
 		while (!m_window.IsQuit())
 		{

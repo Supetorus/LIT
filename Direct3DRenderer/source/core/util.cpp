@@ -37,17 +37,17 @@ namespace wl
 		
 		const char lessThan = 0xBC;
 		const char greaterThan = 0xBE;
-		if (Input::Instance.GetKeyDown(lessThan))
-		{
-			transform.scale.x += scaleSpeed * dt;
-			transform.scale.y += scaleSpeed * dt;
-			transform.scale.z += scaleSpeed * dt;
-		}
 		if (Input::Instance.GetKeyDown(greaterThan))
 		{
-			transform.scale.x -= scaleSpeed * dt;
-			transform.scale.y -= scaleSpeed * dt;
-			transform.scale.z -= scaleSpeed * dt;
+			transform.scale.x += transform.scale.x * scaleSpeed * dt;
+			transform.scale.y += transform.scale.y * scaleSpeed * dt;
+			transform.scale.z += transform.scale.z * scaleSpeed * dt;
+		}
+		if (Input::Instance.GetKeyDown(lessThan))
+		{
+			transform.scale.x -= transform.scale.x * scaleSpeed * dt;
+			transform.scale.y -= transform.scale.y * scaleSpeed * dt;
+			transform.scale.z -= transform.scale.z * scaleSpeed * dt;
 		}
 	}
 }

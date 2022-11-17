@@ -3,6 +3,7 @@
 #include "Scene.h"
 #include "resources/Skybox.h"
 #include "yaml-cpp/yaml.h"
+#include "Camera.h"
 #include <fstream>
 
 namespace YAML
@@ -107,6 +108,23 @@ namespace wl
 		return out;
 	}
 
+	YAML::Emitter &operator<<(YAML::Emitter &out, const Camera &cam)
+	{
+		out << YAML::Key << "Camera";
+		out << YAML::Value;
+		out << YAML::BeginMap;
+		out << YAML::Key << "Transform";
+		out << YAML::Value << cam.transform;
+		out << YAML::Key << "FOV";
+		out << YAML::Value << cam.fov;
+		out << YAML::Key << "NearPlane";
+		out << YAML::Value << cam.nearPlane;
+		out << YAML::Key << "FarPlane";
+		out << YAML::Value << cam.farPlane;
+		out << YAML::EndMap;
+		return out;
+	}
+
 	void SceneSerializer::Serialize(const std::string &filepath, const Scene &scene) const
 	{
 		YAML::Emitter out;
@@ -120,7 +138,7 @@ namespace wl
 		out << YAML::Key << "Models";
 		out << YAML::Value;
 		out << YAML::BeginSeq;
-		for (auto model : scene.m_models)
+		for (auto& model : scene.m_models)
 		{
 			out << *model;
 		}
@@ -128,6 +146,9 @@ namespace wl
 
 		out << YAML::Key << "Skybox";
 		out << YAML::Value << scene.m_skybox->GetCubeMap().GetTexturePath();
+
+		out << *scene.m_camera;
+
 		out << YAML::EndMap;
 
 		std::ofstream fout(filepath);
@@ -160,6 +181,20 @@ namespace wl
 		scene->SetSkybox(skybox);
 
 		scene->m_filepath = data["Path"].as<std::string>();
+
+		if (auto cam = data["Camera"])
+		{
+			std::shared_ptr<Camera> camera = std::make_shared<Camera>();
+			if (auto a = cam["Transform"])			camera->transform			= a.as<Transform>();
+			if (auto a = cam["FOV"])				camera->fov					= a.as<float>();
+			if (auto a = cam["NearPlane"])			camera->nearPlane			= a.as<float>();
+			if (auto a = cam["FarPlane"])			camera->farPlane			= a.as<float>();
+			scene->m_camera = camera;
+		}
+		else
+		{
+			scene->m_camera = std::make_shared<Camera>();
+		}
 
 		return scene;
 	}

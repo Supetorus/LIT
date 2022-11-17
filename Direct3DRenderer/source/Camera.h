@@ -15,8 +15,7 @@ namespace wl
 		void SetNearPlane(float distance);
 		void SetFarPlane (float distance);
 		Transform transform;
-		float perspectiveWidth = 1;
-		float perspectiveHeight = 1.333333f;
+		float fov = 45.0f; // in degrees
 		float nearPlane = 0.5f;
 		float farPlane = 50.0f;
 	};
