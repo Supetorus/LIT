@@ -59,7 +59,7 @@ namespace wl
 
 		view = dx::XMMatrixInverse(nullptr, view);
 
-		dx::XMMATRIX projection = dx::XMMatrixPerspectiveLH(m_camera->perspectiveWidth, m_window.InverseAspectRatio(), m_camera->nearPlane, m_camera->farPlane);
+		dx::XMMATRIX projection = dx::XMMatrixPerspectiveFovLH(dx::XMConvertToRadians(45), m_window.AspectRatio(), m_camera->nearPlane, m_camera->farPlane);
 
 		// Create constant buffer for transform matrix
 		const Renderer::TransformMatrix vp =
