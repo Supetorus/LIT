@@ -13,6 +13,9 @@ several classes in the past, but it is a deep and complicated language and
 since it is very widely used I thought it wise to learn it better.
 
 ## Features
+This project essentially turned into a rudimentary scene editor. The user
+edit models translation, rotation, and scale at runtime, as well as changing
+most aspects of a scene from its yaml text file.
 * Loads most standard model file types using [assimp](https://github.com/assimp/assimp).
 * Live scene editing, saving, and reloading.
 * Realtime lighting and shadow maps (WIP)
