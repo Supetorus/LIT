@@ -31,7 +31,7 @@ most aspects of a scene from its yaml text file.
 ## Reflection
 When deciding which API to use there were four major options: Direct3D11,
 Direct3D12, OpenGL, and Vulkan. Under advisement from a friend I chose
-Direct3D11 because, OpenGL is deprecated, and both Vulkan and Direct3D12
+Direct3D11 because, OpenGL is outdated, and both Vulkan and Direct3D12
 are a step up in complexity, therefore making Direct3D11 an obvious choice.
 
 On reflection I think I could have learned what I wanted to by using OpenGL,
