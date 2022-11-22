@@ -4,6 +4,7 @@
 #include "resources/Skybox.h"
 #include "yaml-cpp/yaml.h"
 #include "Camera.h"
+#include "Transform.h"
 #include <fstream>
 
 namespace YAML
@@ -22,9 +23,12 @@ namespace YAML
 
 		static bool decode(const Node &node, wl::Transform &transform)
 		{
-			transform.position = node["Position"].as<wl::Transform::f3>();
-			transform.rotation = node["Rotation"].as<wl::Transform::f3>();
-			transform.scale = node["Scale"].as<wl::Transform::f3>();
+			if (auto a = node["Position"])	transform.position = a.as<wl::Transform::f3>();
+			else transform.position = { 0, 0, 0 };
+			if (auto a = node["Rotation"])	transform.rotation = a.as<wl::Transform::f3>();
+			else transform.rotation = { 0, 0, 0 };
+			if (auto a = node["Scale"])		transform.scale = a.as<wl::Transform::f3>();
+			else transform.scale = { 1, 1, 1 };
 			return true;
 		}
 	};
@@ -56,32 +60,42 @@ namespace wl
 	YAML::Emitter &operator<< (YAML::Emitter &out, Transform transform)
 	{
 		out << YAML::BeginMap;
-		out << YAML::Key << "Position";
-		out << YAML::Value;
-		out << YAML::Flow;
-		out << YAML::BeginSeq;
-		out << transform.position.x;
-		out << transform.position.y;
-		out << transform.position.z;
-		out << YAML::EndSeq;
 
-		out << YAML::Key << "Rotation";
-		out << YAML::Value;
-		out << YAML::Flow;
-		out << YAML::BeginSeq;
-		out << transform.rotation.x;
-		out << transform.rotation.y;
-		out << transform.rotation.z;
-		out << YAML::EndSeq;
+		if (transform.position != Transform::identity.position)
+		{
+			out << YAML::Key << "Position";
+			out << YAML::Value;
+			out << YAML::Flow;
+			out << YAML::BeginSeq;
+			out << transform.position.x;
+			out << transform.position.y;
+			out << transform.position.z;
+			out << YAML::EndSeq;
+		}
 
-		out << YAML::Key << "Scale";
-		out << YAML::Value;
-		out << YAML::Flow;
-		out << YAML::BeginSeq;
-		out << transform.scale.x;
-		out << transform.scale.y;
-		out << transform.scale.z;
-		out << YAML::EndSeq;
+		if (transform.rotation != Transform::identity.rotation)
+		{
+			out << YAML::Key << "Rotation";
+			out << YAML::Value;
+			out << YAML::Flow;
+			out << YAML::BeginSeq;
+			out << transform.rotation.x;
+			out << transform.rotation.y;
+			out << transform.rotation.z;
+			out << YAML::EndSeq;
+		}
+
+		if (transform.scale != Transform::identity.scale)
+		{
+			out << YAML::Key << "Scale";
+			out << YAML::Value;
+			out << YAML::Flow;
+			out << YAML::BeginSeq;
+			out << transform.scale.x;
+			out << transform.scale.y;
+			out << transform.scale.z;
+			out << YAML::EndSeq;
+		}
 
 		out << YAML::EndMap;
 
@@ -94,8 +108,11 @@ namespace wl
 
 		out << YAML::Key << "Model" << YAML::Value << model.name;
 
-		out << YAML::Key << "Transform";
-		out << YAML::Value << model.transform;
+		if (model.transform != Transform::identity)
+		{
+			out << YAML::Key << "Transform";
+			out << YAML::Value << model.transform;
+		}
 
 		out << YAML::Key << "Mesh";
 		out << YAML::Value << model.m_meshPath;
@@ -138,7 +155,7 @@ namespace wl
 		out << YAML::Key << "Models";
 		out << YAML::Value;
 		out << YAML::BeginSeq;
-		for (auto& model : scene.m_models)
+		for (auto &model : scene.m_models)
 		{
 			out << *model;
 		}
@@ -169,11 +186,12 @@ namespace wl
 		for (auto model : data["Models"])
 		{
 			std::string name = model["Model"].as<std::string>();
-			Transform transform = model["Transform"].as<wl::Transform>();
+			if (auto t = model["Transform"]) Transform transform = t.as<wl::Transform>();
 			std::string meshPath = model["Mesh"].as<std::string>();
 			std::string texturePath = model["Texture"].as<std::string>();
 			std::shared_ptr<Model> m = std::make_shared<Model>(meshPath, texturePath, shader, name);
-			m->transform = transform;
+			if (auto t = model["Transform"]) m->transform = t.as<wl::Transform>();
+			else m->transform = Transform();
 			scene->AddModel(m);
 		}
 
@@ -185,10 +203,10 @@ namespace wl
 		if (auto cam = data["Camera"])
 		{
 			std::shared_ptr<Camera> camera = std::make_shared<Camera>();
-			if (auto a = cam["Transform"])			camera->transform			= a.as<Transform>();
-			if (auto a = cam["FOV"])				camera->fov					= a.as<float>();
-			if (auto a = cam["NearPlane"])			camera->nearPlane			= a.as<float>();
-			if (auto a = cam["FarPlane"])			camera->farPlane			= a.as<float>();
+			if (auto a = cam["Transform"])			camera->transform = a.as<Transform>();
+			if (auto a = cam["FOV"])				camera->fov = a.as<float>();
+			if (auto a = cam["NearPlane"])			camera->nearPlane = a.as<float>();
+			if (auto a = cam["FarPlane"])			camera->farPlane = a.as<float>();
 			scene->m_camera = camera;
 		}
 		else
