@@ -16,8 +16,8 @@ namespace wl
 	class Shader
 	{
 	public:
-		Shader(	const wchar_t *pPath = L"shaders/PixelShader.cso",
-				const wchar_t *vPath = L"shaders/VertexShader.cso");
+		Shader(	const wchar_t *pPath = L"shaders/Default_Pixel.cso",
+				const wchar_t *vPath = L"shaders/Default_Vertex.cso");
 		void Init(const wchar_t *pPath, const wchar_t *vPath);
 		void Bind();
 	private:
