@@ -2,6 +2,8 @@
 namespace wl
 {
 
+	const Transform Transform::identity{};
+
 	void Transform::SetPosition(float x, float y, float z)
 	{
 		position = { x, y, z };
