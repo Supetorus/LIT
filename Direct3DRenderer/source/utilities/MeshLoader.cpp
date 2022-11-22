@@ -42,17 +42,25 @@ namespace wl
 			vertices.reserve(assimpMesh->mNumVertices);
 			for (unsigned int i = 0; i < assimpMesh->mNumVertices; i++)
 			{
-				vertices.push_back(
-					Mesh::Vertex
+				Mesh::Vertex vertex =
+				{
 					{
-						{
-							assimpMesh->mVertices[i].x,
-							assimpMesh->mVertices[i].y,
-							assimpMesh->mVertices[i].z,
-						},
-						GetUVCoords(assimpMesh, i)
-					}
-				);
+						assimpMesh->mVertices[i].x,
+						assimpMesh->mVertices[i].y,
+						assimpMesh->mVertices[i].z,
+					},
+					GetUVCoords(assimpMesh, i)
+				};
+				if (assimpMesh->HasNormals())
+				{
+					vertex.Normal =
+					{
+						assimpMesh->mNormals[i].x,
+						assimpMesh->mNormals[i].y,
+						assimpMesh->mNormals[i].z,
+					};
+				}
+				vertices.push_back(vertex);
 			}
 
 			std::vector<uint16_t> indices;
