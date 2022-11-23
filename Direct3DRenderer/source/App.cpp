@@ -27,13 +27,14 @@ namespace wl
 
 	void App::Run()
 	{
-		//std::shared_ptr<Camera> camera = std::make_shared<Camera>();
-		//camera->transform.position.z = -5;
-		LOG("Scene Loaded");
+		ConstantBuffer light(sizeof(dx::XMVECTOR), ShaderStage::Pixel);
+		dx::XMVECTOR lightPos{ -0.8f, 0.7f, 0.0f };
+		light.SetData(&lightPos);
+		light.Bind(0);
+
 
 		{
 			SceneSerializer serializer;
-			//serializer.Serialize("scenes/test.scn", *m_scene);
 			m_scene = serializer.Deserialize("scenes/test1.scn");
 		}
 		m_renderer->SetCamera(m_scene->m_camera);
