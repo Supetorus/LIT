@@ -17,7 +17,7 @@ namespace wl
 		D3D11_SUBRESOURCE_DATA tsd{};
 		tsd.pSysMem = new byte[size]{0};
 		ASSERT_HR(DXContext::Instance->m_device->CreateBuffer(&tbd, &tsd, m_buffer.GetAddressOf()),
-			"Unable to create transform matrix buffer.");
+			"Unable to create constant buffer.");
 	}
 
 	void ConstantBuffer::SetData(const void *data)

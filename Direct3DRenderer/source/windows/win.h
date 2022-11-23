@@ -58,7 +58,7 @@ std::wstring TranslateError(HRESULT hr);
 		if (FAILED(hr__LINE__))																					\
 		{																										\
 			std::string err__LINE__ = ::wl::wstrToStr(TranslateError(hr__LINE__));							\
-			LOG("HR assertion failed: {0}\n\tFile: {1}\n\tLine: {2}\n\t{3}", msg, __FILE__, __LINE__, err__LINE__);	\
+			LOG_E("HR assertion failed: {0}\n\tFile: {1}\n\tLine: {2}\n\t{3}", msg, __FILE__, __LINE__, err__LINE__);	\
 			__debugbreak();																						\
 		}																										\
 	}
