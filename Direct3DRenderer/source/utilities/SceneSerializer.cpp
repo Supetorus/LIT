@@ -6,6 +6,7 @@
 #include "Camera.h"
 #include "Transform.h"
 #include <fstream>
+#include <unordered_map>
 
 namespace YAML
 {
@@ -120,6 +121,9 @@ namespace wl
 		out << YAML::Key << "Texture";
 		out << YAML::Value << model.m_texturePath;
 
+		out << YAML::Key << "Shader";
+		out << YAML::Value << model.m_shader->m_name;
+
 		out << YAML::EndMap;
 
 		return out;
@@ -180,15 +184,21 @@ namespace wl
 
 		YAML::Node data = YAML::Load(strStream.str());
 
-		std::shared_ptr<Shader> shader = std::make_shared<Shader>();
-		std::shared_ptr<Scene> scene = std::make_shared<Scene>();
+		std::unordered_map<std::string, std::shared_ptr<Shader>> shaders;
+		shaders["Default"] = std::make_shared<Shader>();
+		shaders["Phong"] = std::make_shared<Shader>(L"shaders/Phong_Pixel.cso", L"shaders/Phong_Vertex.cso", "Phong");
 
+		std::shared_ptr<Scene> scene = std::make_shared<Scene>();
 		for (auto model : data["Models"])
 		{
-			std::string name = model["Model"].as<std::string>();
-			if (auto t = model["Transform"]) Transform transform = t.as<wl::Transform>();
-			std::string meshPath = model["Mesh"].as<std::string>();
-			std::string texturePath = model["Texture"].as<std::string>();
+			std::string name		= model["Model"].as<std::string>();
+			std::string meshPath	= model["Mesh"].as<std::string>();
+			std::string texturePath;
+			if (auto t = model["Texture"]) texturePath = t.as<std::string>();
+			else texturePath = "textures/white.png";
+			std::shared_ptr<Shader> shader;
+			if (auto s = model["Shader"]) shader = shaders[s.as<std::string>()];
+			else shader = shaders["Default"];
 			std::shared_ptr<Model> m = std::make_shared<Model>(meshPath, texturePath, shader, name);
 			if (auto t = model["Transform"]) m->transform = t.as<wl::Transform>();
 			else m->transform = Transform();
@@ -214,6 +224,7 @@ namespace wl
 			scene->m_camera = std::make_shared<Camera>();
 		}
 
+		LOG("Scene Loaded {0}", scene->m_filepath);
 		return scene;
 	}
 
