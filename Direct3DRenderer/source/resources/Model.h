@@ -19,7 +19,6 @@ namespace wl
 
 	class Model
 	{
-		friend class SceneSerializer;
 		friend YAML::Emitter &operator<< (YAML::Emitter &out, const Model &model);
 	public:
 		Model(const std::string &meshPath, const std::string &texturePath, std::shared_ptr<Shader> shader, std::string name = "unnamed model");

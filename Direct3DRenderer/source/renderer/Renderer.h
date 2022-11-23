@@ -29,16 +29,6 @@ namespace wl
 		{
 			DirectX::XMMATRIX transform;
 		};
-		struct ColorList
-		{
-			struct
-			{
-				float r;
-				float g;
-				float b;
-				float a;
-			}face_colors[6];
-		};
 	private:
 		void bindRenderTargets() const;
 		void createSwapChain();
