@@ -47,20 +47,6 @@ namespace wl
 			//bottom face -y
 			7, 3, 5,
 			3, 1, 5,
-
-
-			//0, 2, 6,			// 1, 3, 7, 5,
-			//0, 6, 4,			// 4, 8, 7, 3,
-			//3, 7, 6,			// 8, 6, 5, 7,
-			//3, 7, 2,			// 6, 8, 4, 2,
-			//7, 5, 4,			// 2, 4, 3, 1,
-			//7, 5, 6,			// 6, 2, 1, 5,
-			//5, 7, 3,
-			//5, 7, 1,
-			//1, 3, 2,
-			//1, 3, 0,
-			//5, 1, 0,
-			//5, 1, 4,
 		};
 
 		Mesh::SubMesh *subMesh = new Mesh::SubMesh;
@@ -76,7 +62,7 @@ namespace wl
 
 	Skybox::Skybox(const std::string &texturePath)
 	{
-		m_shader = std::make_shared<Shader>(L"shaders/Skybox_Pixel.cso", L"shaders/Skybox_Vertex.cso");
+		m_shader = std::make_shared<Shader>(L"shaders/Skybox_Pixel.cso", L"shaders/Skybox_Vertex.cso", "Skybox");
 		m_cubeMesh = MakeInvertedCube();
 		m_cubemap = std::make_shared<CubeMap>(texturePath);
 	}
@@ -86,7 +72,6 @@ namespace wl
 		m_shader->Bind();
 		m_cubemap->Bind(0);
 		m_sampler.Bind(0);
-		//renderer.SetObjectMatrix({});
 		m_cubeMesh->Draw(renderer);
 	}
 
@@ -96,7 +81,3 @@ namespace wl
 	}
 
 }
-
-// progammatically load cube mesh so that the vertex structure matches
-// Vertex Shader + Pixel Shader chilli
-// 

@@ -35,16 +35,22 @@ DXGI_FORMAT GetFormatFromDesc(D3D11_SIGNATURE_PARAMETER_DESC &desc)
 namespace wl
 {
 
-	Shader::Shader(const wchar_t *pPath, const wchar_t *vPath) :
-		m_vPath(vPath)
+	Shader::Shader() :
+		Shader(L"shaders/Default_Pixel.cso", L"shaders/Default_Vertex.cso", "Default")
+	{ }
+
+	Shader::Shader(const wchar_t *pPath, const wchar_t *vPath, const std::string &name) :
+		m_vPath(vPath),
+		m_name(name)
 	{
 		loadShader(pPath, ShaderStage::Pixel);
 		loadShader(vPath, ShaderStage::Vertex);
 		generateInputLayout();
 	}
 
-	void Shader::Init(const wchar_t *pPath, const wchar_t *vPath)
+	void Shader::Init(const wchar_t *pPath, const wchar_t *vPath, const std::string &name)
 	{
+		m_name = name;
 		m_vPath = vPath;
 		loadShader(pPath, ShaderStage::Pixel);
 		loadShader(vPath, ShaderStage::Vertex);
@@ -58,25 +64,8 @@ namespace wl
 		DXContext::Instance->m_context->IASetInputLayout(m_inputLayout.Get());
 	}
 
-	//void Shader::SetLayout(D3D11_INPUT_ELEMENT_DESC layoutElements[], uint32_t numElements)
-	//{
-	//	wrl::ComPtr<ID3DBlob> pBlob;
-	//	ASSERT_HR(
-	//		D3DReadFileToBlob(m_vPath, &pBlob),
-	//		"Unable to read in shader file."
-	//	);
-
-	//	ASSERT_HR(
-	//		DXContext::Instance->m_device->CreateInputLayout(layoutElements, numElements, pBlob->GetBufferPointer(), pBlob->GetBufferSize(), &m_inputLayout),
-	//		"Failed to create input layout."
-	//	);
-	//}
-
 	void Shader::generateInputLayout()
 	{
-		//DirectX11RendererAPI &graphics = *(DirectX11RendererAPI *)RendererAPI::Get();
-
-		//wrl::ComPtr<ID3DBlob> pBlob = ReadBlob(m_VertexShaderFile);
 		wrl::ComPtr<ID3DBlob> pBlob;
 		ASSERT_HR(
 			D3DReadFileToBlob(m_vPath, &pBlob),
@@ -85,17 +74,10 @@ namespace wl
 
 		// reflect on the shader
 		ID3D11ShaderReflection *pReflector = nullptr;
-		//HRESULT hr =
 		ASSERT_HR(
 			D3DReflect(pBlob->GetBufferPointer(), pBlob->GetBufferSize(), IID_ID3D11ShaderReflection, (void **)&pReflector),
 			"shader reflection failed"
 		);
-
-		// check if the reflection failed
-		//if (FAILED(hr)) {
-		//	DBOUT("shader reflection failed" << std::endl);
-		//	return;
-		//}
 
 		// get the descriptor for the shader
 		D3D11_SHADER_DESC reflectDesc;
@@ -112,30 +94,13 @@ namespace wl
 			ied[i] = { ps.SemanticName, ps.SemanticIndex, GetFormatFromDesc(ps), 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 };
 		}
 
-		//hr = 
 		ASSERT_HR(
 			DXContext::Instance->m_device->CreateInputLayout(ied, numInputParams, pBlob->GetBufferPointer(), pBlob->GetBufferSize(), &m_inputLayout),
 			"Failed to create layout from reflection"
 		);
 
-		//if (FAILED(hr)) {
-		//	DBOUT("failed to create layout from reflection" << std::endl);
-		//}
-
 		delete[] ied;
 	}
-
-	//void Shader::SetLayout()
-	//{
-	//	D3D11_INPUT_ELEMENT_DESC elemDescs[]
-	//	{
-	//		{"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
-	//		{"TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0},
-	//		//{"NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0},
-	//	};
-
-	//	SetLayout(elemDescs, 2);
-	//}
 
 	void Shader::loadShader(const wchar_t *path, ShaderStage stage)
 	{

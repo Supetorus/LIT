@@ -5,8 +5,14 @@
 #include "renderer/DX.h"
 #include "DirectXMath.h"
 
+namespace YAML
+{
+	class Emitter;
+}
+
 namespace wl
 {
+	class Model;
 	enum class ShaderStage
 	{
 		Vertex,
@@ -15,12 +21,15 @@ namespace wl
 
 	class Shader
 	{
+		//friend class SceneSerializer;
+		friend YAML::Emitter &operator<< (YAML::Emitter &out, const Model &model);
 	public:
-		Shader(	const wchar_t *pPath = L"shaders/Default_Pixel.cso",
-				const wchar_t *vPath = L"shaders/Default_Vertex.cso");
-		void Init(const wchar_t *pPath, const wchar_t *vPath);
+		Shader();
+		Shader(const wchar_t *pPath, const wchar_t *vPath, const std::string &name);
+		void Init(const wchar_t *pPath, const wchar_t *vPath, const std::string &name);
 		void Bind();
 	private:
+		std::string m_name;
 		void generateInputLayout();
 		void loadShader(const wchar_t *path, ShaderStage stage);
 		wrl::ComPtr<ID3D11PixelShader> m_pixelShader;
