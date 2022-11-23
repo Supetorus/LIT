@@ -9,6 +9,7 @@
 #include "Controller.h"
 #include <memory>
 #include <filesystem>
+#include <PointLight.h>
 
 constexpr float pi = 3.14159265359;
 constexpr float halfPi = pi / 2;
@@ -27,11 +28,8 @@ namespace wl
 
 	void App::Run()
 	{
-		ConstantBuffer light(sizeof(dx::XMVECTOR), ShaderStage::Pixel);
-		dx::XMVECTOR lightPos{ -0.8f, 0.7f, 0.0f };
-		light.SetData(&lightPos);
-		light.Bind(0);
-
+		PointLight pointLight;
+		pointLight.Bind();
 
 		{
 			SceneSerializer serializer;
