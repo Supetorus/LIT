@@ -31,7 +31,7 @@ float4 main(PSInput input) : SV_TARGET
 	const float att = 1.0f / (attConst + attLin * distToL + attQuad * (distToL * distToL));
 	const float3 diffuse = diffuseColor * diffuseIntensity * att * max(0.0f, dot(dirToL, input.normal));
 	//const float3 diffuse = tex.Sample(splr, input.tex) * diffuseIntensity * att * max(0.0f, dot(dirToL, input.normal));
-	return float4(saturate(diffuse + ambient) * tex.Sample(splr, input.tex), 1.0f);
+	return float4(saturate(diffuse + ambient) * (float3)tex.Sample(splr, input.tex), 1.0f);
 	
 	
 	
