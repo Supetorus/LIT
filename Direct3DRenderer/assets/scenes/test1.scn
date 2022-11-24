@@ -1,26 +1,64 @@
 # Scene
 Path: scenes/test1.scn
 Models:
-  - Model: Dog
+  - Model: Suzanne
     Transform:
-      Position: [0.356426835, -0.339898914, -0.148856223]
-      Rotation: [0, 0.571912587, 0]
-      Scale: [0.00968893804, 0.00968893804, 0.00968893804]
-    Mesh: models/dog.glb
-    Texture: textures/dog_diffuse.png
+      Position: [-1.04457617, 0.641348302, 2.16678882]
+    Mesh: models/suzanne.obj
+    Texture: textures/white.png
+    Shader: Phong
   - Model: Cube
     Transform:
-      Position: [-0.840358496, 0, 0.181627274]
-      Rotation: [-0.658465147, 0.598105848, 0]
-      Scale: [0.680665195, 0.680665195, 0.680665195]
+      Position: [1.28727603, -0.458015174, 1.38007641]
+      Rotation: [0.324153781, -0.181386977, 0]
     Mesh: models/cube.obj
     Texture: textures/eiffel.jpg
+    Shader: Phong
+  - Model: Sphere
+    Transform:
+      Position: [0.80941838, 0.579282522, 0.0646853819]
+      Rotation: [2.93951344, -3.02092719, 0]
+      Scale: [0.453670442, 0.453670442, 0.453670442]
+    Mesh: models/sphere.obj
+    Texture: textures/obsidian.png
+    Shader: Phong
+  - Model: Skull Phong
+    Transform:
+      Position: [0.0409899876, 0.0777520314, 1.96985984]
+      Rotation: [1.0854516, 0, 0]
+      Scale: [0.0486510731, 0.0486510731, 0.0486510731]
+    Mesh: models/skull.obj
+    Texture: textures/skull.jpg
+    Shader: Phong
+  - Model: Skull Default
+    Transform:
+      Position: [-0.155169636, -0.574221551, 3.54917908]
+      Rotation: [1.0854516, 0, 0]
+      Scale: [0.0504648834, 0.0504648834, 0.0504648834]
+    Mesh: models/skull.obj
+    Texture: textures/skull.jpg
+    Shader: Default
+  - Model: Cat
+    Transform:
+      Position: [-0.57641238, -0.828754127, 0.546188295]
+      Rotation: [0, -6.67121029, 0]
+      Scale: [0.275027126, 0.275027126, 0.275027126]
+    Mesh: models/cat.glb
+    Texture: textures/cat_diffuse.png
+    Shader: Phong
+  - Model: Dog
+    Transform:
+      Position: [0.274292737, -0.888593316, 0.849537373]
+      Rotation: [0, 0.484708846, 0]
+      Scale: [0.0129081002, 0.0129081002, 0.0129081002]
+    Mesh: models/dog.glb
+    Texture: textures/dog_diffuse.png
+    Shader: Phong
 Skybox: Storforsen3
 Camera:
   Transform:
-    Position: [-0.19856216, 0.346887171, -3.14395118]
-    Rotation: [0.0490399376, -0.0814386159, 0]
-    Scale: [1, 1, 1]
+    Position: [-0.390036345, 0, -3.19686818]
+    Rotation: [-0.041881673, 0.0530712754, 0]
   FOV: 45
   NearPlane: 0.0500000007
   FarPlane: 50

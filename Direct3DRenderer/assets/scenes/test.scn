@@ -3,30 +3,33 @@ Path: scenes/test.scn
 Models:
   - Model: Skull
     Transform:
-      Position: [0.604084909, 0.457082421, -2.86757565]
-      Rotation: [1.57079637, 0, 0]
+      Position: [-0.111051761, -1.66833127, 0]
+      Rotation: [1.37106037, -0.630815089, 0]
       Scale: [0.0500000007, 0.0500000007, 0.0500000007]
     Mesh: models/skull.obj
     Texture: textures/skull.jpg
   - Model: Sphere
     Transform:
-      Position: [1.11506617, 0, 0.166856244]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
+      Position: [1.70637524, 0, 0]
+      Scale: [0.808522999, 0.808522999, 0.808522999]
     Mesh: models/sphere.obj
     Texture: textures/obsidian.png
   - Model: Ogre
     Transform:
-      Position: [-0.494673401, 0.109149516, -0.195455238]
-      Rotation: [0, 0.863315225, 0]
-      Scale: [1, 1, 1]
+      Position: [0, 0.811126947, 0]
+      Rotation: [0, 0.495050192, 0]
     Mesh: models/ogre.obj
     Texture: textures/ogre_diffuse.bmp
   - Model: Cube
     Transform:
-      Position: [-0.393006921, -1.49633217, -0.286830872]
-      Rotation: [-0.596094966, -1.12751317, 0]
-      Scale: [1, 1, 1]
+      Position: [-1.61825442, 0, 0]
+      Rotation: [0.699021816, 0.471742809, 0]
     Mesh: models/cube.obj
     Texture: textures/flower.jpg
 Skybox: Storforsen3
+Camera:
+  Transform:
+    Position: [-0.0371838659, -0.430658966, -5.25938892]
+  FOV: 45
+  NearPlane: 0.5
+  FarPlane: 50
