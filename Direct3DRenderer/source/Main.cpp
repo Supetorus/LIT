@@ -7,7 +7,6 @@ int main(int argc, char** argv)
 
 	wl::Log::Init();
 	wl::App app;
-	app.Init();
 	app.Run();
 
 	return 0;

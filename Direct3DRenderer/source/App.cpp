@@ -13,7 +13,7 @@
 
 namespace wl
 {
-	void App::Init()
+	App::App()
 	{
 		std::filesystem::current_path("assets/");
 		m_gTimer.Reset();

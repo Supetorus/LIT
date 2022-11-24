@@ -15,8 +15,7 @@ namespace wl
 	class App
 	{
 	public:
-		App() = default;
-		void Init();
+		App();
 		void Run();
 	private:
 		Window m_window;
