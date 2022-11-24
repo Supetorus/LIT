@@ -11,11 +11,6 @@
 #include <filesystem>
 #include <PointLight.h>
 
-constexpr float pi = 3.14159265359;
-constexpr float halfPi = pi / 2;
-constexpr float radToDeg = halfPi / 3.14159f;
-constexpr float degToRad = pi / 180;
-
 namespace wl
 {
 	void App::Init()

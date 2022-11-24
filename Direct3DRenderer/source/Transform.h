@@ -6,6 +6,9 @@ namespace wl
 	class Transform
 	{
 	public:
+		/// <summary>
+		/// 3 floating point values, x, y, and z.
+		/// </summary>
 		struct f3
 		{
 			float x{};
@@ -20,6 +23,9 @@ namespace wl
 				return !(*this == right);
 			}
 		};
+		/// <summary>
+		/// Zero position, zero rotation, scale of one.
+		/// </summary>
 		const static Transform identity;
 		void SetPosition(float x, float y, float z);
 		void SetRotation(float x, float y, float z);
@@ -33,8 +39,8 @@ namespace wl
 			return !(*this == right);
 		}
 		f3 position{};
-		f3 scale{ 1, 1, 1 };
 		f3 rotation{};
+		f3 scale{ 1, 1, 1 };
 	};
 
 }

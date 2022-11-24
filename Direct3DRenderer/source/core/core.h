@@ -19,7 +19,7 @@ constexpr Ref<T> CreateRef(Args&& ... args)
 #if defined(DEBUG) | defined(_DEBUG)
 	#define ASSERT(x, msg, ... )											\
 		{if (!(x)) {														\
-			LOG_W("Assertion failed: {0}\n\tFile: {1}\n\tLine: {2}\n\t{3}",	\
+			LOG_E("Assertion failed: {0}\n\tFile: {1}\n\tLine: {2}\n\t{3}",	\
 				 msg, __FILE__, __LINE__,__VA_ARGS__);						\
 		__debugbreak(); }}
 #else

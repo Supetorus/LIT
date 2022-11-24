@@ -8,7 +8,6 @@ namespace wl
 	{
 
 	public:
-		//static void Init();
 		static Input Instance;
 
 		enum MouseCodes

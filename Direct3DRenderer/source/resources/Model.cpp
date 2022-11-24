@@ -27,7 +27,7 @@ namespace wl
 		m_shader->Bind();
 		m_texture->Bind(0);
 		m_sampler.Bind(0);
-		renderer.SetObjectMatrix(transform);
+		renderer.SetModelMatrix(transform);
 		m_mesh->Draw(renderer);
 	}
 

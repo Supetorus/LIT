@@ -11,6 +11,6 @@ namespace wl
 		static void Init();
 		DXContext();
 		wrl::ComPtr<ID3D11Device> m_device{};
-		wrl::ComPtr<ID3D11DeviceContext> m_context{}; // immediate context
+		wrl::ComPtr<ID3D11DeviceContext> m_context{};
 	};
 }

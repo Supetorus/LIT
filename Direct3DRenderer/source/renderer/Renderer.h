@@ -15,21 +15,47 @@ namespace wl
 	{
 	public:
 		Renderer() = delete;
+		/// <param name="window">The window which this renderer will draw to</param>
 		Renderer(const Window &window);
+		/// <summary>
+		/// Clears the buffer to a uniform color.
+		/// </summary>
 		void BeginFrame();
-		//void SetViewProjectionMatrix(const Transform &cameraTransform) const;
+		/// <summary>
+		/// Sets the view projection matrix using the camera's position.
+		/// </summary>
 		void SetViewProjectionMatrix() const;
-		void SetObjectMatrix(const Transform &objectTransform) const;
+		/// <summary>
+		/// Sets the model's matrix
+		/// </summary>
+		/// <param name="objectTransform">Position, rotation, and scale of the model.</param>
+		void SetModelMatrix(const Transform &objectTransform) const;
+		/// <summary>
+		/// Draws using whatever resources are currently bound
+		/// </summary>
+		/// <param name="indexCount">The number of indices which should be drawn</param>
 		void Draw(uint32_t indexCount) const;
+		/// <summary>
+		/// Swaps the front and back buffer.
+		/// </summary>
 		void EndFrame();
+		/// <summary>
+		/// Sets the draw mode to wireframe
+		/// </summary>
 		void SetModeWireframe() const;
+		/// <summary>
+		/// Sets the draw mode to fill.
+		/// </summary>
 		void SetModeFill() const;
+		/// <summary>
+		/// Sets the camera to be used for calculating the view projection matrix. Call this if the primary camera changes.
+		/// </summary>
 		void SetCamera(std::shared_ptr<Camera> newCamera);
+	private:
 		struct TransformMatrix
 		{
 			DirectX::XMMATRIX transform;
 		};
-	private:
 		void bindRenderTargets() const;
 		void createSwapChain();
 		void createRenderTarget();
@@ -37,8 +63,8 @@ namespace wl
 		void createViewport();
 
 		const Window &m_window;
+		std::shared_ptr<Camera> m_camera;
 
-		//swap chain stuff
 		wrl::ComPtr<IDXGISwapChain> m_swapChain;
 		wrl::ComPtr<ID3D11Texture2D> m_backBuffer;
 		wrl::ComPtr<ID3D11RenderTargetView> m_renderTargetView;
@@ -46,6 +72,5 @@ namespace wl
 		wrl::ComPtr<ID3D11DepthStencilView> m_depthStencilView;
 		Microsoft::WRL::ComPtr<ID3D11DepthStencilState> pStencil;
 		D3D11_VIEWPORT m_viewport;
-		std::shared_ptr<Camera> m_camera;
 	};
 }

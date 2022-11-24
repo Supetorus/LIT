@@ -48,15 +48,6 @@ namespace wl
 		generateInputLayout();
 	}
 
-	void Shader::Init(const wchar_t *pPath, const wchar_t *vPath, const std::string &name)
-	{
-		m_name = name;
-		m_vPath = vPath;
-		loadShader(pPath, ShaderStage::Pixel);
-		loadShader(vPath, ShaderStage::Vertex);
-		generateInputLayout();
-	}
-
 	void Shader::Bind()
 	{
 		DXContext::Instance->m_context->VSSetShader(m_vertexShader.Get(), nullptr, 0u);

@@ -10,6 +10,9 @@ namespace wl
 	{
 	public:
 		PointLight()=default;
+		/// <summary>
+		/// Binds the light to the pixel shader.
+		/// </summary>
 		void Bind();
 	private:
 		struct LightData

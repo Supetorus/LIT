@@ -72,7 +72,7 @@ namespace wl
 		vpBuffer.Bind(0);
 	}
 
-	void Renderer::SetObjectMatrix(const Transform &objectTransform) const
+	void Renderer::SetModelMatrix(const Transform &objectTransform) const
 	{
 		dx::XMMATRIX objMatrix
 		{

@@ -15,10 +15,13 @@ namespace wl
 		friend class Controller;
 
 	public:
+		/// <summary>
+		/// Draws all models in the scene with the owned camera.
+		/// </summary>
+		/// <param name="renderer">The renderer which will draw the models.</param>
 		void Draw(const Renderer &renderer) const;
 		void AddModel(std::shared_ptr<Model> model);
 		void SetSkybox(std::shared_ptr<Skybox> skybox);
-		//void SetCamera(std::shared_ptr<Camera> camera);
 		std::shared_ptr<Camera> m_camera;
 	private:
 		std::string m_filepath{};

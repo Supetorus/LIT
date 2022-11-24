@@ -10,10 +10,12 @@
 
 namespace wl
 {
+
 	std::string wstrToStr(std::wstring wstr)
 	{
 		return { wstr.begin(), wstr.end() };
 	}
+
 	void ManipulateTransform(Transform &transform, float moveSpeed, float scaleSpeed, float rotationSpeed, float dt)
 	{
 		float speed = 1.0f;
@@ -50,4 +52,5 @@ namespace wl
 			transform.scale.z -= transform.scale.z * scaleSpeed * dt;
 		}
 	}
+
 }
