@@ -24,6 +24,7 @@ namespace wl
 		Model(const std::string &meshPath, const std::string &texturePath, std::shared_ptr<Shader> shader, std::string name = "unnamed model");
 		void Draw(const Renderer &renderer) const;
 		const std::shared_ptr<Shader> GetShader() const;
+		std::shared_ptr<Model> Clone() const;
 		std::string name{};
 		Transform transform{};
 	private:

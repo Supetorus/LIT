@@ -36,4 +36,11 @@ namespace wl
 		return m_shader;
 	}
 
+	std::shared_ptr<Model> Model::Clone() const
+	{
+		std::shared_ptr<Model> model = std::make_shared<Model>(m_meshPath, m_texturePath, m_shader, name);
+		model->transform = transform;
+		return model;
+	}
+
 }

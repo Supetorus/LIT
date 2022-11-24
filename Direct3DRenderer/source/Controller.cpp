@@ -20,9 +20,7 @@ namespace wl
 	Controller::Controller(std::shared_ptr<Scene> &scene, Renderer &renderer) :
 		m_scene(scene),
 		m_renderer(renderer)
-	{
-
-	}
+	{ }
 
 	void Controller::Update(float deltaTime)
 	{
@@ -46,6 +44,11 @@ namespace wl
 				SceneSerializer serializer;
 				m_scene = serializer.Deserialize(m_scene->m_filepath);
 				m_renderer.SetCamera(m_scene->m_camera);
+			}
+			else if (Input::Instance.GetKeyPressed('D'))
+			{ // ctrl + d duplicates model
+				m_scene->AddModel(m_scene->m_models[m_currentModel]->Clone());
+				LOG("Duplicating Model: {0}", m_scene->m_models[m_currentModel]->name);
 			}
 		}
 		else if (m_isCameraMode)
