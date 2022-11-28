@@ -32,10 +32,14 @@ namespace wl
 		const char right = 0x27;
 		const char up = 0x26;
 		const char down = 0x28;
-		if (Input::Instance.GetKeyDown(left))	transform.rotation.y -= rotationSpeed * dt;
-		if (Input::Instance.GetKeyDown(right))	transform.rotation.y += rotationSpeed * dt;
-		if (Input::Instance.GetKeyDown(up))		transform.rotation.x -= rotationSpeed * dt;
-		if (Input::Instance.GetKeyDown(down))	transform.rotation.x += rotationSpeed * dt;
+		const char pageUp = 0x21;
+		const char pageDown = 0x22;
+		if (Input::Instance.GetKeyDown(left))		transform.rotation.y -= rotationSpeed * dt;
+		if (Input::Instance.GetKeyDown(right))		transform.rotation.y += rotationSpeed * dt;
+		if (Input::Instance.GetKeyDown(up))			transform.rotation.x -= rotationSpeed * dt;
+		if (Input::Instance.GetKeyDown(down))		transform.rotation.x += rotationSpeed * dt;
+		if (Input::Instance.GetKeyDown(pageUp))		transform.rotation.z += rotationSpeed * dt;
+		if (Input::Instance.GetKeyDown(pageDown))	transform.rotation.z -= rotationSpeed * dt;
 		
 		const char lessThan = 0xBC;
 		const char greaterThan = 0xBE;
