@@ -165,8 +165,11 @@ namespace wl
 		}
 		out << YAML::EndSeq;
 
-		out << YAML::Key << "Skybox";
-		out << YAML::Value << scene.m_skybox->GetCubeMap().GetTexturePath();
+		if (scene.m_skybox)
+		{
+			out << YAML::Key << "Skybox";
+			out << YAML::Value << scene.m_skybox->GetCubeMap().GetTexturePath();
+		}
 
 		out << *scene.m_camera;
 
@@ -205,10 +208,13 @@ namespace wl
 			scene->AddModel(m);
 		}
 
-		std::shared_ptr<Skybox> skybox = std::make_shared<Skybox>(data["Skybox"].as<std::string>());
-		scene->SetSkybox(skybox);
+		if (auto s = data["Skybox"])
+		{
+			std::shared_ptr<Skybox> skybox = std::make_shared<Skybox>(s.as<std::string>());
+			scene->SetSkybox(skybox);
+		}
 
-		scene->m_filepath = data["Path"].as<std::string>();
+		scene->m_filepath = filepath;
 
 		if (auto cam = data["Camera"])
 		{

@@ -1,0 +1,78 @@
+# Scene
+Path: scenes/demo.scn
+Models:
+# Center
+  - Model: Grass
+    Transform:
+      Position: [0, -1, 0]
+      Rotation: [0, 0, 1.57079637]
+    Mesh: models/quad.obj
+    Texture: textures/grassy_cobblestone.jpg
+    Shader: Phong
+# Right
+  - Model: Grass
+    Transform:
+      Position: [1, -1, 0]
+      Rotation: [0, 0, 1.57079637]
+    Mesh: models/quad.obj
+    Texture: textures/grassy_cobblestone.jpg
+    Shader: Phong
+  - Model: Grass
+    Transform:
+      Position: [1, -1, 1]
+      Rotation: [0, 0, 1.57079637]
+    Mesh: models/quad.obj
+    Texture: textures/grassy_cobblestone.jpg
+    Shader: Phong
+  - Model: Grass
+    Transform:
+      Position: [1, -1, -1]
+      Rotation: [0, 0, 1.57079637]
+    Mesh: models/quad.obj
+    Texture: textures/grassy_cobblestone.jpg
+    Shader: Phong
+# Left
+  - Model: Grass
+    Transform:
+      Position: [-1, -1, 0]
+      Rotation: [0, 0, 1.57079637]
+    Mesh: models/quad.obj
+    Texture: textures/grassy_cobblestone.jpg
+    Shader: Phong
+  - Model: Grass
+    Transform:
+      Position: [-1, -1, 1]
+      Rotation: [0, 0, 1.57079637]
+    Mesh: models/quad.obj
+    Texture: textures/grassy_cobblestone.jpg
+    Shader: Phong
+  - Model: Grass
+    Transform:
+      Position: [-1, -1, -1]
+      Rotation: [0, 0, 1.57079637]
+    Mesh: models/quad.obj
+    Texture: textures/grassy_cobblestone.jpg
+    Shader: Phong
+# Far
+  - Model: Grass
+    Transform:
+      Position: [0, -1, 1]
+      Rotation: [0, 0, 1.57079637]
+    Mesh: models/quad.obj
+    Texture: textures/grassy_cobblestone.jpg
+    Shader: Phong
+# Close
+  - Model: Grass
+    Transform:
+      Position: [0, -1, -1]
+      Rotation: [0, 0, 1.57079637]
+    Mesh: models/quad.obj
+    Texture: textures/grassy_cobblestone.jpg
+    Shader: Phong
+Camera:
+  Transform:
+    Position: [0.0344385915, 0.845963359, -3.72385812]
+    Rotation: [0.371272743, 0, 0]
+  FOV: 45
+  NearPlane: 0.5
+  FarPlane: 50

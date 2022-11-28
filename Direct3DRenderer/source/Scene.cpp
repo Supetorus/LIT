@@ -12,7 +12,7 @@ namespace wl
 		{
 			model->Draw(renderer);
 		}
-		m_skybox->Draw(renderer);
+		if (m_skybox) m_skybox->Draw(renderer);
 	}
 
 	void Scene::AddModel(std::shared_ptr<Model> model)

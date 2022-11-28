@@ -3,13 +3,15 @@ Path: scenes/test1.scn
 Models:
   - Model: Suzanne
     Transform:
-      Position: [-1.04457617, 0.641348302, 2.16678882]
+      Position: [-1.86243713, 1.04815555, 1.20805788]
+      Rotation: [0.124529101, -0.713424921, 0]
+      Scale: [0.494607925, 0.494607925, 0.494607925]
     Mesh: models/suzanne.obj
     Texture: textures/white.png
     Shader: Phong
   - Model: Cube
     Transform:
-      Position: [1.28727603, -0.458015174, 1.38007641]
+      Position: [1.21992207, -0.482101202, 0.920543194]
       Rotation: [0.324153781, -0.181386977, 0]
     Mesh: models/cube.obj
     Texture: textures/eiffel.jpg
@@ -40,7 +42,29 @@ Models:
     Shader: Default
   - Model: Cat
     Transform:
-      Position: [-0.57641238, -0.828754127, 0.546188295]
+      Position: [-0.444420278, -0.828754127, 0.54611671]
+      Rotation: [0, -8.80727673, 0]
+      Scale: [0.19721961, 0.19721961, 0.19721961]
+    Mesh: models/cat.glb
+    Texture: textures/cat_diffuse.png
+    Shader: Phong
+  - Model: Dog
+    Transform:
+      Position: [-1.4103843, -0.888593316, 0.441825837]
+      Rotation: [0, -0.836517394, 0]
+      Scale: [0.00955457613, 0.00955457613, 0.00955457613]
+    Mesh: models/dog.glb
+    Texture: textures/dog_diffuse.png
+    Shader: Phong
+  - Model: Suzanne
+    Transform:
+      Position: [-1.04457617, 0.641348302, 2.16678882]
+    Mesh: models/suzanne.obj
+    Texture: textures/white.png
+    Shader: Phong
+  - Model: Cat
+    Transform:
+      Position: [-0.651098728, -0.828754127, 0.546188295]
       Rotation: [0, -6.67121029, 0]
       Scale: [0.275027126, 0.275027126, 0.275027126]
     Mesh: models/cat.glb
@@ -48,7 +72,7 @@ Models:
     Shader: Phong
   - Model: Dog
     Transform:
-      Position: [0.274292737, -0.888593316, 0.849537373]
+      Position: [0.274292737, -0.888593316, 0.871070266]
       Rotation: [0, 0.484708846, 0]
       Scale: [0.0129081002, 0.0129081002, 0.0129081002]
     Mesh: models/dog.glb
@@ -57,8 +81,8 @@ Models:
 Skybox: Storforsen3
 Camera:
   Transform:
-    Position: [-0.390036345, 0, -3.19686818]
-    Rotation: [-0.041881673, 0.0530712754, 0]
+    Position: [-1.28340352, -0.150342628, -4.51107168]
+    Rotation: [-0.040842019, 6.46023798, 0]
   FOV: 45
   NearPlane: 0.0500000007
   FarPlane: 50
