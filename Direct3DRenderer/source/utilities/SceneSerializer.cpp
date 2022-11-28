@@ -138,10 +138,19 @@ namespace wl
 		out << YAML::Value << cam.transform;
 		out << YAML::Key << "FOV";
 		out << YAML::Value << cam.fov;
-		out << YAML::Key << "NearPlane";
+		out << YAML::Key << "Near Plane";
 		out << YAML::Value << cam.nearPlane;
-		out << YAML::Key << "FarPlane";
+		out << YAML::Key << "Far Plane";
 		out << YAML::Value << cam.farPlane;
+
+		out << YAML::Key << "Clear Color";
+		out << YAML::Value << YAML::Flow << YAML::BeginSeq;
+		for (int i = 0; i < 4; i++)
+		{
+			out << cam.clearColor[i];
+		}
+		out << YAML::EndSeq;
+
 		out << YAML::EndMap;
 		return out;
 	}
@@ -221,8 +230,9 @@ namespace wl
 			std::shared_ptr<Camera> camera = std::make_shared<Camera>();
 			if (auto a = cam["Transform"])			camera->transform = a.as<Transform>();
 			if (auto a = cam["FOV"])				camera->fov = a.as<float>();
-			if (auto a = cam["NearPlane"])			camera->nearPlane = a.as<float>();
-			if (auto a = cam["FarPlane"])			camera->farPlane = a.as<float>();
+			if (auto a = cam["Near Plane"])			camera->nearPlane = a.as<float>();
+			if (auto a = cam["Far Plane"])			camera->farPlane = a.as<float>();
+			if (auto a = cam["Clear Color"]) for (int i = 0; i < 4; i++) camera->clearColor[i] = a[i].as<float>();
 			scene->m_camera = camera;
 		}
 		else
