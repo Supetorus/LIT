@@ -5,6 +5,7 @@
 namespace wl
 {
 	class Renderer;
+	class Camera;
 
 	class PointLight
 	{
@@ -13,15 +14,16 @@ namespace wl
 		/// <summary>
 		/// Binds the light to the pixel shader.
 		/// </summary>
-		void Bind();
+		void Bind(const Camera& camera);
+		Transform transform;
 	private:
 		struct LightData
 		{
-			alignas(16) dx::XMFLOAT3 position{0, 0, 0};
-			alignas(16) float diffuseIntensity{ 1.0f };
-			alignas(16) float attConst{ 1.0f };
-			alignas(16) float attLin{ 0.045f };
-			alignas(16) float attQuad{ 0.0075f };
+			alignas(16) dx::XMFLOAT3 position{};
+			float diffuseIntensity{ 1.0f };
+			float attConst{ 1.0f };
+			float attLin{ 0.045f };
+			float attQuad{ 0.0075f };
 		} data{};
 	};
 

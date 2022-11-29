@@ -23,9 +23,6 @@ namespace wl
 
 	void App::Run()
 	{
-		PointLight pointLight;
-		pointLight.Bind();
-
 		{
 			SceneSerializer serializer;
 			m_scene = serializer.Deserialize("scenes/demo.scn");
@@ -34,6 +31,20 @@ namespace wl
 
 		//m_renderer->SetModeWireframe();
 		Controller controller(m_scene, *m_renderer);
+
+		PointLight pointLight;
+		pointLight.Bind(*m_scene->m_camera);
+
+		struct objectLightInfo
+		{
+			alignas(16) float specularIntensity = 0.6f;
+			float specularPower = 30.0f;
+		} data{};
+
+		ConstantBuffer objLight(sizeof(objectLightInfo), ShaderStage::Pixel);
+		objLight.SetData(&data);
+		objLight.Bind(1);
+
 		// Main loop
 		while (!m_window.IsQuit())
 		{
