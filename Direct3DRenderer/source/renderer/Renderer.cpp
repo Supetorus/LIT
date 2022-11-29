@@ -37,13 +37,12 @@ namespace wl
 
 	void Renderer::BeginFrame()
 	{
-		// Clear color.
-		//float color[] = { 0.8f, 0.8f, 0.8f, 1.0f };
 		DXContext::Instance->m_context->ClearRenderTargetView(m_renderTargetView.Get(), m_camera->clearColor);
 		// Clear depth
 		DXContext::Instance->m_context->ClearDepthStencilView(m_depthStencilView.Get(),
 			D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL,
 			1.0f, 0);
+		SetViewProjectionMatrix();
 	}
 
 	void Renderer::SetViewProjectionMatrix() const

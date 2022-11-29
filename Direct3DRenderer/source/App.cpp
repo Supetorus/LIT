@@ -46,7 +46,6 @@ namespace wl
 
 			m_renderer->BeginFrame();
 
-			m_renderer->SetViewProjectionMatrix();
 			m_scene->Draw(*m_renderer);
 
 			m_renderer->EndFrame();
