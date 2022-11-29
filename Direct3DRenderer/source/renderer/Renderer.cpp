@@ -62,12 +62,13 @@ namespace wl
 		dx::XMMATRIX projection = dx::XMMatrixPerspectiveFovLH(dx::XMConvertToRadians(m_camera->fov), m_window.AspectRatio(), m_camera->nearPlane, m_camera->farPlane);
 
 		// Create constant buffer for transform matrix
-		const Renderer::TransformMatrix vp =
+		const Renderer::CameraMatrix vp =
 		{
+			view,
 			view * projection
 		};
 
-		ConstantBuffer vpBuffer(sizeof(TransformMatrix), ShaderStage::Vertex);
+		ConstantBuffer vpBuffer(sizeof(CameraMatrix), ShaderStage::Vertex);
 		vpBuffer.SetData(&vp);
 		vpBuffer.Bind(0);
 	}

@@ -22,7 +22,7 @@ namespace wl
 		/// </summary>
 		void BeginFrame();
 		/// <summary>
-		/// Sets the view projection matrix using the camera's position.
+		/// Sets the view and projection matrices using the camera.
 		/// </summary>
 		void SetViewProjectionMatrix() const;
 		/// <summary>
@@ -56,6 +56,11 @@ namespace wl
 		{
 			DirectX::XMMATRIX transform;
 		};
+		struct CameraMatrix
+		{
+			DirectX::XMMATRIX view;
+			DirectX::XMMATRIX viewProjection;
+		};
 		void bindRenderTargets() const;
 		void createSwapChain();
 		void createRenderTarget();
@@ -72,5 +77,6 @@ namespace wl
 		wrl::ComPtr<ID3D11DepthStencilView> m_depthStencilView;
 		Microsoft::WRL::ComPtr<ID3D11DepthStencilState> pStencil;
 		D3D11_VIEWPORT m_viewport;
+
 	};
 }
