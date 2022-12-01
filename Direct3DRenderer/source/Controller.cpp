@@ -50,6 +50,12 @@ namespace wl
 				m_scene->AddModel(m_scene->m_models[m_currentModel]->Clone());
 				LOG("Duplicating Model: {0}", m_scene->m_models[m_currentModel]->name);
 			}
+			else if (Input::Instance.GetKeyPressed('X'))
+			{ // ctrl + x deletes model
+				LOG("Deleting Model: {0}");
+				m_scene->DeleteModel(m_currentModel);
+				LOG("Selected Model: " + std::to_string(m_currentModel) + ' ' + m_scene->m_models[m_currentModel]->name);
+			}
 		}
 		else if (m_isCameraMode)
 		{ // Control Camera
