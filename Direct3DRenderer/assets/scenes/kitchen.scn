@@ -1,0 +1,35 @@
+# Scene
+Path: scenes/kitchen.scn
+Models:
+  - Model: Floor
+    Mesh: models/kitchen/floor.obj
+    Texture: textures/kitchen/concrete.jpg
+    Shader: Default
+  - Model: Island Top
+    Mesh: models/kitchen/island.obj
+    Texture: textures/kitchen/marble.jpg
+    Shader: Default
+  - Model: Island Front
+    Mesh: models/kitchen/island_under2.obj
+    Texture: textures/kitchen/marble.jpg
+    Shader: Default
+  - Model: Stool 1
+    Transform:
+      Position: [2.29452538, 0, -2.83897161]
+      Rotation: [0, -1.05542791, 0]
+    Mesh: models/kitchen/stool.obj
+    Texture: textures/kitchen/wood.jpg
+    Shader: Default
+  - Model: Stool 1
+    Mesh: models/kitchen/stool.obj
+    Texture: textures/kitchen/wood.jpg
+    Shader: Default
+Skybox: Storforsen3
+Camera:
+  Transform:
+    Position: [-0.582309783, 1.46562743, -2.28609085]
+    Rotation: [0.257108212, 0.868577123, 0]
+  FOV: 45
+  Near Plane: 0.5
+  Far Plane: 50
+  Clear Color: [0.5, 0.5, 0.5, 1]

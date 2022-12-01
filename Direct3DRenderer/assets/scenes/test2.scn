@@ -1,0 +1,35 @@
+# Scene
+Path: scenes/test2.scn
+Models:
+  - Model: Cube
+    Transform:
+      Position: [0.60818851, -0.862733126, 0.257472903]
+      Rotation: [0.673132718, -0.280721277, 0]
+    Mesh: models/cube.obj
+    Texture: textures/eiffel.jpg
+    Shader: Phong
+  - Model: Sphere
+    Transform:
+      Position: [1.59776688, 1.59211659, 2.68502855]
+      Rotation: [2.93951344, -3.02092719, 0]
+      Scale: [1.22335064, 1.22335064, 1.22335064]
+    Mesh: models/sphere.obj
+    Texture: textures/obsidian.png
+    Shader: Phong
+  - Model: Skull Phong
+    Transform:
+      Position: [-1.76468754, -0.795819283, 2.37708759]
+      Rotation: [1.0854516, -0.40121606, 0]
+      Scale: [0.089978829, 0.089978829, 0.089978829]
+    Mesh: models/skull.obj
+    Texture: textures/skull.jpg
+    Shader: Phong
+Skybox: Storforsen3
+Camera:
+  Transform:
+    Position: [-1.28340352, -0.150342628, -4.51107168]
+    Rotation: [-0.040842019, 6.46023798, 0]
+  FOV: 45
+  Near Plane: 0.5
+  Far Plane: 50
+  Clear Color: [0.5, 0.5, 0.5, 1]

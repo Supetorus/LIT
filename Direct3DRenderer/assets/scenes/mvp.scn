@@ -1,0 +1,15 @@
+# Scene
+Path: scenes/mvp.scn
+Models:
+  - Model: Cube
+    Mesh: models/cube.obj
+    Texture: textures/eiffel.jpg
+    Shader: Phong
+Camera:
+  Transform:
+    Position: [-1.95347738, 1.24284339, -2.89056087]
+    Rotation: [0.368902504, 0.510460615, 0]
+  FOV: 45
+  Near Plane: 0.5
+  Far Plane: 1000
+  Clear Color: [0.5, 0.5, 0.5, 1]
