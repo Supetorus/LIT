@@ -59,6 +59,13 @@ namespace wl
 					((m_scene->m_models.size() > 0) ? m_scene->m_models[m_currentModel]->name : "")
 				);
 			}
+			else if (Input::Instance.GetKeyPressed('W'))
+			{
+				if (m_isWireframe) m_renderer.SetModeFill();
+				else m_renderer.SetModeWireframe();
+				m_isWireframe = !m_isWireframe;
+				LOG("Toggle wireframe mode");
+			}
 		}
 		else if (m_isCameraMode)
 		{ // Control Camera

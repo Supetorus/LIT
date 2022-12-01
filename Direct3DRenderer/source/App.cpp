@@ -29,7 +29,6 @@ namespace wl
 		}
 		m_renderer->SetCamera(m_scene->m_camera);
 
-		//m_renderer->SetModeWireframe();
 		Controller controller(m_scene, *m_renderer);
 
 		PointLight pointLight;

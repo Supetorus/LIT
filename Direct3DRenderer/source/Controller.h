@@ -18,6 +18,7 @@ namespace wl
 		std::shared_ptr<Scene> &m_scene;
 		bool m_isCameraMode{ true };
 		int m_currentModel{};
+		bool m_isWireframe{false};
 	};
 
 }
