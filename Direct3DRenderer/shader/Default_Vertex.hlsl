@@ -6,7 +6,7 @@ cbuffer CameraBuf : register(b0)
 
 cbuffer ObjBuf : register(b1)
 {
-	float4x4 objTransform;
+	float4x4 model;
 };
 
 struct VSOut
@@ -18,7 +18,7 @@ struct VSOut
 VSOut main(float3 pos : POSITION, float2 tex : TEXCOORD)
 {
 	VSOut vso;
-	float4x4 mvp = mul(viewProjection, objTransform);
+	float4x4 mvp = mul(viewProjection, model);
 	vso.pos = mul(mvp, float4(pos, 1.0f));
 	vso.tex = tex;
 	return vso;

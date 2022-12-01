@@ -22,8 +22,8 @@ VSOut main(float3 pos : POSITION, float2 tex : TEXCOORD, float3 normal : NORMAL)
 	VSOut vso;
 	float4x4 mvp = mul(viewProjection, model);
 	float4x4 viewModel = mul(view, model);
-	vso.worldPos = (float3) mul(viewModel, float4(pos, 1.0f)); // get the world position of the vertex, relative to the camera.
-	vso.normal = normalize(mul((float3x3) viewModel, normal)); // convert the normal vector to mvp space
+	vso.worldPos = (float3) mul(model, float4(pos, 1.0f)); // get the world position of the vertex
+	vso.normal = normalize(mul((float3x3) model, normal)); // convert the normal vector to mvp space
 	vso.pos = mul(mvp, float4(pos, 1.0f)); // Convert the pos to mvp space
 	vso.tex = tex;
 	return vso;

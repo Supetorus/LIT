@@ -31,18 +31,53 @@ namespace wl
 
 		Controller controller(m_scene, *m_renderer);
 
-		PointLight pointLight;
-		pointLight.Bind(*m_scene->m_camera);
+		//PointLight pointLight;
+		//pointLight.Bind(*m_scene->m_camera);
 
-		struct objectLightInfo
+		//struct objectLightInfo
+		//{
+		//	alignas(16) float specularIntensity = 0.6f;
+		//	float specularPower = 30.0f;
+		//} data{};
+
+		//ConstantBuffer objLight(sizeof(objectLightInfo), ShaderStage::Pixel);
+		//objLight.SetData(&data);
+		//objLight.Bind(1);
+
+#pragma region lightStuff
+		struct LightData
 		{
-			alignas(16) float specularIntensity = 0.6f;
-			float specularPower = 30.0f;
-		} data{};
+			dx::XMFLOAT4 ambient{ 0.2f, 0.2f, 0.2f, 0 };
+			dx::XMFLOAT4 diffuse{ 1.0f, 1.0f, 1.0f, 1.0f };
+			dx::XMFLOAT4 specular{ 1.0f, 1.0f, 1.0f, 1.0f };
+			alignas(16) dx::XMFLOAT3 position{ 0, 0, 0 };
+			alignas(16) dx::XMFLOAT3 attenuation{ 1.0f, 0.045f, 0.0075f };
+			float range{ 50 };
+		} light;
 
-		ConstantBuffer objLight(sizeof(objectLightInfo), ShaderStage::Pixel);
-		objLight.SetData(&data);
-		objLight.Bind(1);
+		struct MaterialData
+		{
+			dx::XMFLOAT4 ambient{ 1.0f, 1.0f, 1.0f, 1.0f };
+			dx::XMFLOAT4 diffuse{ 1.0f, 1.0f, 1.0f, 1.0f };
+			dx::XMFLOAT4 specular{ 1.0f, 1.0f, 1.0f, 1.0f };
+			dx::XMFLOAT4 reflect{};
+		} material;
+
+		struct CameraPosition
+		{
+			alignas(16) dx::XMFLOAT3 position;
+		} camera;
+
+		ConstantBuffer l(sizeof(LightData), ShaderStage::Pixel);
+		ConstantBuffer m(sizeof(LightData), ShaderStage::Pixel);
+		ConstantBuffer c(sizeof(LightData), ShaderStage::Pixel);
+
+		l.SetData(&light);
+		m.SetData(&material);
+		
+		l.Bind(0);
+		m.Bind(1);
+#pragma endregion
 
 		// Main loop
 		while (!m_window.IsQuit())
@@ -53,6 +88,13 @@ namespace wl
 
 			//camera->Update(m_gTimer.GetDeltaTime());
 			controller.Update(m_gTimer.GetDeltaTime());
+
+#pragma region temp
+		const Transform::f3 &t = m_scene->m_camera->transform.position;
+			camera.position = dx::XMFLOAT3{ t.x, t.y, t.z };
+			c.SetData(&camera);
+			c.Bind(2);
+#pragma endregion
 
 			m_renderer->BeginFrame();
 

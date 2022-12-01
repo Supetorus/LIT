@@ -2,23 +2,27 @@ Texture2D tex;
 
 SamplerState splr;
 
-cbuffer light : register(b0)
+cbuffer Light : register(b0)
 {
-	float3 lightPos;	// relative to the camera / in view space.
-	float diffuseIntensity;
-	float attConst;
-	float attLin;
-	float attQuad;
-}
-
-cbuffer object : register(b1)
-{
-	float specularIntensity = 0;
-	float specularPower = 0;
+	float4 l_ambient;
+	float4 l_diffuse;
+	float4 l_specular;
+	float3 l_position;
+	float3 l_attenuation;
+	float l_range;
 };
-
-static const float3 ambient = { 0.05f, 0.05f, 0.05f };
-static const float3 diffuseColor = { 1.0f, 1.0f, 1.0f };
+	
+cbuffer Material : register(b1)
+{
+	float4 m_ambient;
+	float4 m_diffuse;
+	float4 m_specular;
+	float4 m_reflect;
+};
+cbuffer camPosition : register(b2)
+{
+	float3 cameraPosition;
+}
 
 struct PSInput
 {
@@ -28,22 +32,62 @@ struct PSInput
 	float3 worldPos : POSITION;
 };
 
+void ComputePointLight(
+float3 worldPosition,
+float3 normal,
+float3 toEye,
+out float4 ambient,
+out float4 diffuse,
+out float4 spec)
+{
+	// Initialize outputs.
+	ambient = float4(0.0f, 0.0f, 0.0f, 0.0f);
+	diffuse = float4(0.0f, 0.0f, 0.0f, 0.0f);
+	spec = float4(0.0f, 0.0f, 0.0f, 0.0f);
+	// The vector from the surface to the light.
+	float3 lightVec = l_position - worldPosition;
+	// The distance from surface to light.
+	float d = length(lightVec);
+	// Range test.
+	if (d > l_range)
+		return;
+	// Normalize the light vector.
+	lightVec /= d;
+	//lightVec = normalize(lightVec);
+	// Ambient term.
+	ambient = m_ambient * l_ambient;
+	// Add diffuse and specular term, provided the surface is in
+	// the line of site of the light.
+	float diffuseFactor = dot(lightVec, normal);
+	// Flatten to avoid dynamic branching.
+	[flatten]
+	if (diffuseFactor > 0.0f)
+	{
+		float3 v = reflect(-lightVec, normal);
+		float specFactor = pow(max(dot(v, toEye), 0.0f), m_specular.w);
+		diffuse = diffuseFactor * m_diffuse * l_diffuse;
+		spec = specFactor * m_specular * l_specular;
+	}
+	// Attenuate
+	float att = 1.0f / dot(l_attenuation, float3(1.0f, d, d * d));
+	diffuse *= att;
+	spec *= att;
+}
+
 float4 main(PSInput input) : SV_TARGET
 {
-	float3 vToL = lightPos - input.worldPos;
-	float distToL = length(vToL);
-	float3 dirToL = vToL / distToL;
+	float4 ambient;
+	float4 diffuse;
+	float4 specular;
+	ComputePointLight(input.worldPos, input.normal, normalize(cameraPosition - input.worldPos), ambient, diffuse, specular);
 	
-	float att = 1.0f / (attConst + attLin * distToL + attQuad * (distToL * distToL));
-	float3 diffuse = diffuseColor * diffuseIntensity * att * max(0.0f, dot(dirToL, input.normal));
-	
-	float3 w = input.normal * dot(vToL, input.normal);
-	float3 r = w * 2.0f - vToL;
-	float3 specular = att * (diffuseColor * diffuseIntensity) * specularIntensity * pow(max(0.0f, dot(normalize(-r), normalize(input.worldPos))),			specularPower);
+	//ambient = float4(0.0f, 0.0f, 0.0f, 0.0f);
+	//diffuse = float4(0.0f, 0.0f, 0.0f, 0.0f);
+	//specular = float4(0.0f, 0.0f, 0.0f, 0.0f);
 	
 	float3 textureColor = (float3) tex.Sample(splr, input.tex);
-	float3 totalLight = diffuse + ambient + specular;
+	float3 totalLight = (float3) (diffuse + ambient + specular);
 	float3 saturatedLight = saturate(totalLight);
-	float3 totalColor = totalLight * textureColor;
+	float3 totalColor = saturatedLight * textureColor;
 	return float4(totalColor, 1.0f);
 }
