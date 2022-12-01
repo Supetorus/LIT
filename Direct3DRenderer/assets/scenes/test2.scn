@@ -10,9 +10,9 @@ Models:
     Shader: Phong
   - Model: Sphere
     Transform:
-      Position: [1.59776688, 1.59211659, 2.68502855]
+      Position: [2.22438765, 1.59211659, 4.29034662]
       Rotation: [2.93951344, -3.02092719, 0]
-      Scale: [1.22335064, 1.22335064, 1.22335064]
+      Scale: [1.40370667, 1.40370667, 1.40370667]
     Mesh: models/sphere.obj
     Texture: textures/obsidian.png
     Shader: Phong
@@ -24,11 +24,18 @@ Models:
     Mesh: models/skull.obj
     Texture: textures/skull.jpg
     Shader: Phong
-Skybox: Storforsen3
+  - Model: Light Rep
+    Transform:
+      Position: [-0.145072132, 0, -0.276744217]
+      Scale: [0.0631014109, 0.0631014109, 0.0631014109]
+    Mesh: models/sphere.obj
+    Texture: textures/white.png
+    Shader: Default
+Skybox: HornstullsStrand
 Camera:
   Transform:
-    Position: [-1.28340352, -0.150342628, -4.51107168]
-    Rotation: [-0.040842019, 6.46023798, 0]
+    Position: [-1.18467772, 0.114496723, -5.02336025]
+    Rotation: [-0.0372747518, 6.44017887, 0]
   FOV: 45
   Near Plane: 0.5
   Far Plane: 50
