@@ -1,5 +1,6 @@
 cbuffer CameraBuf : register(b0)
 {
+	float4x4 view;
 	float4x4 viewProjection;
 };
 
