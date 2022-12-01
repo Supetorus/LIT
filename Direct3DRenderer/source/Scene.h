@@ -21,6 +21,7 @@ namespace wl
 		/// <param name="renderer">The renderer which will draw the models.</param>
 		void Draw(const Renderer &renderer) const;
 		void AddModel(std::shared_ptr<Model> model);
+		void DeleteModel(int modelID);
 		void SetSkybox(std::shared_ptr<Skybox> skybox);
 		std::shared_ptr<Camera> m_camera;
 	private:

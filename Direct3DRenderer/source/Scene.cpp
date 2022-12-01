@@ -20,6 +20,11 @@ namespace wl
 		m_models.push_back(model);
 	}
 
+	void Scene::DeleteModel(int modelID)
+	{
+		m_models.erase(m_models.begin() + modelID);
+	}
+
 	void Scene::SetSkybox(std::shared_ptr<Skybox> skybox)
 	{
 		m_skybox = skybox;
