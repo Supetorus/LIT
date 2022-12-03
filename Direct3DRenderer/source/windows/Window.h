@@ -24,7 +24,7 @@ namespace wl
 		HWND m_hwnd;
 		PCWSTR m_className = L"MyWindow";
 		bool m_quit{ 0 };
-		std::pair<int, int> m_clientSize{ 800, 800 };
+		std::pair<int, int> m_clientSize{ 1000, 800 };
 		std::pair<int, int> m_windowSize{ };
 	};
 }

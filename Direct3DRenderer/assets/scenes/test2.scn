@@ -3,14 +3,15 @@ Path: scenes/test2.scn
 Models:
   - Model: Cube
     Transform:
-      Position: [0.60818851, -0.862733126, 0.257472903]
-      Rotation: [0.673132718, -0.280721277, 0]
+      Position: [1.11058092, -0.321822017, 0.205556244]
+      Rotation: [0.283373892, -0.330051631, 0.178752795]
+      Scale: [1.03188062, 1.03188062, 1.03188062]
     Mesh: models/cube.obj
     Texture: textures/eiffel.jpg
     Shader: Phong
   - Model: Sphere
     Transform:
-      Position: [2.22438765, 1.59211659, 4.29034662]
+      Position: [2.40860438, 1.59211659, 4.29034662]
       Rotation: [2.93951344, -3.02092719, 0]
       Scale: [1.40370667, 1.40370667, 1.40370667]
     Mesh: models/sphere.obj
@@ -18,9 +19,9 @@ Models:
     Shader: Phong
   - Model: Skull Phong
     Transform:
-      Position: [-1.76468754, -0.795819283, 2.37708759]
-      Rotation: [1.0854516, -0.40121606, 0]
-      Scale: [0.089978829, 0.089978829, 0.089978829]
+      Position: [-3.4272666, -0.687061548, 3.99120855]
+      Rotation: [1.0854516, -0.640070319, 0]
+      Scale: [0.262432992, 0.262432992, 0.262432992]
     Mesh: models/skull.obj
     Texture: textures/skull.jpg
     Shader: Phong
@@ -34,8 +35,8 @@ Models:
 Skybox: HornstullsStrand
 Camera:
   Transform:
-    Position: [-1.18467772, 0.114496723, -5.02336025]
-    Rotation: [-0.0372747518, 6.44017887, 0]
+    Position: [-1.08066618, 1.53226662, -5.04668427]
+    Rotation: [0.190858424, 6.48324156, 0]
   FOV: 45
   Near Plane: 0.5
   Far Plane: 50
