@@ -8,11 +8,15 @@
 #include "core/util.h"
 #include "renderer/Renderer.h"
 #include "utilities/SceneSerializer.h"
+#include <algorithm>
 #include <string>
+#include <iostream>
 
 unsigned char lCtrlKey = 0x11;
 unsigned char spaceKey = 0x20;
 unsigned char tabKey = 0x09;
+unsigned char plus = 0xbb;
+unsigned char minus = 0xbd;
 
 namespace wl
 {
@@ -69,16 +73,46 @@ namespace wl
 		}
 		else if (m_isCameraMode)
 		{ // Control Camera
-			ManipulateTransform(m_scene->m_camera->transform, 1, 0, 1, deltaTime);
+
+			if (Input::Instance.GetKeyDown(plus))
+			{
+				auto precision = std::cout.precision(2);
+				m_cameraSpeed = std::max(0.1f, m_cameraSpeed + 1.f * deltaTime);
+				std::cout << "Camera Speed: " << m_cameraSpeed << '\r';
+				std::cout.precision(precision);
+			}
+			if (Input::Instance.GetKeyDown(minus))
+			{
+				auto precision = std::cout.precision(2);
+				m_cameraSpeed = std::max(0.1f, m_cameraSpeed - 1.f * deltaTime);
+				std::cout << "Camera Speed: " << m_cameraSpeed << '\r';
+				std::cout.precision(precision);
+			}
+			ManipulateTransform(m_scene->m_camera->transform, 1 * m_cameraSpeed, 0, 1, deltaTime);
 		}
 		else
 		{ // Control Model
+			if (Input::Instance.GetKeyDown(plus))
+			{
+				auto precision = std::cout.precision(2);
+				m_controllerSpeed = std::max(0.1f, m_controllerSpeed + 1.f * deltaTime);
+				std::cout << "Control Speed: " << m_controllerSpeed << '\r';
+				std::cout.precision(precision);
+			}
+			if (Input::Instance.GetKeyDown(minus))
+			{
+				auto precision = std::cout.precision(2);
+				m_controllerSpeed = std::max(0.1f, m_controllerSpeed - 1.f * deltaTime);
+				std::cout << "Control Speed: " << m_controllerSpeed << '\r';
+				std::cout.precision(precision);
+			}
 			if (Input::Instance.GetKeyPressed(tabKey))
 			{
 				m_currentModel = (m_currentModel + 1) % m_scene->m_models.size();
 				LOG("Selected Model: " + std::to_string(m_currentModel) + ' ' + m_scene->m_models[m_currentModel]->name);
 			}
-			ManipulateTransform(m_scene->m_models[m_currentModel]->transform, 1, 0.5f, 1, deltaTime);
+			ManipulateTransform(m_scene->m_models[m_currentModel]->transform,
+				1 * m_controllerSpeed, 0.5f * m_controllerSpeed, 1 * m_controllerSpeed, deltaTime);
 		}
 	}
 
