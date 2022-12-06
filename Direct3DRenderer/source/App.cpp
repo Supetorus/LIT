@@ -7,6 +7,7 @@
 #include "Scene.h"
 #include "utilities/SceneSerializer.h"
 #include "Controller.h"
+#include "renderer/DXContext.h"
 #include <memory>
 #include <filesystem>
 #include <PointLight.h>
@@ -31,30 +32,7 @@ namespace wl
 
 		Controller controller(m_scene, *m_renderer);
 
-		//PointLight pointLight;
-		//pointLight.Bind(*m_scene->m_camera);
-
-		//struct objectLightInfo
-		//{
-		//	alignas(16) float specularIntensity = 0.6f;
-		//	float specularPower = 30.0f;
-		//} data{};
-
-		//ConstantBuffer objLight(sizeof(objectLightInfo), ShaderStage::Pixel);
-		//objLight.SetData(&data);
-		//objLight.Bind(1);
-
 #pragma region lightStuff
-		struct LightData
-		{
-			dx::XMFLOAT4 ambient{ 0.2f, 0.2f, 0.2f, 0 };
-			dx::XMFLOAT4 diffuse{ 1.0f, 1.0f, 1.0f, 1.0f };
-			dx::XMFLOAT4 specular{ 1.0f, 1.0f, 1.0f, 1.0f };
-			alignas(16) dx::XMFLOAT3 position{ 0, 0, 0 };
-			alignas(16) dx::XMFLOAT3 attenuation{ 1.0f, 0.045f, 0.0075f };
-			float range{ 50 };
-		} light;
-
 		struct MaterialData
 		{
 			dx::XMFLOAT4 ambient{ 1.0f, 1.0f, 1.0f, 1.0f };
@@ -68,15 +46,72 @@ namespace wl
 			alignas(16) dx::XMFLOAT3 position;
 		} camera;
 
-		ConstantBuffer l(sizeof(LightData), ShaderStage::Pixel);
-		ConstantBuffer m(sizeof(LightData), ShaderStage::Pixel);
-		ConstantBuffer c(sizeof(LightData), ShaderStage::Pixel);
+		ConstantBuffer m(sizeof(MaterialData), ShaderStage::Pixel);
+		ConstantBuffer c(sizeof(CameraPosition), ShaderStage::Pixel);
 
-		l.SetData(&light);
 		m.SetData(&material);
-		
-		l.Bind(0);
 		m.Bind(1);
+
+		//std::vector<PointLight> lights;
+		//lights.push_back(PointLight());
+		//
+		//int lightCount = lights.size();
+		//int lightSize = sizeof(PointLight);
+
+		//// Make buffer
+		//wrl::ComPtr<ID3D11Buffer> buffer;
+		//D3D11_BUFFER_DESC sbufferDesc = {  };
+		//sbufferDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
+		//sbufferDesc.Usage = D3D11_USAGE_DYNAMIC;
+		//sbufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+		//sbufferDesc.MiscFlags = D3D11_RESOURCE_MISC_BUFFER_STRUCTURED;
+		//sbufferDesc.ByteWidth = lightCount * lightSize;
+		//sbufferDesc.StructureByteStride = lightSize;
+
+		//D3D11_SUBRESOURCE_DATA sbufferData{};
+		//sbufferData.pSysMem = lights.data();
+
+		//ASSERT_HR(
+		//	DXContext::Instance->m_device->CreateBuffer(&sbufferDesc, &sbufferData, &buffer),
+		//	"Unable to create buffer."
+		//);
+
+		//// Make view
+		//D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc;
+		//srvDesc.Format = DXGI_FORMAT_UNKNOWN;
+		//srvDesc.ViewDimension = D3D11_SRV_DIMENSION_BUFFER;
+		//srvDesc.Buffer.FirstElement = 0;
+		//srvDesc.Buffer.NumElements = lightCount;
+
+		//wrl::ComPtr<ID3D11ShaderResourceView> view;
+
+		//ASSERT_HR(
+		//	DXContext::Instance->m_device->CreateShaderResourceView(buffer.Get(), &srvDesc, &view),
+		//	"Unable to get shader resource view."
+		//);
+
+		////view->
+
+		//// Bind the lights
+		//DXContext::Instance->m_context->PSSetShaderResources(1, 1, view.GetAddressOf());
+
+		PointLightList lights;
+		{
+			PointLight light;
+			light.diffuse = dx::XMFLOAT4(1.0f, 0.0f, 0.0f, 1.0f);
+			light.specular = dx::XMFLOAT4(1.0f, 0.0f, 0.0f, 1.0f);
+			light.position = dx::XMFLOAT3(-2, 0, 0);
+			lights.Add(light);
+		}
+		{
+			PointLight light;
+			light.diffuse = dx::XMFLOAT4(0.0f, 1.0f, 0.0f, 1.0f);
+			light.specular = dx::XMFLOAT4(0.0f, 1.0f, 0.0f, 1.0f);
+			light.position = dx::XMFLOAT3(2, 0, 0);
+			lights.Add(light);
+		}
+		lights.Bind(1);
+
 #pragma endregion
 
 		// Main loop

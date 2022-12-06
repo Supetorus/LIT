@@ -1,5 +1,6 @@
 #pragma once
 #include "resources/Model.h"
+#include "PointLightList.h"
 #include <vector>
 #include <memory>
 
@@ -27,6 +28,7 @@ namespace wl
 	private:
 		std::string m_filepath{};
 		std::vector<std::shared_ptr<Model>> m_models;
+		PointLightList m_pointLights;
 		std::shared_ptr<Skybox> m_skybox;
 	};
 

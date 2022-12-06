@@ -1,30 +1,17 @@
 #pragma once
 #include "renderer/DX.h"
-#include "Transform.h"
 
 namespace wl
 {
-	class Renderer;
-	class Camera;
 
-	class PointLight
+	struct PointLight
 	{
-	public:
-		PointLight()=default;
-		/// <summary>
-		/// Binds the light to the pixel shader.
-		/// </summary>
-		void Bind(const Camera& camera);
-		Transform transform;
-	private:
-		struct LightData
-		{
-			alignas(16) dx::XMFLOAT3 position{};
-			float diffuseIntensity{ 1.0f };
-			float attConst{ 1.0f };
-			float attLin{ 0.045f };
-			float attQuad{ 0.0075f };
-		} data{};
+		dx::XMFLOAT4 ambient{ 0.2f, 0.2f, 0.2f, 0 };
+		dx::XMFLOAT4 diffuse{ 1.0f, 1.0f, 1.0f, 1.0f };
+		dx::XMFLOAT4 specular{ 1.0f, 1.0f, 1.0f, 1.0f };
+		alignas(16) dx::XMFLOAT3 position{ 0, 0, 0 };
+		dx::XMFLOAT3 attenuation{ 1.0f, 0.045f, 0.0075f };
+		float range{ 50 };
 	};
 
 }
