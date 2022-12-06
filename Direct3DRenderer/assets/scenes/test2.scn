@@ -19,9 +19,9 @@ Models:
     Shader: Phong
   - Model: Skull Phong
     Transform:
-      Position: [-3.4272666, -0.687061548, 3.99120855]
+      Position: [-2.53294349, -1.61592305, 6.11501265]
       Rotation: [1.0854516, -0.640070319, 0]
-      Scale: [0.262432992, 0.262432992, 0.262432992]
+      Scale: [0.168891221, 0.168891221, 0.168891221]
     Mesh: models/skull.obj
     Texture: textures/skull.jpg
     Shader: Phong
