@@ -1,5 +1,5 @@
 #include "Input.h"
-#include "core/Log.h"
+#include "Log.h"
 
 namespace lit
 {

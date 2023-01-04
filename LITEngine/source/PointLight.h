@@ -1,5 +1,5 @@
 #pragma once
-#include "renderer/DX.h"
+#include "DX.h"
 
 namespace lit
 {

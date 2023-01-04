@@ -1,6 +1,6 @@
 #include "PointLightList.h"
-#include "windows/win.h"
-#include "renderer/DXContext.h"
+#include "win.h"
+#include "DXContext.h"
 
 namespace lit
 {

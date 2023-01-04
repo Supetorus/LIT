@@ -1,5 +1,5 @@
 #include "Object.h"
-#include "renderer/Renderer.h"
+#include "Renderer.h"
 
 namespace lit
 {

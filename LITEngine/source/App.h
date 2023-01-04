@@ -1,7 +1,7 @@
 #pragma once
 
-#include "windows/Window.h"
-#include "utilities/GameTimer.h"
+#include "Window.h"
+#include "GameTimer.h"
 #include <memory>
 
 namespace lit

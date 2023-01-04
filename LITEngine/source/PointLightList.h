@@ -1,6 +1,6 @@
 #pragma once
-#include "core/core.h"
-#include "renderer/DX.h"
+#include "core.h"
+#include "DX.h"
 #include "PointLight.h"
 #include <vector>
 

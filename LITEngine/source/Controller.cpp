@@ -3,11 +3,11 @@
 #include "Camera.h"
 #include "Scene.h"
 #include "Input.h"
-#include "resources/Model.h"
+#include "Model.h"
 #include "Transform.h"
-#include "core/util.h"
-#include "renderer/Renderer.h"
-#include "utilities/SceneSerializer.h"
+#include "util.h"
+#include "Renderer.h"
+#include "SceneSerializer.h"
 #include <algorithm>
 #include <string>
 #include <iostream>

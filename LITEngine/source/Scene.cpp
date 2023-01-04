@@ -1,6 +1,6 @@
 #include "Scene.h"
-#include "renderer/Renderer.h"
-#include "resources/Skybox.h"
+#include "Renderer.h"
+#include "Skybox.h"
 #include <memory>
 
 namespace lit

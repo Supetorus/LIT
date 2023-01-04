@@ -30,64 +30,64 @@
     <ClCompile Include="source\Object.cpp" />
     <ClCompile Include="source\Main.cpp" />
     <ClCompile Include="source\Transform.cpp" />
-    <ClCompile Include="source\core\Log.cpp">
+    <ClCompile Include="source\Log.cpp">
       <Filter>core</Filter>
     </ClCompile>
-    <ClCompile Include="source\core\util.cpp">
+    <ClCompile Include="source\util.cpp">
       <Filter>core</Filter>
     </ClCompile>
-    <ClCompile Include="source\renderer\ConstantBuffer.cpp">
+    <ClCompile Include="source\ConstantBuffer.cpp">
       <Filter>renderer</Filter>
     </ClCompile>
-    <ClCompile Include="source\renderer\DXContext.cpp">
+    <ClCompile Include="source\DXContext.cpp">
       <Filter>renderer</Filter>
     </ClCompile>
-    <ClCompile Include="source\renderer\IndexBuffer.cpp">
+    <ClCompile Include="source\IndexBuffer.cpp">
       <Filter>renderer</Filter>
     </ClCompile>
-    <ClCompile Include="source\renderer\Renderer.cpp">
+    <ClCompile Include="source\Renderer.cpp">
       <Filter>renderer</Filter>
     </ClCompile>
-    <ClCompile Include="source\renderer\Shader.cpp">
+    <ClCompile Include="source\Shader.cpp">
       <Filter>renderer</Filter>
     </ClCompile>
-    <ClCompile Include="source\renderer\VertexBuffer.cpp">
+    <ClCompile Include="source\VertexBuffer.cpp">
       <Filter>renderer</Filter>
     </ClCompile>
-    <ClCompile Include="source\resources\CubeMap.cpp">
+    <ClCompile Include="source\CubeMap.cpp">
       <Filter>resources</Filter>
     </ClCompile>
-    <ClCompile Include="source\resources\ImageBuffer.cpp">
+    <ClCompile Include="source\ImageBuffer.cpp">
       <Filter>resources</Filter>
     </ClCompile>
-    <ClCompile Include="source\resources\Mesh.cpp">
+    <ClCompile Include="source\Mesh.cpp">
       <Filter>resources</Filter>
     </ClCompile>
-    <ClCompile Include="source\resources\Model.cpp">
+    <ClCompile Include="source\Model.cpp">
       <Filter>resources</Filter>
     </ClCompile>
-    <ClCompile Include="source\resources\Sampler.cpp">
+    <ClCompile Include="source\Sampler.cpp">
       <Filter>resources</Filter>
     </ClCompile>
-    <ClCompile Include="source\resources\Skybox.cpp">
+    <ClCompile Include="source\Skybox.cpp">
       <Filter>resources</Filter>
     </ClCompile>
-    <ClCompile Include="source\resources\Texture.cpp">
+    <ClCompile Include="source\Texture.cpp">
       <Filter>resources</Filter>
     </ClCompile>
-    <ClCompile Include="source\utilities\GameTimer.cpp">
+    <ClCompile Include="source\GameTimer.cpp">
       <Filter>utilities</Filter>
     </ClCompile>
-    <ClCompile Include="source\utilities\MeshLoader.cpp">
+    <ClCompile Include="source\MeshLoader.cpp">
       <Filter>utilities</Filter>
     </ClCompile>
-    <ClCompile Include="source\utilities\SceneSerializer.cpp">
+    <ClCompile Include="source\SceneSerializer.cpp">
       <Filter>utilities</Filter>
     </ClCompile>
-    <ClCompile Include="source\windows\win.cpp">
+    <ClCompile Include="source\win.cpp">
       <Filter>windows</Filter>
     </ClCompile>
-    <ClCompile Include="source\windows\Window.cpp">
+    <ClCompile Include="source\Window.cpp">
       <Filter>windows</Filter>
     </ClCompile>
   </ItemGroup>
@@ -102,70 +102,70 @@
     <ClInclude Include="source\Camera.h" />
     <ClInclude Include="source\App.h" />
     <ClInclude Include="source\Transform.h" />
-    <ClInclude Include="source\core\core.h">
+    <ClInclude Include="source\core.h">
       <Filter>core</Filter>
     </ClInclude>
-    <ClInclude Include="source\core\Log.h">
+    <ClInclude Include="source\Log.h">
       <Filter>core</Filter>
     </ClInclude>
-    <ClInclude Include="source\core\util.h">
+    <ClInclude Include="source\util.h">
       <Filter>core</Filter>
     </ClInclude>
-    <ClInclude Include="source\renderer\ConstantBuffer.h">
+    <ClInclude Include="source\ConstantBuffer.h">
       <Filter>renderer</Filter>
     </ClInclude>
-    <ClInclude Include="source\renderer\DX.h">
+    <ClInclude Include="source\DX.h">
       <Filter>renderer</Filter>
     </ClInclude>
-    <ClInclude Include="source\renderer\DXContext.h">
+    <ClInclude Include="source\DXContext.h">
       <Filter>renderer</Filter>
     </ClInclude>
-    <ClInclude Include="source\renderer\IndexBuffer.h">
+    <ClInclude Include="source\IndexBuffer.h">
       <Filter>renderer</Filter>
     </ClInclude>
-    <ClInclude Include="source\renderer\Renderer.h">
+    <ClInclude Include="source\Renderer.h">
       <Filter>renderer</Filter>
     </ClInclude>
-    <ClInclude Include="source\renderer\Shader.h">
+    <ClInclude Include="source\Shader.h">
       <Filter>renderer</Filter>
     </ClInclude>
-    <ClInclude Include="source\renderer\VertexBuffer.h">
+    <ClInclude Include="source\VertexBuffer.h">
       <Filter>renderer</Filter>
     </ClInclude>
-    <ClInclude Include="source\resources\CubeMap.h">
+    <ClInclude Include="source\CubeMap.h">
       <Filter>resources</Filter>
     </ClInclude>
-    <ClInclude Include="source\resources\ImageBuffer.h">
+    <ClInclude Include="source\ImageBuffer.h">
       <Filter>resources</Filter>
     </ClInclude>
-    <ClInclude Include="source\resources\Mesh.h">
+    <ClInclude Include="source\Mesh.h">
       <Filter>resources</Filter>
     </ClInclude>
-    <ClInclude Include="source\resources\Model.h">
+    <ClInclude Include="source\Model.h">
       <Filter>resources</Filter>
     </ClInclude>
-    <ClInclude Include="source\resources\Sampler.h">
+    <ClInclude Include="source\Sampler.h">
       <Filter>resources</Filter>
     </ClInclude>
-    <ClInclude Include="source\resources\Skybox.h">
+    <ClInclude Include="source\Skybox.h">
       <Filter>resources</Filter>
     </ClInclude>
-    <ClInclude Include="source\resources\Texture.h">
+    <ClInclude Include="source\Texture.h">
       <Filter>resources</Filter>
     </ClInclude>
-    <ClInclude Include="source\utilities\GameTimer.h">
+    <ClInclude Include="source\GameTimer.h">
       <Filter>utilities</Filter>
     </ClInclude>
-    <ClInclude Include="source\utilities\MeshLoader.h">
+    <ClInclude Include="source\MeshLoader.h">
       <Filter>utilities</Filter>
     </ClInclude>
-    <ClInclude Include="source\utilities\SceneSerializer.h">
+    <ClInclude Include="source\SceneSerializer.h">
       <Filter>utilities</Filter>
     </ClInclude>
-    <ClInclude Include="source\windows\win.h">
+    <ClInclude Include="source\win.h">
       <Filter>windows</Filter>
     </ClInclude>
-    <ClInclude Include="source\windows\Window.h">
+    <ClInclude Include="source\Window.h">
       <Filter>windows</Filter>
     </ClInclude>
   </ItemGroup>

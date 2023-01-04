@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Transform.h"
-#include "resources/Model.h"
+#include "Model.h"
 #include <vector>
 
 namespace lit

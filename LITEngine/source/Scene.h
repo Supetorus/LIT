@@ -1,5 +1,5 @@
 #pragma once
-#include "resources/Model.h"
+#include "Model.h"
 #include "PointLightList.h"
 #include <vector>
 #include <memory>
