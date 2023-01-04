@@ -188,7 +188,6 @@
     <ClCompile Include="source\resources\CubeMap.cpp" />
     <ClCompile Include="source\Input.cpp" />
     <ClCompile Include="source\resources\Sampler.cpp" />
-    <ClCompile Include="source\Camera.cpp" />
     <ClCompile Include="source\Component.cpp" />
     <ClCompile Include="source\resources\Model.cpp" />
     <ClCompile Include="source\App.cpp" />
