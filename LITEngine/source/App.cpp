@@ -26,7 +26,7 @@ namespace lit
 	{
 		{
 			SceneSerializer serializer;
-			m_scene = serializer.Deserialize("scenes/rhino.scn");
+			m_scene = serializer.Deserialize("scenes/test2.scn");
 		}
 		m_renderer->SetCamera(m_scene->m_camera);
 
