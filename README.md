@@ -1,12 +1,12 @@
 # Capstone!
-![screenshot 1](./Screenshots/objects_and_skybox.png)
+![screenshot 1](./Presentation/lit.png)
+[YouTube Demo](https://youtu.be/1BQaLMktmS0)
 
 ## Summary
 This project is my Capstone Project for Neumont College of Computer Science.
 The purpose of my capstone was to learn about renderering technologies,
-and specifically about Direct3D11. Although I took a class about computer
-graphics, I felt that I didn't understand it well enough and wanted to
-gain a deeper understanding.
+and specifically about Direct3D11. I took a class about computer
+graphics and I wanted to gain a deeper understanding.
 
 I also wanted an opportunity to use C++ more. I have used the language for
 several classes in the past, but it is a deep and complicated language and
@@ -31,8 +31,9 @@ most aspects of a scene from its yaml text file.
 ## Reflection
 When deciding which API to use there were four major options: Direct3D11,
 Direct3D12, OpenGL, and Vulkan. Under advisement from a friend I chose
-Direct3D11 because, OpenGL is outdated, and both Vulkan and Direct3D12
-are a step up in complexity, therefore making Direct3D11 an obvious choice.
+Direct3D11 because I was told that OpenGL is getting out of date, and
+Direct3D12 or Vulkan seemed to be a leap in understanding I wasn't ready
+to take.
 
 On reflection I think I could have learned what I wanted to by using OpenGL,
 and may have been able to do so in less time since learning materials for
@@ -42,20 +43,10 @@ somewhat outdated and not very beginner friendly. I did make use of a textbook
 it was published in 2012. Most of the main concepts were the same, but there
 were important sections which were entirely out of date. Fortunately I was
 able to supplement my learning from Luna and MSDN with YouTube videos and
-other online resources, and the invaluable indispensable help from my friend
+other online resources, and the indispensable help from my friend
 and classmate [Alan Buechner](https://github.com/alanBuechner), as well as
 my teacher, Professor Raymond Maple.
 
-If I continue to work on this project after I finish capstone, I have two
-ideas for where I could take it.
-
-1. I may simplify the code as much as I can and make it a self contained
-tutorial, with heavy commenting to explain each part to a beginner. I
-enjoy teaching others and sharing my knowledge, and this was a difficult
-topic for me to learn. Perhaps this could be a tool for other people to learn
-without facing the same challenges. In addition I would be forced to learn
-the material more deeply to sufficiently explain it to another person.
-2. This project could easily lead into a game engine. Of course rendering
-some models in a scene is a huge step away from being an engine, and there
-is a lot more to do, but it's a start and would give me a good project to
-work on in spare time.
+I plan to continue work on this project, using it as a tool for learning more
+about different game engine technologies. I want to learn about Vulkan next
+since it is cross platform and seems to be the way of the future.
